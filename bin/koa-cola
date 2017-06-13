@@ -12,5 +12,5 @@ get_script_dir () {
      echo "$DIR"
 }
 BASEDIR="$(get_script_dir)"
-pm2_script="pm2 start $BASEDIR/../pm2_server.config.js"
-$pm2_script
+script="$BASEDIR/../build/index.js"
+script

@@ -10,8 +10,8 @@ import * as http from 'http'
 import createRouter from './util/createRouter'
 import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
-import { loadModels } from './util/loadModels'
-
+import loadModels from './util/loadModels'
+import loadPolicies from './util/loadPolicies'
 var requireDir = require('require-dir')
 var { bindRoutes } = require('controller-decorators');
 import { getConfig, getEnvironment } from './util/env'
@@ -25,17 +25,16 @@ koaApp.use(async function (ctx, next) {
 	try {
 		await next();
 		if (!ctx.status || ctx.status == 404) {
-			ctx.status = 404;
 			ctx.throw(404);
 		}
 	} catch (err) {
+		ctx.status = err.status || 500;
+		// console.log(require('util').inspect(err))
 		var env = process.env;
 		// accepted types
 		switch (ctx.accepts('text', 'json', 'html')) {
 			case 'text':
-				if ('development' == env) ctx.body = err.message
-				else if (err.expose) ctx.body = err.message
-				else throw err;
+				ctx.body = err.message
 				break;
 
 			case 'json':
@@ -100,10 +99,12 @@ koaApp.on('error', function (err) {
 	}
 });
 
+global.app = {}
 // load models
 require('mongoose').Promise = global.Promise;
-var app = Object.assign({}, loadModels());
-global.app = app;
+global.app = Object.assign(global.app, loadModels());
+// load policies
+global.app = Object.assign(global.app, loadPolicies());
 
 export default koaApp.listen(port, () => console.log(chalk.black.bgGreen.bold(`Listening on port ${port}`)));
 // global.app = {

@@ -1,6 +1,9 @@
 import { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } from 'controller-decorators';
 import * as Koa from 'Koa';
 import Ok from '../responses/ok';
+import isLogin from '../policies/isLogin';
+import setUser from '../middlewares/setUser';
+
 @Controller('')
 export default class  {
     @Get('/')
@@ -39,5 +42,23 @@ export default class  {
         return {
             value : 'test'
         };
+    }
+
+    @Get('/500')
+    get500 (@Ctx() ctx : Koa.Context) {
+        ctx.throw(500);
+    }
+
+    @Get('/notLogin')
+    @Use(isLogin)
+    notLogin (@Ctx() ctx : Koa.Context) {
+        return 'logined.'
+    }
+
+    @Get('/isLogin')
+    @Use(setUser)
+    @Use(isLogin)
+    isLogin (@Ctx() ctx : Koa.Context) {
+        return 'logined.'
     }
 }

@@ -12,11 +12,11 @@ describe('', function() {
 	before(function(done) {
         process.chdir('./app_test');
 		app = require('../src/index').default;
-		// require('mockgoose')(mongoose).then(function() {
+		require('mockgoose')(mongoose).then(function() {
 			mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		// });
+		});
 	});
 	describe('#koa', function() {
 		it('#hello world', async function(){
@@ -183,13 +183,39 @@ describe('', function() {
 	});
 
 	describe('#response error', function() {
-		it('#404', async function(){
+		it('#404 render from tsx', async function(){
 			var res = await request(app)
                 .get('/404')
 				.set('Accept', 'text/html')
                 .expect(404)
                 .toPromise();
-			console.log(res.text)
+			should(res.text).match(/rendered from 404.tsx/);
 		});
+		it('#500', async function(){
+			var res = await request(app)
+                .get('/500')
+				.set('Accept', 'text/html')
+                .expect(500)
+                .toPromise();
+			should(res.text).match(/Internal Server Error/);
+		});
+	});
+
+	describe('#policies', function() {
+		it('#not login and throw 401', async function(){
+			var res = await request(app)
+                .get('/notLogin')
+                .expect(401)
+                .toPromise();
+			res.text.should.be.equal('Unauthorized');
+		})
+
+		it('#login', async function(){
+			var res = await request(app)
+                .get('/isLogin')
+                .expect(200)
+                .toPromise();
+			res.text.should.be.equal('logined.');
+		})
 	});
 });

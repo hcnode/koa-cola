@@ -30,11 +30,11 @@
     "rewriteTsconfig": true
   },
   "typeRoots": [
-    "./node_modules/@types",
-    "./typings"
+    // "./node_modules/@types",
+    // "./typings"
   ],
   "include": [
-    "node_modules/@types",
+    // "node_modules/@types",
     "typings",
     "test/**/*.ts",
     "test/**/*.tsx",
