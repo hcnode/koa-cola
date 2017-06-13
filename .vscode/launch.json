@@ -1,0 +1,26 @@
+{
+    // 使用 IntelliSense 以学习相关的 Node.js 调试属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DebugApp",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/ts-node/dist/_bin.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}/app_test",
+            // "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon",
+            "runtimeArgs": [
+                "-r", "ts-node/register",
+                "${workspaceRoot}/src/index.ts"
+            ],
+            "sourceMaps": true,
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+
+    ]
+}

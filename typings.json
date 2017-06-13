@@ -1,0 +1,25 @@
+{
+  "name": "github-project-manager-bot",
+  "dependencies": {
+    "chalk": "registry:npm/chalk#1.0.0+20160211003958",
+    "react": "registry:npm/react#15.0.1+20170104200836"
+  },
+  "globalDependencies": {
+    "form-data": "registry:dt/form-data#0.0.0+20160316155526",
+    "koa": "registry:dt/koa#2.0.0+20160619030120",
+    "koa-bodyparser": "registry:dt/koa-bodyparser#3.0.0+20160414124440",
+    "koa-router": "registry:dt/koa-router#7.0.0+20160314083221",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "node": "registry:dt/node#6.0.0+20160720070758"
+  },
+  "globalDevDependencies": {
+    "bluebird": "registry:dt/bluebird#2.0.0+20160701023356",
+    "chai": "registry:dt/chai#3.4.0+20160601211834",
+    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
+    "sinon": "registry:dt/sinon#1.16.0+20160517064723",
+    "sinon-chai": "registry:dt/sinon-chai#2.7.0+20160317120654",
+    "superagent": "registry:dt/superagent#1.4.0+20160317120654",
+    "supertest-as-promised": "registry:dt/supertest-as-promised#2.0.2+20160317120654"
+  },
+  "devDependencies": {}
+}
