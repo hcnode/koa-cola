@@ -12,10 +12,10 @@ import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
 import loadModels from './util/loadModels'
 import loadPolicies from './util/loadPolicies'
-var requireDir = require('require-dir')
 var { bindRoutes } = require('controller-decorators');
 import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
+import { reqDir } from './util/require';
 var appConfig = getConfig();
 var koaApp = new Koa();
 const port = process.env.PORT || appConfig.port;
@@ -77,16 +77,16 @@ koaApp.use(require('koa-bodyparser')({
 	// BodyParser options here
 }));
 koaApp.use(require('koa-static')(`${process.cwd()}/public`));
+createMiddleware(koaApp)
 // koaApp.use(require('koa-route').get('/injectCtx', ctx => {ctx.status = 201;ctx.body = 'injectCtx'}))
 // 以下开始自动router
-var controllers = requireDir(`${process.cwd()}/api/controllers`);
+var controllers = reqDir(`${process.cwd()}/api/controllers`);
 const routerRoutes = new Router();
-var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key].default));
+var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
 // 创建react router和react provider
 
 createRouter(routers);
 // 必须在执行完bindRoutes后
-createMiddleware(koaApp)
 koaApp.use(serverRouter);
 // 在serverRouter后面，为了优先react router
 koaApp.use(routerRoutes.routes());
