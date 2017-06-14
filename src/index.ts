@@ -14,6 +14,7 @@ var { bindRoutes } = require('controller-decorators');
 import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
+import logger from './util/logger';
 var appConfig = getConfig();
 var koaApp = new Koa();
 global.app = {};
@@ -31,6 +32,8 @@ global.app = Object.assign(global.app,
 	{ services : reqDir(`${process.cwd()}/api/services`) },
 	// load managers
 	{ managers : reqDir(`${process.cwd()}/api/managers`) });
+
+global.app.logger = logger;
 // handle error, including 404
 // https://github.com/koajs/examples/issues/20
 koaApp.use(async function (ctx, next) {
