@@ -18,7 +18,20 @@ import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
 var appConfig = getConfig();
 var koaApp = new Koa();
+global.app = {};
+global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
+
+require('mongoose').Promise = global.Promise;
+global.app = Object.assign(global.app,
+	// load models
+	{ models : reqDir(`${process.cwd()}/api/models`) },
+	// load policies
+	{ policies : reqDir(`${process.cwd()}/api/policies`) },
+	// load services
+	{ services : reqDir(`${process.cwd()}/api/services`) },
+	// load managers
+	{ managers : reqDir(`${process.cwd()}/api/managers`) });
 // handle error, including 404
 // https://github.com/koajs/examples/issues/20
 koaApp.use(async function (ctx, next) {
@@ -99,12 +112,6 @@ koaApp.on('error', function (err) {
 	}
 });
 
-global.app = {}
-// load models
-require('mongoose').Promise = global.Promise;
-global.app = Object.assign(global.app, loadModels());
-// load policies
-global.app = Object.assign(global.app, loadPolicies());
 
 export default koaApp.listen(port, () => console.log(chalk.black.bgGreen.bold(`Listening on port ${port}`)));
 // global.app = {

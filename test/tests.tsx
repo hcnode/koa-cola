@@ -8,10 +8,10 @@ var mongoose = require('mongoose')
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 // var request = require("supertest-as-promised");
 describe('', function() {
-    var app;
+    var koaApp;
 	before(function(done) {
         process.chdir('./app_test');
-		app = require('../src/index').default;
+		koaApp = require('../src/index').default;
 		require('mockgoose')(mongoose).then(function() {
 			mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
@@ -20,7 +20,7 @@ describe('', function() {
 	});
 	describe('#koa', function() {
 		it('#hello world', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get("/")
                 .expect(200)
                 .toPromise();
@@ -30,7 +30,7 @@ describe('', function() {
 
 	describe('#controller-decorators', function() {
 		it('#injectCtxAndResponse201', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get("/injectCtx")
                 .expect(201)
                 .toPromise();
@@ -38,7 +38,7 @@ describe('', function() {
 		});
 		it('#postBody', async function(){
 			var body = { name: 'Manny', species: 'cat' };
-			var res = await request(app)
+			var res = await request(koaApp)
                 .post("/postBody")
 				.send(body)
                 .expect(200)
@@ -46,13 +46,13 @@ describe('', function() {
 			res.text.should.be.equal(JSON.stringify(body));
 		});
 		it('#get postBody error', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get("/postBody")
                 .expect(405)
 		});
 		it('#getQuery', async function(){
 			var body = { name: 'Manny', species: 'cat' };
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/getQuery?' + Object.keys(body).map(item => `${item}=${body[item]}`).join('&'))
                 .expect(200)
                 .toPromise();
@@ -63,7 +63,7 @@ describe('', function() {
 	describe('#controller-view', function() {
 		it('#normal view', async function(){
 			var foo = require(`${process.cwd()}/views/pages/page1`).foo;
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/getView')
                 .expect(200)
                 .toPromise();
@@ -73,7 +73,7 @@ describe('', function() {
 			// foo is sync, bar is async
 			var { foo, bar, timeout } = require(`${process.cwd()}/views/pages/page2`);
 			var startTimeout : any = new Date();
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/getView2')
                 .expect(200)
                 .toPromise();
@@ -102,7 +102,7 @@ describe('', function() {
 
 	describe('#middleware', function() {
 		it('#requestTime', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/testMiddleware')
                 .expect(200)
                 .toPromise();
@@ -110,7 +110,7 @@ describe('', function() {
 		});
 
 		it('#checkMiddlewareOrder', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/checkMiddlewareOrder')
                 .expect(200)
                 .toPromise();
@@ -119,7 +119,7 @@ describe('', function() {
 
 
 		it('#disabledMiddleware', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/disabledMiddleware')
                 .expect(404)
                 .toPromise();
@@ -129,13 +129,13 @@ describe('', function() {
 	describe('#models', function() {
 		
 		it('#base', async function(){
-			var User = global.app.models.User
+			var User = global.app.models.user
 			var result = await User.create({name : 'harry', email : 'hcnode@gmail.com'});
 			result._id.should.be.ok;
 		});
 
 		it('#Manual validate', async function(){
-			var User = global.app.models.User
+			var User = global.app.models.user
 			var exceptionHappened = false;
 			try{
 				var result = await User.create({name : 'harry'});
@@ -146,13 +146,13 @@ describe('', function() {
 			exceptionHappened.should.be.ok;
 		});
 		it('#query', async function(){
-			var User = global.app.models.User
+			var User = global.app.models.user
 			var [result] = await User.find({name : 'harry'}).exec();
 			result.name.should.be.equal('harry');
 		});
 
 		it('#aggregate', async function(){
-			var User = global.app.models.User
+			var User = global.app.models.user
 			await User.create({name : 'harry', email : 'xxx@gmail.com'});
 			var [result] = await User.aggregate([
 				{
@@ -172,7 +172,7 @@ describe('', function() {
 
 	describe('#response', function() {
 		it('#ok', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/getOkResponse')
                 .expect(200)
                 .toPromise();
@@ -184,7 +184,7 @@ describe('', function() {
 
 	describe('#response error', function() {
 		it('#404 render from tsx', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/404')
 				.set('Accept', 'text/html')
                 .expect(404)
@@ -192,7 +192,7 @@ describe('', function() {
 			should(res.text).match(/rendered from 404.tsx/);
 		});
 		it('#500', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/500')
 				.set('Accept', 'text/html')
                 .expect(500)
@@ -203,7 +203,7 @@ describe('', function() {
 
 	describe('#policies', function() {
 		it('#not login and throw 401', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/notLogin')
                 .expect(401)
                 .toPromise();
@@ -211,11 +211,40 @@ describe('', function() {
 		})
 
 		it('#login', async function(){
-			var res = await request(app)
+			var res = await request(koaApp)
                 .get('/isLogin')
                 .expect(200)
                 .toPromise();
 			res.text.should.be.equal('logined.');
 		})
+	});
+
+	describe('#policies', function() {
+		it('#not login and throw 401', async function(){
+			var res = await request(koaApp)
+                .get('/notLogin')
+                .expect(401)
+                .toPromise();
+			res.text.should.be.equal('Unauthorized');
+		})
+
+		it('#login', async function(){
+			var res = await request(koaApp)
+                .get('/isLogin')
+                .expect(200)
+                .toPromise();
+			res.text.should.be.equal('logined.');
+		})
+	});
+
+	describe('#env and config', function() {
+		it('#test config override default', async function(){
+			app.config.env.should.be.equal('test');
+		});
+	});
+	describe('#services and managers', function() {
+		it('#say hi', async function(){
+			new app.managers.TestManager().hi().should.be.equal('hi');
+		});
 	});
 });

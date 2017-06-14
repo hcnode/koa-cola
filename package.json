@@ -7,7 +7,7 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "test": "mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
+    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "watch": "mocha-typescript-watch",
     "start": "node build/index.js"
   },
