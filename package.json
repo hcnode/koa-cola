@@ -70,7 +70,7 @@
     "chai": "^3.5.0",
     "eslint-plugin-react": "^7.0.1",
     "mocha": "^2.5.3",
-    "mockgoose": "^6.0.8",
+    "mockgoose": "^7.3.3",
     "nodemon": "^1.11.0",
     "should": "^11.2.1",
     "source-map-loader": "^0.2.1",

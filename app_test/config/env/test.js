@@ -1,3 +1,4 @@
 module.exports = {
-	env : 'test'
+	env : 'test',
+	port : 5555
 };

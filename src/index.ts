@@ -1,5 +1,5 @@
 /**
- *
+ * koa-cola entry file
  */
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
@@ -10,8 +10,6 @@ import * as http from 'http'
 import createRouter from './util/createRouter'
 import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
-import loadModels from './util/loadModels'
-import loadPolicies from './util/loadPolicies'
 var { bindRoutes } = require('controller-decorators');
 import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
@@ -22,6 +20,7 @@ global.app = {};
 global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
 
+// load 全局对象
 require('mongoose').Promise = global.Promise;
 global.app = Object.assign(global.app,
 	// load models
@@ -90,6 +89,8 @@ koaApp.use(require('koa-bodyparser')({
 	// BodyParser options here
 }));
 koaApp.use(require('koa-static')(`${process.cwd()}/public`));
+// 自定义middleware在静态路由的后面
+// TODO 考虑所有middleware都可以自定义顺序
 createMiddleware(koaApp)
 // koaApp.use(require('koa-route').get('/injectCtx', ctx => {ctx.status = 201;ctx.body = 'injectCtx'}))
 // 以下开始自动router
@@ -114,11 +115,4 @@ koaApp.on('error', function (err) {
 
 
 export default koaApp.listen(port, () => console.log(chalk.black.bgGreen.bold(`Listening on port ${port}`)));
-// global.app = {
-//     koa: app,
-//     config: appConfig,
-//     env: util.getEnvironment(),
-//     cwd: process.cwd()
-// };
-// require('init');
-// export default koaApp;
+
