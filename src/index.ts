@@ -7,6 +7,9 @@ import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as http from 'http'
+import sessionRedis = require('koa-generic-session');
+import redisStore = require('koa-redis');
+import session = require('koa-session');
 import createRouter from './util/createRouter'
 import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
@@ -25,13 +28,13 @@ const port = process.env.PORT || appConfig.port;
 require('mongoose').Promise = global.Promise;
 global.app = Object.assign(global.app,
 	// load models
-	{ models : reqDir(`${process.cwd()}/api/models`) },
+	{ models: reqDir(`${process.cwd()}/api/models`) },
 	// load policies
-	{ policies : reqDir(`${process.cwd()}/api/policies`) },
+	{ policies: reqDir(`${process.cwd()}/api/policies`) },
 	// load services
-	{ services : reqDir(`${process.cwd()}/api/services`) },
+	{ services: reqDir(`${process.cwd()}/api/services`) },
 	// load managers
-	{ managers : reqDir(`${process.cwd()}/api/managers`) });
+	{ managers: reqDir(`${process.cwd()}/api/managers`) });
 
 global.app.logger = logger;
 // handle error, including 404
@@ -69,7 +72,7 @@ koaApp.use(async function (ctx, next) {
 				});
 				break;
 		}
-		
+
 		// since we handled this manually we'll
 		// want to delegate to the regular app
 		// level error handling as well so that
@@ -92,6 +95,18 @@ koaApp.use(require('koa-bodyparser')({
 	// BodyParser options here
 }));
 koaApp.use(require('koa-static')(`${process.cwd()}/public`));
+// session
+if(app.config.session){
+	// redis session
+	if(app.config.session.host){
+		koaApp.use(sessionRedis({
+			store: redisStore(app.config.session)
+		}));
+	}else{
+		// memory session
+		koaApp.use(session(app.config.session, koaApp));
+	}
+}
 // 自定义middleware在静态路由的后面
 // TODO 考虑所有middleware都可以自定义顺序
 createMiddleware(koaApp)
@@ -117,5 +132,5 @@ koaApp.on('error', function (err) {
 });
 
 
-export default koaApp.listen(port, () => console.log(chalk.black.bgGreen.bold(`Listening on port ${port}`)));
+export default koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
 

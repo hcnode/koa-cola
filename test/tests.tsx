@@ -249,4 +249,22 @@ describe('', function() {
 			new app.managers.TestManager().hi().should.be.equal('hi');
 		});
 	});
+	describe('#test session', function() {
+		it('#session.count', async function(){
+			const agent = request.agent(koaApp);
+			var res = await agent
+                .get('/session')
+                .expect(200)
+                .toPromise();
+			var count1 = parseInt(res.text, 10);
+			count1.should.be.equal(1)
+			res = await agent
+                .get('/session')
+                .expect(200)
+                .toPromise();
+			var count2 = parseInt(res.text, 10);
+			count2.should.be.equal(2)
+		});
+	});
+
 });

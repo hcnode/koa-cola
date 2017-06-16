@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+import { EventCola } from '../../../src/decorators/event-cola';
 var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 export interface Props{
     foo: string
@@ -36,6 +37,7 @@ export const timeout = 500;
     }
   }
 })
+@EventCola()
 class App extends React.Component<Props, States>   {
   constructor(props: Props) {
       super(props);
@@ -45,7 +47,7 @@ class App extends React.Component<Props, States>   {
       bar: ''
   };
   render() {
-    return <div>
+    var result =  <div>
       <div>this is rendered from page2.tsx</div>
       <div id="foo">{this.props.foo}</div>
       <div id="bar">{this.props.bar}</div>
@@ -55,17 +57,19 @@ class App extends React.Component<Props, States>   {
       <button id="btn2" onClick={() => {
         this.props.onClick();
       }}>click</button>
+      
     </div>
+    return result;
   }
 };
 
 // 定义getReducer方法
 export function getReducer(){
   return {
-    foo: (state = 0, action) => {
-      if(action.type == 'click') return foo2;
-      else return state;
-    }
+    // foo: (state = 0, action) => {
+    //   if(action.type == 'click') return foo2;
+    //   else return state;
+    // }
   }
 }
 export default App

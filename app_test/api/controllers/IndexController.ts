@@ -61,4 +61,10 @@ export default class  {
     isLogin (@Ctx() ctx : Koa.Context) {
         return 'logined.'
     }
+
+
+    @Get('/session')
+    session (@Ctx() ctx : Koa.Context) {
+        return ctx.session.count;
+    }
 }

@@ -19,11 +19,12 @@ export default async (ctx, next) => {
 				if (!renderProps) return reject();
 				// load data
 				loadOnServer({ ...renderProps, store }).then(() => {
-					const appHTML = renderToString(
-						<Provider store={store} key="provider">
-							<ReduxAsyncConnect {...renderProps} />
-						</Provider>
-					)
+					// var page = <Provider store={store} key="provider">
+					// 	<ReduxAsyncConnect {...renderProps} />
+					// </Provider>
+					const appHTML = renderToString(<Provider store={store} key="provider">
+						<ReduxAsyncConnect {...renderProps} />
+					</Provider>)
 					const html = layout(appHTML, store)
 					ctx.body = html;
 					resolve();

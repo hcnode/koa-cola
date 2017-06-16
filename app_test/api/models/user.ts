@@ -3,7 +3,6 @@ class Model {
     name : string
     email : string
 }
-
 @model({
   name: {
       type : String
