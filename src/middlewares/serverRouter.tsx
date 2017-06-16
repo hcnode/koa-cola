@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as serialize from 'serialize-javascript';
 import { req } from '../util/require';
+import { shallow, mount, render } from 'enzyme';
+import setDom from '../util/render-cola';
 var routes = req(`${process.cwd()}/views/routers`);
 var layout = req(`${process.cwd()}/views/pages/layout`);
 export default async (ctx, next) => {
@@ -19,15 +21,75 @@ export default async (ctx, next) => {
 				if (!renderProps) return reject();
 				// load data
 				loadOnServer({ ...renderProps, store }).then(() => {
-					// var page = <Provider store={store} key="provider">
-					// 	<ReduxAsyncConnect {...renderProps} />
-					// </Provider>
-					const appHTML = renderToString(<Provider store={store} key="provider">
-						<ReduxAsyncConnect {...renderProps} />
-					</Provider>)
-					const html = layout(appHTML, store)
-					ctx.body = html;
-					resolve();
+					var { location } = renderProps;
+					/*if(location && location.query && location.query['event-cola']){
+						try {
+							var eventCola = JSON.parse(location.query['event-cola']);
+							const { JSDOM } = require('jsdom');
+							const jsdom = new JSDOM(``, {
+								url: ctx.url.replace(/event-cola=.+(&|$)/gi, ''),
+							});
+							const { window } = jsdom;
+							function copyProps(src, target) {
+								const props = Object.getOwnPropertyNames(src)
+									.filter(prop => typeof target[prop] === 'undefined')
+									.forEach(prop => {
+										Object.defineProperty(target, prop, Object.getOwnPropertyDescriptor(src, prop));
+									});
+							}
+
+							global.window = window;
+							global.document = window.document;
+							global.navigator = {
+								userAgent: 'node.js'
+							};
+							copyProps(window, global);
+							// var wrapper = mount(page, { attachTo: document.getElementById('container') });
+							window.onload = function(){
+								if(eventCola.id && eventCola.event){
+									ctx.session.eventColas = ctx.session.eventColas || {};
+									var eventColas = ctx.session.eventColas[location.pathname] = ctx.session.eventColas[location.pathname] || [] 
+									eventColas.push(eventCola);
+									eventColas.forEach(cola => {
+										// wrapper.find('#' + eventCola.id).simulate(cola.event)
+										event = document.createEvent("HTMLEvents");
+										event.initEvent(cola.event, true, true);
+										document.getElementById(cola.id).dispatchEvent(event);
+									});
+								}
+								// var html = document.getElementById('container').innerHTML
+								ctx.body = document.getElementById('container').innerHTML;
+								resolve();
+							}
+						} catch (error) {
+							console.log(error)
+						}
+					}else{*/
+						const appHTML = renderToString(<Provider store={store} key="provider">
+							<ReduxAsyncConnect {...renderProps} />
+						</Provider>)
+						var html = layout(appHTML, store)
+						if(/<\/html\>/ig.test(html)){
+							html = html.replace(/<\/html\>/ig, `
+								<!-- its a Redux initial data -->
+								<script>
+									window.__data=${serialize(store.getState())};
+								</script>
+								<script src="/bundle.js"></script>
+								</html>
+							`)
+						}else{
+							html += `
+								<!-- its a Redux initial data -->
+								<script>
+									window.__data=${serialize(store.getState())};
+								</script>
+								<script src="/bundle.js"></script>
+							`
+						}
+						ctx.body = html;
+						resolve();
+					// }
 				})
 			})
 		})

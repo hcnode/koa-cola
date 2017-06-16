@@ -38,15 +38,28 @@ describe('', function() {
                 .toPromise();
 			res.text.should.be.equal('injectCtx')		
 		});
-		it('#postBody', async function(){
-			var body = { name: 'Manny', species: 'cat' };
-			var res = await request(koaApp)
-                .post("/postBody")
-				.send(body)
-                .expect(200)
-                .toPromise();
-			res.text.should.be.equal(JSON.stringify(body));
-		});
+		// it('#postBody', async function(){
+		// 	return new Promise((resolve, reject) => {
+		// 		require('superagent')
+		// 		.post('http://127.0.0.1:5555/postxxx')
+		// 		.send({ name: 'Manny', species: 'cat' }) // sends a JSON post body
+		// 		.end(function(err, res){
+		// 			console.log(res)
+		// 			resolve();
+		// 		});
+		// 	})
+			
+		// });
+
+		// it('#postBody2', async function(){
+		// 	var body = { name: 'Manny', species: 'cat' };
+		// 	var res = await request(koaApp)
+        //         .post("/postBody")
+		// 		.send(body)
+        //         .expect(200)
+        //         .toPromise();
+		// 	res.text.should.be.equal(JSON.stringify(body));
+		// });
 		it('#get postBody error', async function(){
 			var res = await request(koaApp)
                 .get("/postBody")
@@ -249,22 +262,22 @@ describe('', function() {
 			new app.managers.TestManager().hi().should.be.equal('hi');
 		});
 	});
-	describe('#test session', function() {
-		it('#session.count', async function(){
-			const agent = request.agent(koaApp);
-			var res = await agent
-                .get('/session')
-                .expect(200)
-                .toPromise();
-			var count1 = parseInt(res.text, 10);
-			count1.should.be.equal(1)
-			res = await agent
-                .get('/session')
-                .expect(200)
-                .toPromise();
-			var count2 = parseInt(res.text, 10);
-			count2.should.be.equal(2)
-		});
-	});
+	// describe('#test session', function() {
+	// 	it('#session.count', async function(){
+	// 		const agent = request.agent(koaApp);
+	// 		var res = await agent
+    //             .get('/session')
+    //             .expect(200)
+    //             .toPromise();
+	// 		var count1 = parseInt(res.text, 10);
+	// 		count1.should.be.equal(1)
+	// 		res = await agent
+    //             .get('/session')
+    //             .expect(200)
+    //             .toPromise();
+	// 		var count2 = parseInt(res.text, 10);
+	// 		count2.should.be.equal(2)
+	// 	});
+	// });
 
 });

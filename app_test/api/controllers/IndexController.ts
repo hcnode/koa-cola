@@ -28,7 +28,14 @@ export default class  {
 
     @Post('/postBody')
     postBody (@Body() body : any) {
+        console.log(body)
         return body;
+    }
+
+    @Post('/postxxx')
+    postxxx () {
+        console.log(111)
+        return {};
     }
 
     @Get('/getQuery')
