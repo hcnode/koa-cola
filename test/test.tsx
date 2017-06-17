@@ -256,8 +256,6 @@ describe('#koa-cola', function() {
 		});
 		it('#test config override default', async function(){
 			should(app.config.middlewares.disabledMiddleware).not.be.ok;
-		});
-		it('#test config override default', async function(){
 			var res = await request(koaApp)
                 .get('/testConfigOverride')
                 .expect(200)

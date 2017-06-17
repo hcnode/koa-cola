@@ -9,6 +9,7 @@
 import * as React from 'react';
 import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
 // import { EventCola } from '../../../src/decorators/event-cola';
+import { Reducer } from '../../../src/decorators/reducer';
 var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 export interface Props{
     pepsi: string
@@ -51,7 +52,15 @@ export const timeout = 500;
     }
   }
 })
-// @EventCola()
+// reducer
+@Reducer(() => {
+  return {
+    pepsi: (state = pepsi, action) => {
+      if(action.type == 'click') return pepsi2;
+      else return state;
+    }
+  }
+})
 class App extends React.Component<Props, States>   {
   constructor(props: Props) {
       super(props);
@@ -84,13 +93,4 @@ class App extends React.Component<Props, States>   {
   }
 };
 
-// 定义getReducer方法
-export function getReducer(){
-  return {
-    pepsi: (state = pepsi, action) => {
-      if(action.type == 'click') return pepsi2;
-      else return state;
-    }
-  }
-}
 export default App

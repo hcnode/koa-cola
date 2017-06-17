@@ -10,7 +10,7 @@
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
     export default () => {
-        var reducers = Object.assign({}, (require('./pages/simple').getReducer || function(){return {}})(), (require('./pages/cola').getReducer || function(){return {}})());
+        var reducers = Object.assign({}, (require('./pages/simple').default._reducer || {}), (require('./pages/cola').default._reducer || {}));
         
         const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
