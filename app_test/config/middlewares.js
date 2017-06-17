@@ -4,5 +4,6 @@ module.exports = {
 		requestTime : true,
 		disabledMiddleware : false,
 		sessionTest : true,
+		middlewareWillDisable : true
 	}
 };

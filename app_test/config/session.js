@@ -1,6 +1,6 @@
 module.exports = {
 	session: {
-		host: 'localhost',
+		host: '127.0.0.1',
 		db: 1,
 		password: null
 	}

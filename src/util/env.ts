@@ -5,10 +5,17 @@ function _getEnvironment(){
 }
 function _getConfig(){
 	var configs = reqDir(`${process.cwd()}/config`);
-	var env = require(`${process.cwd()}/config/env/${_getEnvironment()}.js`);
-	return Object.assign({}, Object.keys(configs).reduce((config, key) => {
+	var defConfig = Object.keys(configs).reduce((config, key) => {
 		return Object.assign(config, configs[key]);
-	}, {}), env);
+	}, {});
+	var env = require(`${process.cwd()}/config/env/${_getEnvironment()}.js`);
+	Object.keys(env).forEach(key => {
+		var isFunc = typeof env[key] == 'function';
+		if(isFunc){
+			env[key] = env[key](defConfig[key]);
+		}
+	})
+	return Object.assign({}, defConfig, env);
 }
 
 

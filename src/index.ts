@@ -6,7 +6,7 @@ import * as bodyParser from 'koa-bodyparser';
 import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as Router from 'koa-router';
-const koaBody = require('koa-body');
+import * as koaBody from 'koa-body';
 import * as http from 'http'
 import sessionRedis = require('koa-generic-session');
 import redisStore = require('koa-redis');
@@ -95,7 +95,7 @@ koaApp.keys = ['iTIssEcret'];
 koaApp.use(require('koa-bodyparser')({
 	// BodyParser options here
 }));
-koaApp.use(koaBody({ multipart: true }));
+
 koaApp.use(require('koa-static')(`${process.cwd()}/public`));
 // session
 if(app.config.session){

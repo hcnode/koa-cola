@@ -14,7 +14,7 @@ class Page extends React.Component<Props, States>   {
   };
   render() {
     return <div>
-      <div>this is rendered from page1.tsx</div>
+      <div><h2>koa-cola</h2></div>
       <div>foo:{this.props.foo}</div>
     </div>
   }

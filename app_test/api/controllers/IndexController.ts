@@ -3,6 +3,7 @@ import * as Koa from 'Koa';
 import Ok from '../responses/ok';
 import isLogin from '../policies/isLogin';
 import setUser from '../middlewares/setUser';
+import * as koaBody from 'koa-body';
 
 @Controller('')
 export default class  {
@@ -11,13 +12,13 @@ export default class  {
         return 'hello world'
     }
 
-    @Get('/getView')
-    @View('page1')
+    @Get('/simple')
+    @View('simple')
     getView ( ) {}
 
 
-    @Get('/getView2')
-    @View('page2')
+    @Get('/cola')
+    @View('cola')
     getView2 ( ) {}
 
     @Get('/injectCtx')
@@ -27,15 +28,15 @@ export default class  {
     }
 
     @Post('/postBody')
+    @Use(koaBody({ multipart: true }))
     postBody (@Body() body : any) {
-        console.log(body)
         return body;
     }
 
-    @Post('/postxxx')
-    postxxx () {
-        console.log(111)
-        return {};
+    @Post('/uploadFiles')
+    @Use(koaBody({ multipart: true }))
+    uploadFiles (@Body() body : any) {
+        return body;
     }
 
     @Get('/getQuery')
@@ -69,9 +70,13 @@ export default class  {
         return 'logined.'
     }
 
-
     @Get('/session')
     session (@Ctx() ctx : Koa.Context) {
         return ctx.session.count;
+    }
+
+    @Get('/testConfigOverride')
+    testConfigOverride (@Ctx() ctx : Koa.Context) {
+        return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
     }
 }

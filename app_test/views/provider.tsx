@@ -10,13 +10,13 @@
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
     export default () => {
-        var reducers = Object.assign({}, (require('./pages/page1').getReducer || function(){return {}})(), (require('./pages/page2').getReducer || function(){return {}})());
+        var reducers = Object.assign({}, (require('./pages/simple').getReducer || function(){return {}})(), (require('./pages/cola').getReducer || function(){return {}})());
         
         const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
         <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
-            <Route path="/getView" component={require('./pages/page1').default}/>
-    <Route path="/getView2" component={require('./pages/page2').default}/>
+            <Route path="/simple" component={require('./pages/simple').default}/>
+    <Route path="/cola" component={require('./pages/cola').default}/>
         </Router>
         </Provider>
     }

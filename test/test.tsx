@@ -9,16 +9,16 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 // var request = require("supertest-as-promised");
-describe('', function() {
+describe('#koa-cola', function() {
     var koaApp;
 	before(function(done) {
         process.chdir('./app_test');
 		koaApp = require('../src/index').default;
-		mockgoose.prepareStorage().then(function() {
+		// mockgoose.prepareStorage().then(function() {
 			mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		});
+		// });
 	});
 	describe('#koa', function() {
 		it('#hello world', async function(){
@@ -38,28 +38,26 @@ describe('', function() {
                 .toPromise();
 			res.text.should.be.equal('injectCtx')		
 		});
-		// it('#postBody', async function(){
-		// 	return new Promise((resolve, reject) => {
-		// 		require('superagent')
-		// 		.post('http://127.0.0.1:5555/postxxx')
-		// 		.send({ name: 'Manny', species: 'cat' }) // sends a JSON post body
-		// 		.end(function(err, res){
-		// 			console.log(res)
-		// 			resolve();
-		// 		});
-		// 	})
-			
-		// });
+		it('#upload files', async function(){
+			var res = await request(koaApp)
+				.post('/uploadFiles')
+				.attach('avatar', '../test/fixtures/cola.png')
+                .expect(200)
+                .toPromise();
+			res.body.files.avatar.name.should.equal('cola.png')
+		});
 
-		// it('#postBody2', async function(){
-		// 	var body = { name: 'Manny', species: 'cat' };
-		// 	var res = await request(koaApp)
-        //         .post("/postBody")
-		// 		.send(body)
-        //         .expect(200)
-        //         .toPromise();
-		// 	res.text.should.be.equal(JSON.stringify(body));
-		// });
+		it('#postBody', async function(){
+			var body = { name: 'Manny', species: 'cat' };
+			var res = await request(koaApp)
+                .post("/postBody")
+				.field('name', 'Manny')
+				.field('species', 'cat')
+                .expect(200)
+                .toPromise();
+			res.body.fields.name.should.be.equal(body.name);
+			res.body.fields.species.should.be.equal(body.species);
+		});
 		it('#get postBody error', async function(){
 			var res = await request(koaApp)
                 .get("/postBody")
@@ -77,25 +75,25 @@ describe('', function() {
 
 	describe('#controller-view', function() {
 		it('#normal view', async function(){
-			var foo = require(`${process.cwd()}/views/pages/page1`).foo;
+			var foo = require(`${process.cwd()}/views/pages/simple`).foo;
 			var res = await request(koaApp)
-                .get('/getView')
+                .get('/simple')
                 .expect(200)
                 .toPromise();
 			should(res.text).containEql(foo);
 		});
 		it('#view with async redux', async function(){
-			// foo is sync, bar is async
-			var { foo, bar, timeout } = require(`${process.cwd()}/views/pages/page2`);
+			// pepsi is sync, coca is async
+			var { pepsi, coca, timeout } = require(`${process.cwd()}/views/pages/cola`);
 			var startTimeout : any = new Date();
 			var res = await request(koaApp)
-                .get('/getView2')
+                .get('/cola')
                 .expect(200)
                 .toPromise();
 			var endTimeout : any = new Date();
 			should(endTimeout - startTimeout).greaterThan(timeout)
-			should(res.text).containEql(foo);
-			should(res.text).containEql(bar);
+			should(res.text).containEql(pepsi);
+			should(res.text).containEql(coca);
 		});
 	});
 
@@ -253,8 +251,18 @@ describe('', function() {
 	});
 
 	describe('#env and config', function() {
-		it('#test config override default', async function(){
+		it('#test config extend default', async function(){
 			app.config.env.should.be.equal('test');
+		});
+		it('#test config override default', async function(){
+			should(app.config.middlewares.disabledMiddleware).not.be.ok;
+		});
+		it('#test config override default', async function(){
+			var res = await request(koaApp)
+                .get('/testConfigOverride')
+                .expect(200)
+                .toPromise();
+			res.text.should.be.equal('diabled');
 		});
 	});
 	describe('#services and managers', function() {
@@ -262,22 +270,22 @@ describe('', function() {
 			new app.managers.TestManager().hi().should.be.equal('hi');
 		});
 	});
-	// describe('#test session', function() {
-	// 	it('#session.count', async function(){
-	// 		const agent = request.agent(koaApp);
-	// 		var res = await agent
-    //             .get('/session')
-    //             .expect(200)
-    //             .toPromise();
-	// 		var count1 = parseInt(res.text, 10);
-	// 		count1.should.be.equal(1)
-	// 		res = await agent
-    //             .get('/session')
-    //             .expect(200)
-    //             .toPromise();
-	// 		var count2 = parseInt(res.text, 10);
-	// 		count2.should.be.equal(2)
-	// 	});
-	// });
+	describe('#test session', function() {
+		it('#session.count', async function(){
+			const agent = request.agent(koaApp);
+			var res = await agent
+                .get('/session')
+                .expect(200)
+                .toPromise();
+			var count1 = parseInt(res.text, 10);
+			count1.should.be.equal(1)
+			res = await agent
+                .get('/session')
+                .expect(200)
+                .toPromise();
+			var count2 = parseInt(res.text, 10);
+			count2.should.be.equal(2)
+		});
+	});
 
 });

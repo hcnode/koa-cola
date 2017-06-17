@@ -1,10 +1,18 @@
+/**
+ * react page 组件
+ * 使用redux-connect的注解使react组件变成react-redux，并在此基础上封装了服务器端异步connect
+ * 
+ * react-redux教程
+ * http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html
+ */
+
 import * as React from 'react';
 import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
-import { EventCola } from '../../../src/decorators/event-cola';
+// import { EventCola } from '../../../src/decorators/event-cola';
 var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 export interface Props{
-    foo: string
-    bar: string
+    pepsi: string
+    coca: string
     onClick : any
     onAsyncClick : any
 }
@@ -12,34 +20,38 @@ export interface States {
   cola? : string
 }
 
-export const foo = 'this is foo';
-export const foo2 = 'this is foo again';
-export const bar = 'this is bar';
-export const bar2 = 'this is bar again';
+export const pepsi = 'this is pepsi-cola';
+export const pepsi2 = 'this is pepsi-cola again';
+export const coca = 'this is coca-cola';
+export const coca2 = 'this is coca-cola again';
 export const timeout = 500;
 @asyncConnect([{
-  key: 'bar',
+  key: 'coca',
   promise: ({ params, helpers }) => new Promise((resolve, reject) => {
-      setTimeout(() => resolve(bar), timeout)
+      setTimeout(() => resolve(coca), timeout)
   })
-}], ({ foo }) => {
+}], 
+// mapStateToProps
+({ pepsi }) => {
   return {
-    foo
+    pepsi
   }
-}, (dispatch) => {
+}, 
+// mapDispatchToProps
+(dispatch) => {
   return {
     onClick: () => {
       dispatch({type : 'click'});
     },
     onAsyncClick: async () => {
       var data = await new Promise((resolve, reject) => {
-        setTimeout(() => resolve(bar2), timeout)
+        setTimeout(() => resolve(coca2), timeout)
       })
-      dispatch(loadSuccess('bar', data));
+      dispatch(loadSuccess('coca', data));
     }
   }
 })
-@EventCola()
+// @EventCola()
 class App extends React.Component<Props, States>   {
   constructor(props: Props) {
       super(props);
@@ -48,14 +60,14 @@ class App extends React.Component<Props, States>   {
       }
   }
   static defaultProps = {
-      foo: foo,
-      bar: ''
+      pepsi: pepsi,
+      coca: ''
   };
   render() {
     var result =  <div>
-      <div>this is rendered from page2.tsx</div>
-      <div id="foo">{this.props.foo}</div>
-      <div id="bar">{this.props.bar}</div>
+      <div><h2>koa-cola</h2></div>
+      <div id="pepsi">{this.props.pepsi}</div>
+      <div id="coca">{this.props.coca}</div>
       <div id="cola">{this.state.cola}</div>
       <button id="btn1" onClick={() => {
         this.props.onAsyncClick();
@@ -75,8 +87,8 @@ class App extends React.Component<Props, States>   {
 // 定义getReducer方法
 export function getReducer(){
   return {
-    foo: (state = foo, action) => {
-      if(action.type == 'click') return foo2;
+    pepsi: (state = pepsi, action) => {
+      if(action.type == 'click') return pepsi2;
       else return state;
     }
   }

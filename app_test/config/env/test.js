@@ -6,5 +6,9 @@ module.exports = {
 		overwrite: true, /** (boolean) can overwrite or not (default true) */
 		httpOnly: true, /** (boolean) httpOnly or not (default true) */
 		signed: true, /** (boolean) signed or not (default true) */
+	},
+	middlewares : function(middlewares){
+		delete middlewares.middlewareWillDisable;
+		return middlewares;
 	}
 };
