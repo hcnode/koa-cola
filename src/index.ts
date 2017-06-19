@@ -8,9 +8,9 @@ import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
 import * as http from 'http'
-// import sessionRedis = require('koa-generic-session');
-// import redisStore = require('koa-redis');
-// import session = require('koa-session');
+import sessionRedis = require('koa-generic-session');
+import redisStore = require('koa-redis');
+import session = require('koa-session');
 import createRouter from './util/createRouter'
 import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
@@ -38,7 +38,7 @@ global.app = Object.assign(global.app,
 	{ managers: reqDir(`${process.cwd()}/api/managers`) });
 
 global.app.logger = logger;
-global.app.koaApp = koaApp;
+global.app.koaApp = koaApp
 // handle error, including 404
 // https://github.com/koajs/examples/issues/20
 koaApp.use(async function (ctx, next) {
@@ -99,17 +99,17 @@ koaApp.use(require('koa-bodyparser')({
 
 koaApp.use(require('koa-static')(`${process.cwd()}/public`));
 // session
-// if(app.config.session){
-// 	// redis session
-// 	if(app.config.session.host){
-// 		koaApp.use(sessionRedis({
-// 			store: redisStore(app.config.session)
-// 		}));
-// 	}else{
-// 		// memory session
-// 		koaApp.use(session(app.config.session, koaApp));
-// 	}
-// }
+if(app.config.session){
+	// redis session
+	if(app.config.session.host){
+		koaApp.use(sessionRedis({
+			store: redisStore(app.config.session)
+		}));
+	}else{
+		// memory session
+		koaApp.use(session(app.config.session, koaApp));
+	}
+}
 // 自定义middleware在静态路由的后面
 // TODO 考虑所有middleware都可以自定义顺序
 createMiddleware(koaApp)
@@ -118,6 +118,9 @@ createMiddleware(koaApp)
 var controllers = reqDir(`${process.cwd()}/api/controllers`);
 const routerRoutes = new Router();
 var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
+routerRoutes.stack.forEach((item => {
+	console.log(`router:${item.methods.join('-')}:  ${item.path}`)
+}))
 // 创建react router和react provider
 
 createRouter(routers);
