@@ -12,10 +12,10 @@ import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'r
 import { Reducer } from '../../../src/decorators/reducer';
 var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 export interface Props{
-    pepsi: string
-    coca: string
-    onClick : any
-    onAsyncClick : any
+    pepsi?: string
+    coca?: string
+    onClick? : any
+    onAsyncClick? : any
 }
 export interface States {
   cola? : string

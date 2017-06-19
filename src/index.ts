@@ -38,6 +38,7 @@ global.app = Object.assign(global.app,
 	{ managers: reqDir(`${process.cwd()}/api/managers`) });
 
 global.app.logger = logger;
+global.app.koaApp = koaApp;
 // handle error, including 404
 // https://github.com/koajs/examples/issues/20
 koaApp.use(async function (ctx, next) {
@@ -132,7 +133,10 @@ koaApp.on('error', function (err) {
 		// TODO
 	}
 });
-
+// app bootstrap config
+try {
+	require(`${process.cwd()}/config/bootstrap`)(koaApp);
+} catch (error) {}
 
 export default koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
 

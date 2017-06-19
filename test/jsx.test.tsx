@@ -2,7 +2,11 @@ import * as React from 'react';
 import * as should from 'should';
 // require('should')
 import { shallow, mount, render } from 'enzyme';
+import Button from '../app_test/views/components/button'
+import Cola from '../app_test/views/pages/cola'
 
+import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect, loadOnServer } from 'redux-connect'
+import { createStore, combineReducers } from 'redux';
 function initBrowser() {
     const { JSDOM } = require('jsdom');
     const jsdom = new JSDOM('<!doctype html><html><body><div id="container"></div></body></html>');
@@ -23,42 +27,14 @@ function initBrowser() {
     };
     copyProps(window, global);
 }
-interface Props {
-    text: string
-    onClick: Function
-}
-interface States {
-    isMounted?: boolean
-}
-class Button extends React.Component<Props, States>   {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            isMounted: false
-        };
-    }
 
-    componentDidMount() {
-        this.setState({ isMounted: true });
-        document.getElementById('isMounted2').innerHTML = 'cola!'
-    }
-    render() {
-        return <div>
-            <button onClick={() => {
-                this.props.onClick()
-            }}>{this.props.text}</button>
-            <div id="isMounted">{this.state.isMounted ? 'true' : 'false'}</div>
-            <div id="isMounted2"></div>
-        </div>
-    }
-};
 describe("#tsx component", function () {
     before(function (done) {
         // require('babel-register')();
         initBrowser()
         done();
     });
-    it("contains spec with an expectation", function () {
+    it("button", function () {
         var click = false;
         var wrapper = mount(<Button text="xxx" onClick={() => {
             click = true;
@@ -72,4 +48,6 @@ describe("#tsx component", function () {
         should(click).be.equal(true);
         wrapper.detach();
     });
+
+
 });

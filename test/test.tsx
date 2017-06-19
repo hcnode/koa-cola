@@ -10,15 +10,15 @@ var mockgoose = new Mockgoose(mongoose);
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 // var request = require("supertest-as-promised");
 describe('#koa-cola', function() {
-    var koaApp;
+    var koaApp : Koa;
 	before(function(done) {
         process.chdir('./app_test');
 		koaApp = require('../src/index').default;
-		// mockgoose.prepareStorage().then(function() {
+		mockgoose.prepareStorage().then(function() {
 			mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		// });
+		});
 	});
 	describe('#koa', function() {
 		it('#hello world', async function(){
@@ -261,6 +261,9 @@ describe('#koa-cola', function() {
                 .expect(200)
                 .toPromise();
 			res.text.should.be.equal('diabled');
+		});
+		it('#test bootstrap config', async function(){
+			app.koaApp.proxy.should.be.equal(true);
 		});
 	});
 	describe('#services and managers', function() {
