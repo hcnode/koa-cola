@@ -19,6 +19,7 @@ import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
 import logger from './util/logger';
+import * as mongoose from 'mongoose';
 var appConfig = getConfig();
 var koaApp = new Koa();
 global.app = {};
@@ -138,7 +139,7 @@ koaApp.on('error', function (err) {
 });
 // app bootstrap config
 try {
-	require(`${process.cwd()}/config/bootstrap`)(koaApp);
+	require(`${process.cwd()}/config/bootstrap`)(koaApp, mongoose);
 } catch (error) {}
 
 export default koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
