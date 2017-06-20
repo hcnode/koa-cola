@@ -14,11 +14,11 @@ describe('#koa-cola', function() {
 	before(function(done) {
         process.chdir('./app_test');
 		koaApp = require('../src/index').default;
-		mockgoose.prepareStorage().then(function() {
-			mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
+		// mockgoose.prepareStorage().then(function() {
+			global.app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		});
+		// });
 	});
 	describe('#koa', function() {
 		it('#hello world', async function(){
@@ -142,7 +142,7 @@ describe('#koa-cola', function() {
 	describe('#models', function() {
 		
 		it('#base', async function(){
-			var User = global.app.models.user
+			var User = global.app.mongoose.model('User')
 			var result = await User.create({name : 'harry', email : 'hcnode@gmail.com'});
 			result._id.should.be.ok;
 		});

@@ -19,7 +19,7 @@ import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
 import logger from './util/logger';
-import * as mongoose from 'mongoose';
+
 var appConfig = getConfig();
 var koaApp = new Koa();
 global.app = {};
@@ -27,7 +27,14 @@ global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
 
 // load 全局对象
-require('mongoose').Promise = global.Promise;
+try {
+	var mongoose = require(`${process.cwd()}/node_modules/mongoose`);
+	mongoose.Promise = global.Promise;
+	global.app.mongoose = mongoose;
+} catch (error) {
+	console.log(`${process.cwd()}/node_modules/mongoose not found`)
+	global.app.mongoose = require('mongoose');
+}
 global.app = Object.assign(global.app,
 	// load models
 	{ models: reqDir(`${process.cwd()}/api/models`) },
@@ -139,7 +146,7 @@ koaApp.on('error', function (err) {
 });
 // app bootstrap config
 try {
-	require(`${process.cwd()}/config/bootstrap`)(koaApp, mongoose);
+	require(`${process.cwd()}/config/bootstrap`)(koaApp);
 } catch (error) {}
 
 export default koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
