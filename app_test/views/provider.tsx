@@ -2,7 +2,6 @@
     /**
      * 此router代码由程序自动生成
      */
-    import 'reflect-metadata';
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
     var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
