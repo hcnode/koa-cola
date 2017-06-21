@@ -4,7 +4,7 @@
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("/Users/harry/develop/koa-cola/src/util/../../node_modules/redux-connect");
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'

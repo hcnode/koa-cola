@@ -28,7 +28,7 @@ export function createProvider(routers){
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("${__dirname}/../../node_modules/redux-connect");
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
