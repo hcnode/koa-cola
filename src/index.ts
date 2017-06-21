@@ -103,22 +103,22 @@ koaApp.use(async function (ctx, next) {
 		ctx.app.emit('error', err, ctx);
 	}
 });
-koaApp.use(require('koa-response-time')());
-koaApp.use(require('koa-favicon')(require.resolve(`${process.cwd()}/public/favicon.ico`)));
-koaApp.use(require('koa-etag')());
-koaApp.use(require('koa-morgan')('combined', {
-	stream: fs.createWriteStream(process.cwd() + '/logs/access.log',
-		{ flags: 'a' })
-}));
-koaApp.use(require('koa-compress')({
-	flush: require('zlib').Z_SYNC_FLUSH
-}));
 koaApp.keys = ['iTIssEcret'];
-koaApp.use(require('koa-bodyparser')({
-	// BodyParser options here
-}));
+// koaApp.use(require('koa-response-time')());
+// koaApp.use(require('koa-favicon')(require.resolve(`${process.cwd()}/public/favicon.ico`)));
+// koaApp.use(require('koa-etag')());
+// koaApp.use(require('koa-morgan')('combined', {
+// 	stream: fs.createWriteStream(process.cwd() + '/logs/access.log',
+// 		{ flags: 'a' })
+// }));
+// koaApp.use(require('koa-compress')({
+// 	flush: require('zlib').Z_SYNC_FLUSH
+// }));
+// koaApp.use(require('koa-bodyparser')({
+// 	// BodyParser options here
+// }));
 
-koaApp.use(require('koa-static')(`${process.cwd()}/public`));
+// koaApp.use(require('koa-static')(`${process.cwd()}/public`));
 // session
 if(app.config.session){
 	// redis session

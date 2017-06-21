@@ -12,7 +12,7 @@
     export default () => {
         var reducers = Object.assign({}, (require('./pages/simple').default._reducer || {}), (require('./pages/cola').default._reducer || {}));
         
-        const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect}, reducers)), (window as any).__data);
+        const store = createStore(combineReducers(Object.assign({ reducer}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
         <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
             <Route path="/simple" component={require('./pages/simple').default}/>

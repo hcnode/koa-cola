@@ -38,7 +38,7 @@ export function createProvider(routers){
         return `, (require('./pages/${router.component}').default._reducer || {})`;
         }).join('')});
         
-        const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect}, reducers)), (window as any).__data);
+        const store = createStore(combineReducers(Object.assign({ reducer}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
         <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
             ${routers.map(router => {

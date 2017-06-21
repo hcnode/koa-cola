@@ -10,3 +10,4 @@ declare module NodeJS  {
 }
 declare var app : any
 declare var require: NodeRequire;
+declare var globalConfig : any
