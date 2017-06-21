@@ -5,7 +5,7 @@
     import 'reflect-metadata';
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'

@@ -14,11 +14,17 @@ import session = require('koa-session');
 import createRouter from './util/createRouter'
 import createMiddleware from './middlewares/createMiddleware'
 import serverRouter from './middlewares/serverRouter'
-var { bindRoutes } = require('controller-decorators');
+import { bindRoutes } from 'controller-decorators';
+
 import { getConfig, getEnvironment } from './util/env'
 import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
 import logger from './util/logger';
+
+import * as controllerDecorators from 'controller-decorators';
+import * as mongooseDecorators from 'mongoose-decorators';
+import * as reduxConnect from 'redux-connect';
+import { Reducer } from './decorators/reducer';
 
 var appConfig = getConfig();
 var koaApp = new Koa();
@@ -26,14 +32,21 @@ global.app = {};
 global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
 
+// inject some decorators
+global.app.decorators = {
+	controller : controllerDecorators,
+	model : mongooseDecorators,
+	view : Object.assign(reduxConnect, {SyncReducer : Reducer}, {store : require('redux-connect/lib/store')})
+}
+
 // load 全局对象
 try {
-	var mongoose = require(`${process.cwd()}/node_modules/mongoose`);
+	var mongoose = require(`mongoose`);
 	mongoose.Promise = global.Promise;
 	global.app.mongoose = mongoose;
 } catch (error) {
-	console.log(`${process.cwd()}/node_modules/mongoose not found`)
-	global.app.mongoose = require('mongoose');
+	console.log(`mongoose not found`)
+	// global.app.mongoose = require('mongoose');
 }
 global.app = Object.assign(global.app,
 	// load models

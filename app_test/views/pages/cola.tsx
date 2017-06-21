@@ -7,10 +7,11 @@
  */
 
 import * as React from 'react';
-import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+// import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
 // import { EventCola } from '../../../src/decorators/event-cola';
-import { Reducer } from '../../../src/decorators/reducer';
-var loadSuccess = require('redux-connect/lib/store').loadSuccess;
+// import { SyncReducer as Reducer } from '../../../src/decorators/reducer';
+var loadSuccess = store.loadSuccess;
 export interface Props{
     pepsi?: string
     coca?: string
@@ -53,7 +54,7 @@ export const timeout = 500;
   }
 })
 // reducer
-@Reducer(() => {
+@SyncReducer(() => {
   return {
     pepsi: (state = pepsi, action) => {
       if(action.type == 'click') return pepsi2;

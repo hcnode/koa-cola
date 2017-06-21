@@ -1,4 +1,5 @@
-import {model, index, post, pre} from 'mongoose-decorators';
+// import {model, index, post, pre} from 'mongoose-decorators';
+var { model, index, post, pre } = app.decorators.model;
 class Model {
     name : string
     email : string

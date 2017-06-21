@@ -11,9 +11,9 @@ import * as serialize from 'serialize-javascript';
 import { req } from '../util/require';
 import { shallow, mount, render } from 'enzyme';
 import setDom from '../util/render-cola';
-var routes = req(`${process.cwd()}/views/routers`);
-var layout = req(`${process.cwd()}/views/pages/layout`);
 export default async (ctx, next) => {
+	var routes = req(`${process.cwd()}/views/routers`);
+	var layout = req(`${process.cwd()}/views/pages/layout`);
 	const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
 	try {
 		await new Promise((resolve, reject) => {

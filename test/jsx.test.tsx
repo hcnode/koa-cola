@@ -5,8 +5,6 @@ import { shallow, mount, render } from 'enzyme';
 import Button from '../app_test/views/components/button'
 import Cola from '../app_test/views/pages/cola'
 
-import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect, loadOnServer } from 'redux-connect'
-import { createStore, combineReducers } from 'redux';
 function initBrowser() {
     const { JSDOM } = require('jsdom');
     const jsdom = new JSDOM('<!doctype html><html><body><div id="container"></div></body></html>');

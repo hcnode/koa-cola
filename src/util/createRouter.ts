@@ -10,7 +10,7 @@ export function createRouter(routers){
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
     export default <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
         ${routers.map(router => {
         return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`
@@ -29,7 +29,7 @@ export function createProvider(routers){
     import 'reflect-metadata';
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
