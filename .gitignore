@@ -31,6 +31,5 @@ node_modules
 # Dependency directory
 bower_components
 build
-package-lock.json
 .awcache
 bundle.*

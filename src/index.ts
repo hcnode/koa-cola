@@ -22,6 +22,19 @@ import { reqDir } from './util/require';
 import logger from './util/logger';
 
 import decorators from './util/decorators'
+const hook = require('css-modules-require-hook');
+hook({
+	/**
+	 * @param  {string} css
+	 * @param  {string} filepath Absolute path to the file
+	 * @return {string}
+	 */
+	preprocessCss: function (css, filepath) {
+		console.log(css)
+		console.log(filepath)
+		return '';
+	}
+});
 
 var appConfig = getConfig();
 var koaApp = new Koa();
@@ -98,13 +111,13 @@ koaApp.use(async function (ctx, next) {
 });
 koaApp.keys = ['iTIssEcret'];
 // session
-if(app.config.session){
+if (app.config.session) {
 	// redis session
-	if(app.config.session.host){
+	if (app.config.session.host) {
 		koaApp.use(sessionRedis({
 			store: redisStore(app.config.session)
 		}));
-	}else{
+	} else {
 		// memory session
 		koaApp.use(session(app.config.session, koaApp));
 	}
@@ -136,7 +149,7 @@ koaApp.on('error', function (err) {
 // app bootstrap config
 try {
 	require(`${process.cwd()}/config/bootstrap`)(koaApp);
-} catch (error) {}
+} catch (error) { }
 
 export default koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
 
