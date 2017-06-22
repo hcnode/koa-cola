@@ -31,7 +31,7 @@ function createProvider(routers) {
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("${__dirname}/../../node_modules/redux-connect");
+    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("koa-cola").Decorators.view;
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
@@ -40,7 +40,7 @@ function createProvider(routers) {
         return `, (require('./pages/${router.component}').default._reducer || {})`;
     }).join('')});
         
-        const store = createStore(combineReducers(Object.assign({ reducer}, reducers)), (window as any).__data);
+        const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect : reducer}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
         <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
             ${routers.map(router => {

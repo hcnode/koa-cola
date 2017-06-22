@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const require_1 = require("../util/require");
-var defaultMiddlewares = require('./defaultMiddlewares').default;
 function createMiddleware(koaApp) {
+    var defaultMiddlewares = require('./defaultMiddlewares').default;
     var middlewares = app.config.middlewares || {};
     var customMiddlewares = [];
     Object.keys(middlewares).forEach(key => {
