@@ -21,10 +21,7 @@ import createErrorPage from './util/createErrorPage'
 import { reqDir } from './util/require';
 import logger from './util/logger';
 
-import * as controllerDecorators from 'controller-decorators';
-import * as mongooseDecorators from 'mongoose-decorators';
-import * as reduxConnect from 'redux-connect';
-import { Reducer } from './decorators/reducer';
+import decorators from './util/decorators'
 
 var appConfig = getConfig();
 var koaApp = new Koa();
@@ -33,11 +30,7 @@ global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
 
 // inject some decorators
-global.app.decorators = {
-	controller : controllerDecorators,
-	model : mongooseDecorators,
-	view : Object.assign(reduxConnect, {SyncReducer : Reducer}, {store : require('redux-connect/lib/store')})
-}
+global.app.decorators = decorators;
 
 // load 全局对象
 try {

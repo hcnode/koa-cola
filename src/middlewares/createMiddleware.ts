@@ -28,7 +28,7 @@ export default function createMiddleware(koaApp : Koa){
     keys.forEach(key => {
         var middleware = combineMiddlewares.find(item => item.name == key);
         if(middleware && middleware.func){
-            console.log('middleware binded : ' + key);
+            console.log('mounting middleware : ' + key);
             koaApp.use(middleware.func(middleware.args))
         }
     })

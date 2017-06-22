@@ -1,0 +1,1 @@
+export {default as Decorators} from './src/util/decorators';
