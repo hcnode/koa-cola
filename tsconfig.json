@@ -19,7 +19,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "jsx": "react",
     // "allowJs": true,
-    "outDir": "./build"
+    "outDir": "./dist"
     // "rootDir": "./src"
   },
   "compileOnSave": false,
@@ -43,6 +43,7 @@
     "app_test/**/*.tsx",
     "src/**/*.js",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "index.ts"
   ]
 }

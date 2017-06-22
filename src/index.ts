@@ -30,7 +30,7 @@ global.app.config = appConfig;
 const port = process.env.PORT || appConfig.port;
 
 // inject some decorators
-global.app.decorators = decorators;
+global.app.decorators = decorators
 
 // load 全局对象
 try {
