@@ -12,7 +12,7 @@ import sessionRedis = require('koa-generic-session');
 import redisStore = require('koa-redis');
 import session = require('koa-session');
 import createRouter from './util/createRouter'
-import createMiddleware from './middlewares/createMiddleware'
+import mountMiddleware from './middlewares/mountMiddleware'
 import serverRouter from './middlewares/serverRouter'
 import { bindRoutes } from 'controller-decorators';
 
@@ -97,21 +97,6 @@ koaApp.use(async function (ctx, next) {
 	}
 });
 koaApp.keys = ['iTIssEcret'];
-// koaApp.use(require('koa-response-time')());
-// koaApp.use(require('koa-favicon')(require.resolve(`${process.cwd()}/public/favicon.ico`)));
-// koaApp.use(require('koa-etag')());
-// koaApp.use(require('koa-morgan')('combined', {
-// 	stream: fs.createWriteStream(process.cwd() + '/logs/access.log',
-// 		{ flags: 'a' })
-// }));
-// koaApp.use(require('koa-compress')({
-// 	flush: require('zlib').Z_SYNC_FLUSH
-// }));
-// koaApp.use(require('koa-bodyparser')({
-// 	// BodyParser options here
-// }));
-
-// koaApp.use(require('koa-static')(`${process.cwd()}/public`));
 // session
 if(app.config.session){
 	// redis session
@@ -124,10 +109,8 @@ if(app.config.session){
 		koaApp.use(session(app.config.session, koaApp));
 	}
 }
-// 自定义middleware在静态路由的后面
-// TODO 考虑所有middleware都可以自定义顺序
-createMiddleware(koaApp)
-// koaApp.use(require('koa-route').get('/injectCtx', ctx => {ctx.status = 201;ctx.body = 'injectCtx'}))
+// 加载中间件
+mountMiddleware(koaApp)
 // 以下开始自动router
 var controllers = reqDir(`${process.cwd()}/api/controllers`);
 const routerRoutes = new Router();

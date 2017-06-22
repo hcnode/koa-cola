@@ -7,10 +7,7 @@
  */
 
 import * as React from 'react';
-// import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
-var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
-// import { EventCola } from '../../../src/decorators/event-cola';
-// import { SyncReducer as Reducer } from '../../../src/decorators/reducer';
+var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('koa-cola').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props{
     pepsi?: string

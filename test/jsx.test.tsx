@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as should from 'should';
-// require('should')
 import { shallow, mount, render } from 'enzyme';
 import Button from '../app_test/views/components/button'
 import Cola from '../app_test/views/pages/cola'
@@ -28,7 +27,6 @@ function initBrowser() {
 
 describe("#tsx component", function () {
     before(function (done) {
-        // require('babel-register')();
         initBrowser()
         done();
     });
