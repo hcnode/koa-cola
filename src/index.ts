@@ -30,8 +30,6 @@ hook({
 	 * @return {string}
 	 */
 	preprocessCss: function (css, filepath) {
-		console.log(css)
-		console.log(filepath)
 		return '';
 	}
 });
