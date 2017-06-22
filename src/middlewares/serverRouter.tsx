@@ -4,7 +4,7 @@ import * as Koa from 'koa';
 import { renderToString } from 'react-dom/server'
 import { match, RoutingContext } from 'react-router'
 var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
-import createHistory from 'history/lib/createMemoryHistory';
+var createHistory = require('history').createMemoryHistory;
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as serialize from 'serialize-javascript';

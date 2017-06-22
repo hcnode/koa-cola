@@ -5,6 +5,7 @@ const React = require("react");
 const server_1 = require("react-dom/server");
 const react_router_1 = require("react-router");
 var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+var createHistory = require('history').createMemoryHistory;
 const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
 const serialize = require("serialize-javascript");
