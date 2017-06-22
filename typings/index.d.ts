@@ -6,6 +6,7 @@ declare module NodeJS  {
         document : any
         $ : any
         documentRef : any
+        globalConfig : any
     }
 }
 declare var app : any

@@ -4,11 +4,12 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir } from './util'
+import App from '../src/index'
 describe('#koa-cola middleware', function() {
-    var koaApp : Koa, mongoose;
+    var server, mongoose;
 	before(function(done) {
         chdir();
-		koaApp = require('../src/index').default;
+		server = App();
 		mongoose = app.mongoose;
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
@@ -21,11 +22,12 @@ describe('#koa-cola middleware', function() {
 	
 	after(function(done){
 		mongoose.disconnect(done)
+		server.close();
 	})
 
 	describe('#middleware', function() {
 		it('#requestTime', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/testMiddleware')
                 .expect(200)
                 .toPromise();
@@ -33,7 +35,7 @@ describe('#koa-cola middleware', function() {
 		});
 
 		it('#checkMiddlewareOrder', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/checkMiddlewareOrder')
                 .expect(200)
                 .toPromise();
@@ -42,7 +44,7 @@ describe('#koa-cola middleware', function() {
 
 
 		it('#disabledMiddleware', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/disabledMiddleware')
                 .expect(404)
                 .toPromise();

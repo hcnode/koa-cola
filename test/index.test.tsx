@@ -4,12 +4,13 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir } from './util'
+import App from '../src/index'
 describe('#koa-cola', function() {
-    var koaApp : Koa;
+    var server;
 	var mongoose;
 	before(function(done) {
 		chdir();
-		koaApp = require('../src/index').default;
+		server = App();
 		mongoose = app.mongoose;
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
@@ -20,11 +21,12 @@ describe('#koa-cola', function() {
 		});
 	});
 	after(function(done){
-		mongoose.disconnect(done)
+		mongoose.disconnect(done);
+		server.close();
 	})
 	describe('#koa', function() {
 		it('#hello world', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get("/")
                 .expect(200)
                 .toPromise();
@@ -34,14 +36,14 @@ describe('#koa-cola', function() {
 
 	describe('#controller-decorators', function() {
 		it('#injectCtxAndResponse201', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get("/injectCtx")
                 .expect(201)
                 .toPromise();
 			res.text.should.be.equal('injectCtx')		
 		});
 		it('#upload files', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
 				.post('/uploadFiles')
 				.attach('avatar', '../test/fixtures/cola.png')
                 .expect(200)
@@ -51,7 +53,7 @@ describe('#koa-cola', function() {
 
 		it('#postBody', async function(){
 			var body = { name: 'Manny', species: 'cat' };
-			var res = await request(koaApp)
+			var res = await request(server)
                 .post("/postBody")
 				.field('name', 'Manny')
 				.field('species', 'cat')
@@ -61,13 +63,13 @@ describe('#koa-cola', function() {
 			res.body.fields.species.should.be.equal(body.species);
 		});
 		it('#get postBody error', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get("/postBody")
                 .expect(405)
 		});
 		it('#getQuery', async function(){
 			var body = { name: 'Manny', species: 'cat' };
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/getQuery?' + Object.keys(body).map(item => `${item}=${body[item]}`).join('&'))
                 .expect(200)
                 .toPromise();
@@ -78,7 +80,7 @@ describe('#koa-cola', function() {
 	describe('#controller-view', function() {
 		it('#normal view', async function(){
 			var foo = require(`${process.cwd()}/views/pages/simple`).foo;
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/simple')
                 .expect(200)
                 .toPromise();
@@ -88,7 +90,7 @@ describe('#koa-cola', function() {
 			// pepsi is sync, coca is async
 			var { pepsi, coca, timeout } = require(`${process.cwd()}/views/pages/cola`);
 			var startTimeout : any = new Date();
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/cola')
                 .expect(200)
                 .toPromise();
@@ -117,7 +119,7 @@ describe('#koa-cola', function() {
 
 	describe('#middleware', function() {
 		it('#requestTime', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/testMiddleware')
                 .expect(200)
                 .toPromise();
@@ -125,7 +127,7 @@ describe('#koa-cola', function() {
 		});
 
 		it('#checkMiddlewareOrder', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/checkMiddlewareOrder')
                 .expect(200)
                 .toPromise();
@@ -134,7 +136,7 @@ describe('#koa-cola', function() {
 
 
 		it('#disabledMiddleware', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/disabledMiddleware')
                 .expect(404)
                 .toPromise();
@@ -187,7 +189,7 @@ describe('#koa-cola', function() {
 
 	describe('#response', function() {
 		it('#ok', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/getOkResponse')
                 .expect(200)
                 .toPromise();
@@ -199,7 +201,7 @@ describe('#koa-cola', function() {
 
 	describe('#response error', function() {
 		it('#404 render from tsx', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/404')
 				.set('Accept', 'text/html')
                 .expect(404)
@@ -207,7 +209,7 @@ describe('#koa-cola', function() {
 			should(res.text).match(/rendered from 404.tsx/);
 		});
 		it('#500', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/500')
 				.set('Accept', 'text/html')
                 .expect(500)
@@ -218,7 +220,7 @@ describe('#koa-cola', function() {
 
 	describe('#policies', function() {
 		it('#not login and throw 401', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/notLogin')
                 .expect(401)
                 .toPromise();
@@ -226,7 +228,7 @@ describe('#koa-cola', function() {
 		})
 
 		it('#login', async function(){
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/isLogin')
                 .expect(200)
                 .toPromise();
@@ -240,7 +242,7 @@ describe('#koa-cola', function() {
 		});
 		it('#test config override default', async function(){
 			should(app.config.middlewares.disabledMiddleware).not.be.ok;
-			var res = await request(koaApp)
+			var res = await request(server)
                 .get('/testConfigOverride')
                 .expect(200)
                 .toPromise();
@@ -257,7 +259,7 @@ describe('#koa-cola', function() {
 	});
 	describe('#test session', function() {
 		it('#session.count', async function(){
-			const agent = request.agent(koaApp);
+			const agent = request.agent(server);
 			var res = await agent
                 .get('/session')
                 .expect(200)

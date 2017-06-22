@@ -1,7 +1,7 @@
 import * as Koa from 'koa';
 import { req } from '../util/require';
-var defaultMiddlewares = require('./defaultMiddlewares').default;
 export default function createMiddleware(koaApp : Koa){
+    var defaultMiddlewares = require('./defaultMiddlewares').default;
     var middlewares : any = app.config.middlewares || {};
     var customMiddlewares = [];
     Object.keys(middlewares).forEach(key => {
