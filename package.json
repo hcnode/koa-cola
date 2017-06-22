@@ -32,6 +32,7 @@
     "css-modules-require-hook": "^4.0.6",
     "dotenv": "^2.0.0",
     "eslint": "^3.19.0",
+    "history": "^4.6.3",
     "jsdom": "^11.0.0",
     "koa": "^2.2.0",
     "koa-adapter": "0.0.3",
