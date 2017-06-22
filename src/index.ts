@@ -31,7 +31,8 @@ hook({
 	 */
 	preprocessCss: function (css, filepath) {
 		return '';
-	}
+	},
+	extensions : ['.css', '.less', '.scss']
 });
 
 var appConfig = getConfig();
