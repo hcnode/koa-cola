@@ -1,17 +1,12 @@
 // import {model, index, post, pre} from 'mongoose-decorators';
+import { userSchema } from '../schemas/user';
+
 var { model, index, post, pre } = app.decorators.model;
 class Model {
     name : string
     email : string
 }
-@model({
-  name: {
-      type : String
-  },
-  email : {
-      type : String
-  }
-})
+@model(userSchema(app.mongoose))
 export default class User extends Model {
   // class methods
   check() {

@@ -14,11 +14,11 @@ describe('#koa-cola', function() {
 		mongoose = app.mongoose;
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
-		mockgoose.prepareStorage().then(function() {
+		// mockgoose.prepareStorage().then(function() {
 			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		});
+		// });
 	});
 	after(function(done){
 		mongoose.disconnect(done);

@@ -12,6 +12,7 @@ import * as http from 'http'
 // import redisStore = require('koa-redis');
 import session = require('koa-session');
 import createRouter from './util/createRouter'
+import createSchemaTypes from './util/createSchemaTypes'
 import mountMiddleware from './middlewares/mountMiddleware'
 import serverRouter from './middlewares/serverRouter'
 import { bindRoutes } from 'controller-decorators';
@@ -148,6 +149,8 @@ export default function () {
 	koaApp.use(routerRoutes.routes());
 	koaApp.use(routerRoutes.allowedMethods());
 
+	// create schema types
+	createSchemaTypes();
 	// error emit
 	koaApp.on('error', function (err) {
 		if (process.env.NODE_ENV != 'test') {

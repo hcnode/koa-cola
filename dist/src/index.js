@@ -11,6 +11,7 @@ const http = require("http");
 // import redisStore = require('koa-redis');
 const session = require("koa-session");
 const createRouter_1 = require("./util/createRouter");
+const createSchemaTypes_1 = require("./util/createSchemaTypes");
 const mountMiddleware_1 = require("./middlewares/mountMiddleware");
 const serverRouter_1 = require("./middlewares/serverRouter");
 const controller_decorators_1 = require("controller-decorators");
@@ -139,6 +140,8 @@ function default_1() {
     // 在serverRouter后面，为了优先react router
     koaApp.use(routerRoutes.routes());
     koaApp.use(routerRoutes.allowedMethods());
+    // create schema types
+    createSchemaTypes_1.default();
     // error emit
     koaApp.on('error', function (err) {
         if (process.env.NODE_ENV != 'test') {
