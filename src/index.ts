@@ -8,8 +8,8 @@ import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
 import * as http from 'http'
-import sessionRedis = require('koa-generic-session');
-import redisStore = require('koa-redis');
+// import sessionRedis = require('koa-generic-session');
+// import redisStore = require('koa-redis');
 import session = require('koa-session');
 import createRouter from './util/createRouter'
 import mountMiddleware from './middlewares/mountMiddleware'
@@ -84,7 +84,7 @@ export default function () {
 			}
 		} catch (err) {
 			ctx.status = err.status || 500;
-			// console.log(require('util').inspect(err))
+			console.log(require('util').inspect(err))
 			var env = process.env;
 			// accepted types
 			switch (ctx.accepts('text', 'json', 'html')) {
@@ -118,13 +118,13 @@ export default function () {
 		}
 	});
 	koaApp.keys = ['iTIssEcret'];
-	// session
+	session
 	if (app.config.session) {
 		// redis session
 		if (app.config.session.host) {
-			koaApp.use(sessionRedis({
-				store: redisStore(app.config.session)
-			}));
+			// koaApp.use(sessionRedis({
+			// 	store: redisStore(app.config.session)
+			// }));
 		} else {
 			// memory session
 			koaApp.use(session(app.config.session, koaApp));
