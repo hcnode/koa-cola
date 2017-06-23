@@ -4,7 +4,7 @@ var decorators_1 = require("./src/util/decorators");
 exports.Decorators = decorators_1.default;
 var api_1 = require("./src/util/api");
 exports.ApiBase = api_1.Base;
-exports.fetch = api_1.fetch;
+exports.apiFetch = api_1.fetch;
 try {
     var { run } = require('./src/app');
 }
