@@ -7,8 +7,8 @@ const Koa = require("koa");
 const chalk = require("chalk");
 const Router = require("koa-router");
 const http = require("http");
-const sessionRedis = require("koa-generic-session");
-const redisStore = require("koa-redis");
+// import sessionRedis = require('koa-generic-session');
+// import redisStore = require('koa-redis');
 const session = require("koa-session");
 const createRouter_1 = require("./util/createRouter");
 const mountMiddleware_1 = require("./middlewares/mountMiddleware");
@@ -76,7 +76,7 @@ function default_1() {
         }
         catch (err) {
             ctx.status = err.status || 500;
-            // console.log(require('util').inspect(err))
+            console.log(require('util').inspect(err));
             var env = process.env;
             // accepted types
             switch (ctx.accepts('text', 'json', 'html')) {
@@ -110,13 +110,13 @@ function default_1() {
         }
     });
     koaApp.keys = ['iTIssEcret'];
-    // session
+    session;
     if (app.config.session) {
         // redis session
         if (app.config.session.host) {
-            koaApp.use(sessionRedis({
-                store: redisStore(app.config.session)
-            }));
+            // koaApp.use(sessionRedis({
+            // 	store: redisStore(app.config.session)
+            // }));
         }
         else {
             // memory session
