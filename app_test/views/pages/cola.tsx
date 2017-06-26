@@ -52,7 +52,7 @@ export const timeout = 500;
     },
     ajax : async () => {
       var compose = new Compose({foo : 'bar'})
-      await compose.fetch();
+      compose = await compose.fetch();
       console.log(compose);
     }
   }
