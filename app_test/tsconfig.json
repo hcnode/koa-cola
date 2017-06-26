@@ -30,7 +30,7 @@
   "typeRoots": [],
   "include": [
     // "node_modules/@types",
-    // "typings",
+    "typings"
     // "test/**/*.ts",
     // "test/**/*.tsx",
     // "app_test/**/*.js",

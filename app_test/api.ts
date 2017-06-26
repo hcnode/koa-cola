@@ -5,6 +5,9 @@ export interface ComposeBody{
     bar? : number
 }
 export class Compose extends ApiBase<ComposeBody, testSchema>{
+    constructor(body){
+        super(body)
+    }
     url : string = '/componse'
     method : string = 'post'
 }

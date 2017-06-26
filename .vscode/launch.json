@@ -36,7 +36,7 @@
             // "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon",
             "runtimeArgs": [
                 "-r", "ts-node/register",
-                "${workspaceRoot}/src/index.ts"
+                "${workspaceRoot}/app_test/app.ts"
             ],
             "sourceMaps": true,
             "console": "internalConsole",
