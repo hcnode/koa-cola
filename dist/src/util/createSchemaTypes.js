@@ -58,7 +58,7 @@ function default_1() {
                                 ${getFields(documentSchema)}
                             }
                         `;
-            })}
+            }).join(``)}
                 `).join(``)}
             `;
             var beautify = require('js-beautify').js_beautify;

@@ -56,7 +56,7 @@ export default function (){
                                 ${getFields(documentSchema)}
                             }
                         `
-                    })}
+                    }).join(``)}
                 `).join(``)}
             `
             
