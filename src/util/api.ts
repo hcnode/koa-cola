@@ -17,6 +17,6 @@ export async function fetch<B, R, A extends Base<B, R>>(api: A): Promise<A> {
     if(api.method.toLowerCase() == 'post'){
         args.push(api.body);
     }
-    await axios[api.method](...args)
+    api.result = await axios[api.method](...args)
     return api;
 }

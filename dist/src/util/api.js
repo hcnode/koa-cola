@@ -18,7 +18,7 @@ async function fetch(api) {
     if (api.method.toLowerCase() == 'post') {
         args.push(api.body);
     }
-    await axios[api.method](...args);
+    api.result = await axios[api.method](...args);
     return api;
 }
 exports.fetch = fetch;

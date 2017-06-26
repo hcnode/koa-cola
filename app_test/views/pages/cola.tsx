@@ -51,9 +51,9 @@ export const timeout = 500;
       dispatch(loadSuccess('coca', data));
     },
     ajax : async () => {
-      var componse = new Compose({foo : 'bar'})
-      await componse.fetch();
-      console.log(componse.result);
+      var compose = new Compose({foo : 'bar'})
+      await compose.fetch();
+      console.log(compose);
     }
   }
 })

@@ -81,7 +81,7 @@ export default class  {
         return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
     }
     @Post('/compose')
-    compose (@Ctx() ctx : Koa.Context) {
-        return ctx.body;
+    compose (@Body() body : any) {
+        return body;
     }
 }

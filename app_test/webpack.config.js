@@ -24,7 +24,13 @@ module.exports = {
 						useBabel : true,
 						useCache : true
 					}
-				}	
+				}
+			},
+			{ test: /\.jsx?$/, 
+				use : {
+					loader: 'babel-loader'
+				},
+				exclude: /node_modules\/(?!(koa-cola)\/).*/,
 			},
 
 			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
@@ -34,7 +40,7 @@ module.exports = {
 
 	plugins: [
 		new webpack.IgnorePlugin(/\.\/src\/app/),
-		// new webpack.IgnorePlugin(/^mongoose$/)
+		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)
 	],
 	// When importing a module whose path matches one of the following, just
 	// assume a corresponding global variable exists and use that instead.

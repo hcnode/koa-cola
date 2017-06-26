@@ -8,7 +8,7 @@ export class Compose extends ApiBase<ComposeBody, testSchema>{
     constructor(body){
         super(body)
     }
-    url : string = '/componse'
+    url : string = '/compose'
     method : string = 'post'
 }
 
