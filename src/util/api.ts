@@ -8,7 +8,7 @@ export class Base<B, R> {
     body : B
     result : R
     fetch (){
-        fetch(this)
+        return fetch(this)
     }
 }
 export async function fetch<B, R, A extends Base<B, R>>(api: A): Promise<A> {

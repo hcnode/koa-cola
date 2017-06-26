@@ -8,7 +8,7 @@ class Base {
         this.body = body;
     }
     fetch() {
-        fetch(this);
+        return fetch(this);
     }
 }
 exports.Base = Base;
