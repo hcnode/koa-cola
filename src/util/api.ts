@@ -16,7 +16,12 @@ export async function fetch<B, R, A extends Base<B, R>>(api: A): Promise<A> {
     var args : any = [api.url];
     if(api.method.toLowerCase() == 'post'){
         args.push(api.body);
+    }else{
+        if(Object.keys(api.body).length > 0){
+            args[0] += (args[0].indexOf('?') == -1 ? '?' : '&') + Object.keys(api.body).map(field => `${field}=${api.body[field]}`).join('&')
+        }
     }
-    api.result = await axios[api.method](...args)
+    var result = await axios[api.method](...args)
+    api.result = result.data;
     return api;
 }
