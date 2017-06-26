@@ -13,6 +13,7 @@ function getFields(documentSchema) {
         if (isArray) {
             type = type[0];
         }
+        type = type.type || type;
         var code = `
         /**
          * ${documentSchema[field].text || field}
