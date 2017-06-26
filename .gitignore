@@ -33,3 +33,4 @@ bower_components
 build
 .awcache
 bundle.*
+package-lock.json
