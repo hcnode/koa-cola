@@ -80,4 +80,8 @@ export default class  {
     testConfigOverride (@Ctx() ctx : Koa.Context) {
         return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
     }
+    @Post('/compose')
+    compose (@Ctx() ctx : Koa.Context) {
+        return ctx.body;
+    }
 }

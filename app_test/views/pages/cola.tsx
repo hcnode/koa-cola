@@ -7,6 +7,7 @@
  */
 
 import * as React from 'react';
+import { Compose } from '../../api';
 var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('koa-cola').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props{
@@ -14,6 +15,7 @@ export interface Props{
     coca?: string
     onClick? : any
     onAsyncClick? : any
+    ajax? : any
 }
 export interface States {
   cola? : string
@@ -47,6 +49,11 @@ export const timeout = 500;
         setTimeout(() => resolve(coca2), timeout)
       })
       dispatch(loadSuccess('coca', data));
+    },
+    ajax : async () => {
+      var componse = new Compose({foo : 'bar'})
+      await componse.fetch();
+      console.log(componse.result);
     }
   }
 })
@@ -84,6 +91,9 @@ class App extends React.Component<Props, States>   {
       }}>click</button>
       <button id="btn3" onClick={() => {
         this.setState({cola : 'wow'});
+      }}>setState</button>
+      <button id="btn4" onClick={() => {
+        this.props.ajax()
       }}>setState</button>
       
     </div>

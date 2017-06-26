@@ -18,6 +18,7 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/chalk": "^0.4.31",
     "@types/form-data": "0.0.32",
     "@types/koa": "^2.0.34",
@@ -28,6 +29,7 @@
     "@types/react": "^15.0.27",
     "@types/should": "^8.3.0",
     "@types/winston": "^2.3.3",
+    "axios": "^0.16.2",
     "chalk": "^1.1.3",
     "controller-decorators": "github:hcnode/controller-decorators",
     "css-modules-require-hook": "^4.0.6",
