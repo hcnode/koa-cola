@@ -1,7 +1,7 @@
 /**
  * this middleware use commonjs module pattern
  */
-import * as Koa from 'Koa';
+import * as Koa from 'koa';
 
 var checkMiddlewareOrder = function(){
     return async function (ctx , next){

@@ -2,9 +2,6 @@
   "compilerOptions": {
     "target": "ES2017",
     "module": "commonjs",
-    "lib": [
-      "es5"
-    ],
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

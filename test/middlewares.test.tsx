@@ -1,5 +1,5 @@
 import * as should from 'should'
-import * as Koa from 'Koa'
+import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';

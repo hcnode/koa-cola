@@ -1,4 +1,4 @@
-import * as Koa from 'Koa';
+import * as Koa from 'koa';
 
 export default async function isLogin(ctx : Koa.Context, next : any){
     if(ctx.state.user){
