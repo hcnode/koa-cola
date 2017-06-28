@@ -20,7 +20,7 @@ exports.default = async (ctx, next) => {
                 if (!renderProps)
                     return reject();
                 // load data
-                loadOnServer(Object.assign({}, renderProps, { store })).then(() => {
+                loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(() => {
                     var { location } = renderProps;
                     /*if(location && location.query && location.query['event-cola']){
                         try {
@@ -68,24 +68,19 @@ exports.default = async (ctx, next) => {
                     const appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
                         React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
                     var html = layout(appHTML, store);
+                    var injectHtml = `
+							<!-- its a Redux initial data -->
+							<script>
+								window.__data=${serialize(store.getState())};
+							</script>
+							<script src="/bundle.js"></script>
+							</html>
+						`;
                     if (/<\/html\>/ig.test(html)) {
-                        html = html.replace(/<\/html\>/ig, `
-								<!-- its a Redux initial data -->
-								<script>
-									window.__data=${serialize(store.getState())};
-								</script>
-								<script src="/bundle.js"></script>
-								</html>
-							`);
+                        html = html.replace(/<\/html\>/ig, injectHtml);
                     }
                     else {
-                        html += `
-								<!-- its a Redux initial data -->
-								<script>
-									window.__data=${serialize(store.getState())};
-								</script>
-								<script src="/bundle.js"></script>
-							`;
+                        html += injectHtml;
                     }
                     ctx.body = html;
                     resolve();

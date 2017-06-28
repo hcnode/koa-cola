@@ -81,7 +81,13 @@ export default class  {
         return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
     }
     @Post('/compose')
-    compose (@Body() body : any) {
+    compose (@Body() body : any, @Ctx() ctx) {
         return body;
+    }
+
+
+    @Get('/serverCallApi')
+    serverCallApi (@Ctx() ctx : Koa.Context) {
+        return ctx.cookies.get('server_call_cookie') || 'hello';
     }
 }

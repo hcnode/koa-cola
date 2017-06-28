@@ -99,6 +99,15 @@ describe('#koa-cola', function() {
 			should(res.text).containEql(pepsi);
 			should(res.text).containEql(coca);
 		});
+
+		/*it('#view with server call api', async function(){
+			var res = await request(server)
+                .get('/cola')
+				.set('Cookie', ['server_call_cookie-token=1'])
+                .expect(200)
+                .toPromise();
+			should(res.text).containEql('server_call_cookie')
+		});*/
 	});
 
 	describe('#router&provider', function() {

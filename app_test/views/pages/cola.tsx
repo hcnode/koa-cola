@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { Compose } from '../../api';
+import { Compose, ServerCallApi } from '../../api';
 var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('koa-cola').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props{
@@ -16,6 +16,7 @@ export interface Props{
     onClick? : any
     onAsyncClick? : any
     ajax? : any
+    serverCallResult? : string
 }
 export interface States {
   cola? : string
@@ -28,9 +29,19 @@ export const coca2 = 'this is coca-cola again';
 export const timeout = 500;
 @asyncConnect([{
   key: 'coca',
-  promise: ({ params, helpers }) => new Promise((resolve, reject) => {
-      setTimeout(() => resolve(coca), timeout)
-  })
+  promise: ({ params, helpers }) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(coca), timeout)
+    })
+  }
+},{
+  key: 'serverCallResult',
+  promise: async ({ params, helpers }) => {
+    var ctx = helpers.ctx;
+    var serverCallApi = new ServerCallApi({});
+    var data = await serverCallApi.fetch(ctx);
+    return data.result;
+  }
 }], 
 // mapStateToProps
 ({ pepsi }) => {
@@ -95,7 +106,7 @@ class App extends React.Component<Props, States>   {
       <button id="btn4" onClick={() => {
         this.props.ajax()
       }}>setState</button>
-      
+      <div>{this.props.serverCallResult}</div>
     </div>
     return result;
   }
