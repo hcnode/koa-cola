@@ -69,12 +69,13 @@ export default async (ctx, next) => {
 							<ReduxAsyncConnect {...renderProps}  />
 						</Provider>)
 						var html = layout(appHTML, store);
+						var prefix = app.config.prefix || '';
 						var injectHtml = `
 							<!-- its a Redux initial data -->
 							<script>
 								window.__data=${serialize(store.getState())};
 							</script>
-							<script src="/bundle.js"></script>
+							<script src="${prefix}/bundle.js"></script>
 							</html>
 						`;
 						if(/<\/html\>/ig.test(html)){

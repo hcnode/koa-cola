@@ -1,9 +1,10 @@
 "use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
-const controllerDecorators = require("controller-decorators");
-const mongooseDecorators = require("mongoose-decorators");
-const reduxConnect = require("redux-connect");
-const reducer_1 = require("../decorators/reducer");
+var controllerDecorators = require("controller-decorators");
+var mongooseDecorators = require("mongoose-decorators");
+var reduxConnect = require("redux-connect");
+var reducer_1 = require("../decorators/reducer");
 exports.default = {
     controller: controllerDecorators,
     model: mongooseDecorators,
