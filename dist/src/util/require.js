@@ -1,5 +1,4 @@
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 var requireDir = require('require-dir');
 function req(module) {
@@ -9,7 +8,7 @@ function req(module) {
 exports.req = req;
 function reqDir(dir) {
     var libs = requireDir(dir);
-    Object.keys(libs).forEach(function (key) {
+    Object.keys(libs).forEach(key => {
         libs[key] = libs[key].default || libs[key];
     });
     return libs;

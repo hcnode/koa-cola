@@ -1,18 +1,13 @@
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
-
-var _require = require('jsdom'),
-    JSDOM = _require.JSDOM;
-
+const { JSDOM } = require('jsdom');
 function setDom(html) {
-    var jsdom = new JSDOM(html);
-    var window = jsdom.window;
-
+    const jsdom = new JSDOM(html);
+    const { window } = jsdom;
     function copyProps(src, target) {
-        var props = Object.getOwnPropertyNames(src).filter(function (prop) {
-            return typeof target[prop] === 'undefined';
-        }).forEach(function (prop) {
+        const props = Object.getOwnPropertyNames(src)
+            .filter(prop => typeof target[prop] === 'undefined')
+            .forEach(prop => {
             Object.defineProperty(target, prop, Object.getOwnPropertyDescriptor(src, prop));
         });
     }

@@ -1,30 +1,44 @@
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
-var path = require("path");
-var require_1 = require("./require");
-var fs = require("fs");
+const path = require("path");
+const require_1 = require("./require");
+const fs = require("fs");
 function getFields(documentSchema) {
     documentSchema = documentSchema.tree || documentSchema;
-    return Object.keys(documentSchema).map(function (field) {
-        if (field == 'id') return "";
+    return Object.keys(documentSchema).map(field => {
+        if (field == 'id')
+            return ``;
         var type = documentSchema[field].type || documentSchema[field];
         var isArray = Array.isArray(type);
         if (isArray) {
             type = type[0];
         }
         type = type.type || type;
-        var code = "\n        /**\n         * " + (documentSchema[field].text || field) + "\n         */\n        ";
+        var code = `
+        /**
+         * ${documentSchema[field].text || field}
+         */
+        `;
         // subdoc
-        if (type.tree || !type.schemaName && Object.prototype.toString.call(type) == '[object Object]') {
-            code += "\n                " + field + " : " + (isArray ? '[' : '') + "{\n                    " + getFields(type) + "\n                }" + (isArray ? ']' : '') + "\n            ";
-        } else if (type.schemaName) {
-            code += "\n                " + field + " : " + (isArray ? '[' : '') + " mongoose.Schema.Types." + type.schemaName + " " + (isArray ? ']' : '') + "\n            ";
-        } else {
-            code += "\n                " + field + " : " + (isArray ? '[' : '') + " " + (/\[object (.+)\]/.test(Object.prototype.toString.call(type())) && RegExp.$1).toLowerCase() + "  " + (isArray ? ']' : '') + "\n            ";
+        if (type.tree || (!type.schemaName && Object.prototype.toString.call(type) == '[object Object]')) {
+            code += `
+                ${field} : ${isArray ? '[' : ''}{
+                    ${getFields(type)}
+                }${isArray ? ']' : ''}
+            `;
+        }
+        else if (type.schemaName) {
+            code += `
+                ${field} : ${isArray ? '[' : ''} mongoose.Schema.Types.${type.schemaName} ${isArray ? ']' : ''}
+            `;
+        }
+        else {
+            code += `
+                ${field} : ${isArray ? '[' : ''} ${(/\[object (.+)\]/.test(Object.prototype.toString.call(type())) && RegExp.$1).toLowerCase()}  ${isArray ? ']' : ''}
+            `;
         }
         return code;
-    }).join("");
+    }).join(``);
 }
 function default_1() {
     var dir = process.cwd();
@@ -34,22 +48,32 @@ function default_1() {
         if (fs.existsSync(typingsPath)) {
             var schemaTypesFile = path.resolve(typingsPath, 'schema.d.ts');
             var schemas = require_1.reqDir(schemasPath);
-            var codes = "\n                import * as mongoose from 'mongoose'\n                " + Object.keys(schemas).map(function (schema) {
-                return "\n                    " + Object.keys(schemas[schema]).map(function (document) {
-                    var documentSchema = schemas[schema][document](app.mongoose);
-                    return "\n                            export interface " + document + " {\n                                " + getFields(documentSchema) + "\n                            }\n                        ";
-                }).join("") + "\n                ";
-            }).join("") + "\n            ";
+            var codes = `
+                import * as mongoose from 'mongoose'
+                ${Object.keys(schemas).map(schema => `
+                    ${Object.keys(schemas[schema]).map(document => {
+                var documentSchema = schemas[schema][document](app.mongoose);
+                return `
+                            export interface ${document} {
+                                ${getFields(documentSchema)}
+                            }
+                        `;
+            }).join(``)}
+                `).join(``)}
+            `;
             var beautify = require('js-beautify').js_beautify;
             try {
                 fs.writeFileSync(path.resolve(typingsPath, 'schema.ts'), beautify(codes, { indent_size: 4 }));
-            } catch (e) {
+            }
+            catch (e) {
                 console.log(e);
             }
-        } else {
+        }
+        else {
             console.log('typings path not found');
         }
-    } else {
+    }
+    else {
         console.log('schema path not found');
     }
 }
