@@ -68,15 +68,17 @@ exports.default = async (ctx, next) => {
                     const appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
                         React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
                     var html = layout(appHTML, store);
-                    var prefix = app.config.prefix || '';
+                    // var prefix = app.config.prefix || '';
+                    // var staticPath = app.config.staticPath;
+                    // var publicPath = process.cwd() + '/public';
                     var injectHtml = `
 							<!-- its a Redux initial data -->
 							<script>
 								window.__data=${serialize(store.getState())};
 							</script>
-							<script src="${prefix}/bundle.js"></script>
 							</html>
 						`;
+                    // <script src="${process.env.NODE_ENV == 'production' && staticPath ? staticPath : prefix}/bundle.js"></script>
                     if (/<\/html\>/ig.test(html)) {
                         html = html.replace(/<\/html\>/ig, injectHtml);
                     }
