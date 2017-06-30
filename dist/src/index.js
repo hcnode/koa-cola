@@ -79,24 +79,23 @@ function default_1() {
             ctx.status = err.status || 500;
             console.log(require('util').inspect(err));
             var env = process.env;
+            var message = err.message;
+            if (!http.STATUS_CODES[err.status]) {
+                message = require('statuses')[err.status] || 'unknow error';
+            }
             // accepted types
             switch (ctx.accepts('text', 'json', 'html')) {
                 case 'text':
-                    ctx.body = err.message;
+                    ctx.body = message;
                     break;
                 case 'json':
-                    if ('development' == env)
-                        ctx.body = { error: err.message };
-                    else if (err.expose)
-                        ctx.body = { error: err.message };
-                    else
-                        ctx.body = { error: http.STATUS_CODES[ctx.status] };
+                    ctx.body = { error: message };
                     break;
                 case 'html':
                     createErrorPage_1.default({
                         env: env,
                         ctx: ctx,
-                        error: err.message,
+                        error: message,
                         stack: err.stack,
                         status: ctx.status,
                         code: ctx.status

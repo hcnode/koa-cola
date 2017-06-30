@@ -85,31 +85,31 @@ export default function () {
 			}
 		} catch (err) {
 			ctx.status = err.status || 500;
-			console.log(require('util').inspect(err))
-			var env = process.env;
-			// accepted types
-			switch (ctx.accepts('text', 'json', 'html')) {
-				case 'text':
-					ctx.body = err.message
-					break;
-
-				case 'json':
-					if ('development' == env) ctx.body = { error: err.message }
-					else if (err.expose) ctx.body = { error: err.message }
-					else ctx.body = { error: http.STATUS_CODES[ctx.status] }
-					break;
-
-				case 'html':
-					createErrorPage({
-						env: env,
-						ctx: ctx,
-						error: err.message,
-						stack: err.stack,
-						status: ctx.status,
-						code: ctx.status
-					});
-					break;
-			}
+            console.log(require('util').inspect(err));
+            var env = process.env;
+            var message = err.message;
+            if(!http.STATUS_CODES[err.status]){
+                message = require('statuses')[err.status] || 'unknow error'
+            }
+            // accepted types
+            switch (ctx.accepts('text', 'json', 'html')) {
+                case 'text':
+                    ctx.body = message;
+                    break;
+                case 'json':
+                    ctx.body = { error: message };
+                    break;
+                case 'html':
+                    createErrorPage({
+                        env: env,
+                        ctx: ctx,
+                        error: message,
+                        stack: err.stack,
+                        status: ctx.status,
+                        code: ctx.status
+                    });
+                    break;
+            }
 
 			// since we handled this manually we'll
 			// want to delegate to the regular app
