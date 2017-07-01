@@ -10,7 +10,6 @@ const http = require("http");
 // import sessionRedis = require('koa-generic-session');
 // import redisStore = require('koa-redis');
 const session = require("koa-session");
-const createRouter_1 = require("./util/createRouter");
 const createSchemaTypes_1 = require("./util/createSchemaTypes");
 const mountMiddleware_1 = require("./middlewares/mountMiddleware");
 const serverRouter_1 = require("./middlewares/serverRouter");
@@ -133,7 +132,7 @@ function default_1() {
         console.log(`router:${item.methods.join('-')}:  ${item.path}`);
     }));
     // 创建react router和react provider
-    createRouter_1.default(routers);
+    // createRouter(routers);
     // 必须在执行完bindRoutes后
     koaApp.use(serverRouter_1.default);
     // 在serverRouter后面，为了优先react router

@@ -142,7 +142,7 @@ export default function () {
 	}))
 	// 创建react router和react provider
 
-	createRouter(routers);
+	// createRouter(routers);
 	// 必须在执行完bindRoutes后
 	koaApp.use(serverRouter);
 	// 在serverRouter后面，为了优先react router
