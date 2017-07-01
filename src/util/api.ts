@@ -26,6 +26,7 @@ export async function fetch<B, R, E, A extends Base<B, R, E>>(api: A, ctx?): Pro
             req.url += (req.url.indexOf('?') == -1 ? '?' : '&') + Object.keys(api.body).map(field => `${field}=${api.body[field]}`).join('&')
         }
     }
+    req.url += (req.url.indexOf('?') > -1 ? '&' : '?') + `t=${new Date().valueOf()}`
     if(ctx){
         req.url = `http://127.0.0.1:${app.config.port}${req.url}`;
         var cookie = ctx.req.headers.cookie;
