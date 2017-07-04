@@ -16,9 +16,13 @@ export default function createErrorPage({
         var ErrorPage = require(`${process.cwd()}/views/pages/${status}`).default;
         ctx.body = renderToString(<ErrorPage {...arguments[0]} />)
     }catch(err){
-		ctx.body = `
-            <p>${error}</p>
-            <p>${stack}</p>
-        `;
+        if(process.env.NODE_ENV == 'production'){
+            ctx.body = error;
+        }else{
+            ctx.body = `
+                <p>${error}</p>
+                <p>${stack}</p>
+            `;
+        }
     }
 }

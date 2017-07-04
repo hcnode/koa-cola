@@ -12,10 +12,15 @@ function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
         ctx.body = server_1.renderToString(React.createElement(ErrorPage, Object.assign({}, arguments[0])));
     }
     catch (err) {
-        ctx.body = `
-            <p>${error}</p>
-            <p>${stack}</p>
-        `;
+        if (process.env.NODE_ENV == 'production') {
+            ctx.body = error;
+        }
+        else {
+            ctx.body = `
+                <p>${error}</p>
+                <p>${stack}</p>
+            `;
+        }
     }
 }
 exports.default = createErrorPage;

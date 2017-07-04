@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --profile --colors --watch",
-    "start": "node -r ts-node/register ../src/index.ts ../node_modules/ts-node/dist/_bin.js"
+    "build": "webpack --progress --profile --colors --watch"
+    // "start": "node -r ts-node/register ../src/index.ts ../node_modules/ts-node/dist/_bin.js"
   },
   "author": "",
   "license": "ISC",

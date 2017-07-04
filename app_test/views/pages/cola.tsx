@@ -28,6 +28,11 @@ export const coca = 'this is coca-cola';
 export const coca2 = 'this is coca-cola again';
 export const timeout = 500;
 @asyncConnect([{
+  key: 'pepsi',
+  promise: ({ params, helpers }) => {
+    return Promise.resolve(pepsi);
+  }
+},{
   key: 'coca',
   promise: ({ params, helpers }) => {
     return new Promise((resolve, reject) => {
@@ -53,7 +58,7 @@ export const timeout = 500;
 (dispatch) => {
   return {
     onClick: () => {
-      dispatch({type : 'click'});
+      dispatch(loadSuccess('pepsi', pepsi2));
     },
     onAsyncClick: async () => {
       var data = await new Promise((resolve, reject) => {
@@ -68,15 +73,6 @@ export const timeout = 500;
     }
   }
 })
-// reducer
-@SyncReducer(() => {
-  return {
-    pepsi: (state = pepsi, action) => {
-      if(action.type == 'click') return pepsi2;
-      else return state;
-    }
-  }
-})
 class App extends React.Component<Props, States>   {
   constructor(props: Props) {
       super(props);
@@ -84,10 +80,6 @@ class App extends React.Component<Props, States>   {
         cola : ''
       }
   }
-  static defaultProps = {
-      pepsi: pepsi,
-      coca: ''
-  };
   render() {
     var result =  <div>
       <div><h2>koa-cola</h2></div>

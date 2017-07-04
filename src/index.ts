@@ -28,7 +28,7 @@ export default function () {
 	var logger = require('./util/logger').default;
 
 	// add require css hook 否则使用ts-node启动有import css的ts文件会出错
-	// 预处理的方式是直接删除
+	// 预处理的方式是直接删除，因为node里面正常情况下不需要使用import的css，而是由webpack处理
 	const hook = require('css-modules-require-hook');
 	hook({
 		/**
@@ -85,10 +85,12 @@ export default function () {
 			}
 		} catch (err) {
 			ctx.status = err.status || 500;
-            console.log(require('util').inspect(err));
+            try{
+				console.log(require('util').inspect(err));
+			}catch(e){}
             var env = process.env;
             var message = err.message;
-            if(!http.STATUS_CODES[err.status]){
+            if(err.status && !http.STATUS_CODES[err.status]){
                 message = require('statuses')[err.status] || 'unknow error'
             }
             // accepted types
@@ -98,6 +100,9 @@ export default function () {
                     break;
                 case 'json':
                     ctx.body = { error: message };
+					if(process.env.NODE_ENV != 'production'){
+						ctx.body.stack = err.stack;
+					}
                     break;
                 case 'html':
                     createErrorPage({
