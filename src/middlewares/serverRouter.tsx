@@ -14,6 +14,10 @@ import setDom from '../util/render-cola';
 export default async (ctx, next) => {
 	var routes = req(`${process.cwd()}/views/routers`);
 	var layout = req(`${process.cwd()}/views/pages/layout`);
+	if(!routes){
+		console.log('${process.cwd()}/views/routers not found');
+		return await next();
+	}
 	const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
 	try {
 		await new Promise((resolve, reject) => {
@@ -65,10 +69,14 @@ export default async (ctx, next) => {
 							console.log(error)
 						}
 					}else{*/
-						const appHTML = renderToString(<Provider store={store} key="provider">
+						var appHTML = renderToString(<Provider store={store} key="provider">
 							<ReduxAsyncConnect {...renderProps}  />
 						</Provider>)
-						var html = layout(appHTML, store);
+						if(layout){
+							appHTML = layout(appHTML, store);
+						}else{
+							console.log(`${process.cwd()}/views/pages/layout nor found`)
+						}
 						// var prefix = app.config.prefix || '';
 						// var staticPath = app.config.staticPath;
 						// var publicPath = process.cwd() + '/public';
@@ -80,12 +88,12 @@ export default async (ctx, next) => {
 							</html>
 						`;
 						// <script src="${process.env.NODE_ENV == 'production' && staticPath ? staticPath : prefix}/bundle.js"></script>
-						if(/<\/html\>/ig.test(html)){
-							html = html.replace(/<\/html\>/ig, injectHtml)
+						if(/<\/html\>/ig.test(appHTML)){
+							appHTML = appHTML.replace(/<\/html\>/ig, injectHtml)
 						}else{
-							html += injectHtml
+							appHTML += injectHtml
 						}
-						ctx.body = html;
+						ctx.body = appHTML;
 						resolve();
 					// }
 				})

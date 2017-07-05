@@ -10,10 +10,10 @@ export function createRouter(routers){
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
+    var { ReduxAsyncConnect, asyncConnect, reducer, store  } = app.decorators.view;
     export default <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
         ${routers.map(router => {
-        return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`
+            return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`
         }).join('\n    ')}
     </Router>
     `
@@ -28,20 +28,20 @@ export function createProvider(routers){
      */
     import * as React from 'react';
     import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("koa-cola").Decorators.view;
+    var { ReduxAsyncConnect, asyncConnect, reducer, store  } = require("koa-cola").Decorators.view;
     import { createStore, combineReducers } from 'redux';
     import { render } from 'react-dom'
     import { Provider } from 'react-redux'
     export default () => {
         var reducers = Object.assign({}${routers.map(router => {
-        return `, (require('./pages/${router.component}').default._reducer || {})`;
+            return `, (app.pages['${router.component}']._reducer || {})`;
         }).join('')});
         
         const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect : reducer}, reducers)), (window as any).__data);
         return <Provider store={store} key="provider">
         <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
             ${routers.map(router => {
-            return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`
+            return `<Route path="${router.path}" component={app.pages['${router.component}']}/>`
             }).join('\n    ')}
         </Router>
         </Provider>
