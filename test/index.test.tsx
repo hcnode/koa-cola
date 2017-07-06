@@ -113,7 +113,7 @@ describe('#koa-cola', function() {
 
 	describe('#router&provider', function() {
 		it('#router', async function(){
-			var router = require(`${process.cwd()}/views/routers`).default;
+			var router = app.routers.router;
 			router.should.be.ok;
 			router.props.children.length.should.be.equal(2);
 			router.props.children[0].type.displayName.should.be.equal('Route');

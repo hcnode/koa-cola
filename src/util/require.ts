@@ -17,6 +17,7 @@ export function reqDir(dir){
         });
         return libs;
     } catch (err) {
+        console.log(err)
         return {};
     }
 }

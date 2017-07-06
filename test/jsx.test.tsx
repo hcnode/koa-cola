@@ -12,11 +12,16 @@ describe("#tsx component", function () {
         initBrowser()
         done();
     });
+
+	after(function (done) {
+		delete global.app;
+        done();
+	})
     it("button", function () {
         var click = false;
         var wrapper = mount(<Button text="xxx" onClick={() => {
             click = true;
-        }} />, { attachTo: document.getElementById('container') });
+        }} />, { attachTo: document.getElementById('app') });
 
         wrapper.find('div button').node.innerHTML.should.be.equal('xxx')
         wrapper.find('div button').length.should.be.equal(1);

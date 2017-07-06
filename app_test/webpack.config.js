@@ -26,11 +26,12 @@ module.exports = {
 					}
 				}
 			},
-			{ test: /\.jsx?$/, 
-				use : {
+			{
+				test: /\.jsx?$/,
+				use: {
 					loader: 'babel-loader'
 				},
-				exclude: /node_modules\/(?!(koa-cola)\/).*/,
+				exclude: /node_modules\/(?!(koa-cola)|(controller-decorators)\/).*/,
 			},
 
 			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
@@ -39,7 +40,9 @@ module.exports = {
 	},
 
 	plugins: [
+		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
 		new webpack.IgnorePlugin(/\.\/src\/app/),
+		new webpack.IgnorePlugin(/mongoose/),
 		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)
 	],
 	// When importing a module whose path matches one of the following, just

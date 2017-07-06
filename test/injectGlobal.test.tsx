@@ -50,7 +50,7 @@ describe('#koa-cola inject global', function () {
 
 		it('#inject view', async function () {
 			var SimplePage = app.pages.simple;
-			var wrapper = mount(<SimplePage  />, { attachTo: document.getElementById('container') });
+			var wrapper = mount(<SimplePage  />, { attachTo: document.getElementById('app') });
 			wrapper.find('#foo').node.should.be.ok;
 		});
 	});

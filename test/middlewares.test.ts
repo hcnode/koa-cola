@@ -21,8 +21,9 @@ describe('#koa-cola middleware', function() {
 	});
 	
 	after(function(done){
-		mongoose.disconnect(done)
+		delete global.app;
 		server.close();
+		mongoose.disconnect(done)
 	})
 
 	describe('#middleware', function() {

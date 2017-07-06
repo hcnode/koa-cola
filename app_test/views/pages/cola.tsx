@@ -8,7 +8,7 @@
 
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('koa-cola').Decorators.view;
+var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('../../../').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props{
     pepsi?: string

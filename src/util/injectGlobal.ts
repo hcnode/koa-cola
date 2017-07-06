@@ -44,33 +44,37 @@ export default function inject(colaApp?){
 	} catch (error) {
 		console.log(`mongoose not found`)
 	}
-	global.app = Object.assign(global.app,
-		// load controllers
-		{ controllers: reqDir(`${process.cwd()}/api/controllers`) },
-		// load models
-		{ models: reqDir(`${process.cwd()}/api/models`) },
-		// load policies
-		{ policies: reqDir(`${process.cwd()}/api/policies`) },
-		// load services
-		{ services: reqDir(`${process.cwd()}/api/services`) },
-		// load managers
-		{ managers: reqDir(`${process.cwd()}/api/managers`) },
-		// load middlewares
-		{ middlewares: reqDir(`${process.cwd()}/api/middlewares`) },
-		// load responses
-		{ responses: reqDir(`${process.cwd()}/api/responses`) },
-		// load pages
-		{ pages: reqDir(`${process.cwd()}/views/pages`) });
-	
+	// 百事模式，只使用传进来的colaApp作为app配置
+	if(colaApp && colaApp.mode == 'pepsi'){
+		Object.assign(global.app, colaApp);
+	}else{
+		global.app = Object.assign(global.app,
+			// load controllers
+			{ controllers: reqDir(`${process.cwd()}/api/controllers`) },
+			// load models
+			{ models: reqDir(`${process.cwd()}/api/models`) },
+			// load policies
+			{ policies: reqDir(`${process.cwd()}/api/policies`) },
+			// load services
+			{ services: reqDir(`${process.cwd()}/api/services`) },
+			// load managers
+			{ managers: reqDir(`${process.cwd()}/api/managers`) },
+			// load middlewares
+			{ middlewares: reqDir(`${process.cwd()}/api/middlewares`) },
+			// load responses
+			{ responses: reqDir(`${process.cwd()}/api/responses`) },
+			// load pages
+			{ pages: reqDir(`${process.cwd()}/views/pages`) });
+		if(colaApp){
+			Object.keys(colaApp).forEach(key => {
+				app[key] = app[key] || {};
+				Object.assign(app[key], colaApp[key]);
+			});
+		}
+	}
 	// 没有放到顶部import是因为需要启动时import
 	var logger = require('./logger').default;
 	global.app.logger = logger;
-	if(colaApp && colaApp.mode != 'coca'){
-		Object.keys(colaApp).forEach(key => {
-			app[key] = app[key] || {};
-			Object.assign(app[key], colaApp[key]);
-		});
-	}
 	var controllers = app.controllers
 	const routerRoutes = new Router();
 	var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
