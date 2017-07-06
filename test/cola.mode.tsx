@@ -90,8 +90,9 @@ describe('#koa-cola pepsi mode', function () {
 	});
 
 	after(function (done) {
-		mongoose.disconnect(done)
 		server.close();
+		delete global.app;
+		mongoose.disconnect(done)
 	})
 
 	describe('#cola mode', function () {
@@ -118,10 +119,10 @@ describe('#koa-cola pepsi mode', function () {
 		});
 		it('# view router && inject views', async function () {
 			var res = await request(server)
-				.get("/routerUse")
+				.get("/view")
 				.expect(200)
 				.toPromise();
-			res.text.should.be.equal('some state')
+			res.text.should.be.containEql('fooooo');
 		});
 	});
 });

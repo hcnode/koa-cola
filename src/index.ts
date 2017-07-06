@@ -38,6 +38,9 @@ import { reqDir } from './util/require';
  * 		},
  * 		pages : {
  * 			...
+ * 		},
+ * 		routers : {
+ * 			...
  * 		}
  * }
  * @param colaApp 
@@ -59,13 +62,8 @@ export default function (colaApp?) {
 		extensions: ['.css', '.less', '.scss']
 	});
 	// 注入全局变量
-	injectGlobal();
-	if(colaApp && colaApp.mode != 'coca'){
-		Object.keys(colaApp).forEach(key => {
-			app[key] = app[key] || {};
-			Object.assign(app[key], colaApp[key]);
-		});
-	}
+	var routerRoutes = injectGlobal(colaApp);
+	
 
 	var koaApp = new Koa();
 	// global.app.koaApp = koaApp
@@ -79,10 +77,13 @@ export default function (colaApp?) {
 			}
 		} catch (err) {
 			ctx.status = err.status || 500;
+			var env = process.env;
             try{
-				console.log(require('util').inspect(err));
+				if(env.NODE_ENV != 'test'){
+					console.log(require('util').inspect(err));
+				}
 			}catch(e){}
-            var env = process.env;
+            
             var message = err.message;
             if(err.status && !http.STATUS_CODES[err.status]){
                 message = require('statuses')[err.status] || 'unknow error'
@@ -131,7 +132,7 @@ export default function (colaApp?) {
 	}
 	// 加载中间件
 	mountMiddleware(koaApp)
-	// 以下开始自动router
+	/*// 以下开始自动router
 	var controllers = app.controllers
 	// var controllers = reqDir(`${process.cwd()}/api/controllers`);
 	const routerRoutes = new Router();
@@ -140,8 +141,7 @@ export default function (colaApp?) {
 		console.log(`router:${item.methods.join('-')}:  ${item.path}`)
 	}))
 	// 创建react router和react provider
-
-	createRouter(routers);
+	createRouter(routers);*/
 	// 必须在执行完bindRoutes后
 	koaApp.use(serverRouter);
 	// 在serverRouter后面，为了优先react router

@@ -1,8 +1,10 @@
 import { getConfig, getEnvironment } from './env'
 import { reqDir } from './require';
-
+import { bindRoutes } from 'controller-decorators';
 import decorators from './decorators'
-export default function inject(){
+import * as Router from 'koa-router';
+import createRouter from './createRouter'
+export default function inject(colaApp?){
     global.app = {};
 	/**
 	 * 配置目录结构依赖的格式
@@ -63,4 +65,19 @@ export default function inject(){
 	// 没有放到顶部import是因为需要启动时import
 	var logger = require('./logger').default;
 	global.app.logger = logger;
+	if(colaApp && colaApp.mode != 'coca'){
+		Object.keys(colaApp).forEach(key => {
+			app[key] = app[key] || {};
+			Object.assign(app[key], colaApp[key]);
+		});
+	}
+	var controllers = app.controllers
+	const routerRoutes = new Router();
+	var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
+	routerRoutes.stack.forEach((item => {
+		console.log(`router:${item.methods.join('-')}:  ${item.path}`)
+	}))
+	// 创建react router和react provider
+	createRouter(routers);
+	return routerRoutes;
 }

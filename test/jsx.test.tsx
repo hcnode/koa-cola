@@ -3,27 +3,9 @@ import * as should from 'should';
 import { shallow, mount, render } from 'enzyme';
 import Button from '../app_test/views/components/button'
 import Cola from '../app_test/views/pages/cola'
+import { initBrowser } from './util';
 
-function initBrowser() {
-    const { JSDOM } = require('jsdom');
-    const jsdom = new JSDOM('<!doctype html><html><body><div id="container"></div></body></html>');
-    const { window } = jsdom;
 
-    function copyProps(src, target) {
-        const props = Object.getOwnPropertyNames(src)
-            .filter(prop => typeof target[prop] === 'undefined')
-            .forEach(prop => {
-                Object.defineProperty(target, prop, Object.getOwnPropertyDescriptor(src, prop));
-            });
-    }
-
-    global.window = window;
-    global.document = window.document;
-    global.navigator = {
-        userAgent: 'node.js'
-    };
-    copyProps(window, global);
-}
 
 describe("#tsx component", function () {
     before(function (done) {

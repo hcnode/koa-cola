@@ -3,3 +3,23 @@ export function chdir(){
         process.chdir('./app_test');
     }
 }
+export function initBrowser() {
+    const { JSDOM } = require('jsdom');
+    const jsdom = new JSDOM('<!doctype html><html><body><div id="container"></div></body></html>');
+    const { window } = jsdom;
+
+    function copyProps(src, target) {
+        const props = Object.getOwnPropertyNames(src)
+            .filter(prop => typeof target[prop] === 'undefined')
+            .forEach(prop => {
+                Object.defineProperty(target, prop, Object.getOwnPropertyDescriptor(src, prop));
+            });
+    }
+
+    global.window = window;
+    global.document = window.document;
+    global.navigator = {
+        userAgent: 'node.js'
+    };
+    copyProps(window, global);
+}

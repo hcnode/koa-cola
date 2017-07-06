@@ -12,7 +12,7 @@ import { req } from '../util/require';
 import { shallow, mount, render } from 'enzyme';
 import setDom from '../util/render-cola';
 export default async (ctx, next) => {
-	var routes = req(`${process.cwd()}/views/routers`);
+	var routes = app.routers.router;
 	var layout = req(`${process.cwd()}/views/pages/layout`);
 	if(!routes){
 		console.log('${process.cwd()}/views/routers not found');

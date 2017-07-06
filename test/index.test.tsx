@@ -21,8 +21,9 @@ describe('#koa-cola', function() {
 		// });
 	});
 	after(function(done){
-		mongoose.disconnect(done);
 		server.close();
+		delete global.app;
+		mongoose.disconnect(done);
 	})
 	describe('#koa', function() {
 		it('#hello world', async function(){
