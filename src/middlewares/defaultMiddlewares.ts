@@ -9,11 +9,11 @@ export default  [
         name : 'koa-response-time',
         func : require('koa-response-time')
     },
-    {
+    fs.existsSync(`${process.cwd()}/public/favicon.ico`) ? {
         name : 'koa-favicon',
         func : require('koa-favicon'),
         args : require.resolve(`${process.cwd()}/public/favicon.ico`)
-    },
+    } : {...{}},
     {
         name : 'koa-etag',
         func : require('koa-etag')

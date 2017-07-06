@@ -53,6 +53,10 @@ export default function inject(){
 		{ services: reqDir(`${process.cwd()}/api/services`) },
 		// load managers
 		{ managers: reqDir(`${process.cwd()}/api/managers`) },
+		// load middlewares
+		{ middlewares: reqDir(`${process.cwd()}/api/middlewares`) },
+		// load responses
+		{ responses: reqDir(`${process.cwd()}/api/responses`) },
 		// load pages
 		{ pages: reqDir(`${process.cwd()}/views/pages`) });
 	

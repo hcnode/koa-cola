@@ -7,7 +7,7 @@ export default function createMiddleware(koaApp : Koa){
     Object.keys(middlewares).forEach(key => {
         if(middlewares[key]){
             try{
-                var module = req(`${process.cwd()}/api/middlewares/${key}`);
+                var module = app.middlewares[key];
                 var middleware : Koa.Middleware = module.default || module;
                 customMiddlewares.push({
                     name : key,

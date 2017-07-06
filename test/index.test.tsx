@@ -257,9 +257,9 @@ describe('#koa-cola', function() {
                 .toPromise();
 			res.text.should.be.equal('diabled');
 		});
-		it('#test bootstrap config', async function(){
-			app.koaApp.proxy.should.be.equal(true);
-		});
+		// it('#test bootstrap config', async function(){
+		// 	app.koaApp.proxy.should.be.equal(true);
+		// });
 	});
 	describe('#services and managers', function() {
 		it('#say hi', async function(){

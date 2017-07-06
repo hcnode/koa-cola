@@ -36,9 +36,6 @@ import { reqDir } from './util/require';
  * 		models : {
  * 			...
  * 		},
- * 		responses : {
- * 			...
- * 		},
  * 		pages : {
  * 			...
  * 		}
@@ -63,13 +60,15 @@ export default function (colaApp?) {
 	});
 	// 注入全局变量
 	injectGlobal();
-	if(colaApp){
+	if(colaApp && colaApp.mode != 'coca'){
 		Object.keys(colaApp).forEach(key => {
+			app[key] = app[key] || {};
 			Object.assign(app[key], colaApp[key]);
 		});
 	}
+
 	var koaApp = new Koa();
-	global.app.koaApp = koaApp
+	// global.app.koaApp = koaApp
 	// handle error, including 404
 	// https://github.com/koajs/examples/issues/20
 	koaApp.use(async function (ctx, next) {
@@ -133,8 +132,8 @@ export default function (colaApp?) {
 	// 加载中间件
 	mountMiddleware(koaApp)
 	// 以下开始自动router
-	// var controllers = app.controllers
-	var controllers = reqDir(`${process.cwd()}/api/controllers`);
+	var controllers = app.controllers
+	// var controllers = reqDir(`${process.cwd()}/api/controllers`);
 	const routerRoutes = new Router();
 	var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
 	routerRoutes.stack.forEach((item => {

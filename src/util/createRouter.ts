@@ -17,8 +17,11 @@ export function createRouter(routers){
         }).join('\n    ')}
     </Router>
     `
-    fs.writeFileSync(`${process.cwd()}/views/routers.tsx`, code);
-    return code;
+    try {
+        fs.writeFileSync(`${process.cwd()}/views/routers.tsx`, code);
+    } catch (err) {
+        console.log(`router path not found : ${process.cwd()}/views/routers.tsx`)
+    }
 }
 
 export function createProvider(routers){
@@ -47,5 +50,9 @@ export function createProvider(routers){
         </Provider>
     }
     `
-    fs.writeFileSync(`${process.cwd()}/views/provider.tsx`, code);
+    try {
+        fs.writeFileSync(`${process.cwd()}/views/provider.tsx`, code);    
+    } catch (err) {
+        console.log(`router path not found : ${process.cwd()}/views/provider.tsx`)
+    }
 }
