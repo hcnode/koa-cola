@@ -10,3 +10,9 @@ try {
 }
 catch (e) { }
 exports.RunApp = run;
+try {
+    var injectGlobal = require('./src/util/injectGlobal');
+}
+catch (e) { }
+var createRouter_1 = require("./src/util/createRouter");
+exports.createProvider = createRouter_1.createProvider;

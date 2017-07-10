@@ -11,8 +11,12 @@ const redux_1 = require("redux");
 const serialize = require("serialize-javascript");
 const require_1 = require("../util/require");
 exports.default = async (ctx, next) => {
-    var routes = require_1.req(`${process.cwd()}/views/routers`);
+    var routes = app.routers.router;
     var layout = require_1.req(`${process.cwd()}/views/pages/layout`);
+    if (!routes) {
+        console.log('${process.cwd()}/views/routers not found');
+        return await next();
+    }
     const store = redux_1.createStore(redux_1.combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
@@ -65,9 +69,14 @@ exports.default = async (ctx, next) => {
                             console.log(error)
                         }
                     }else{*/
-                    const appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
+                    var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
                         React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
-                    var html = layout(appHTML, store);
+                    if (layout) {
+                        appHTML = layout(appHTML, store);
+                    }
+                    else {
+                        console.log(`${process.cwd()}/views/pages/layout nor found`);
+                    }
                     // var prefix = app.config.prefix || '';
                     // var staticPath = app.config.staticPath;
                     // var publicPath = process.cwd() + '/public';
@@ -79,13 +88,13 @@ exports.default = async (ctx, next) => {
 							</html>
 						`;
                     // <script src="${process.env.NODE_ENV == 'production' && staticPath ? staticPath : prefix}/bundle.js"></script>
-                    if (/<\/html\>/ig.test(html)) {
-                        html = html.replace(/<\/html\>/ig, injectHtml);
+                    if (/<\/html\>/ig.test(appHTML)) {
+                        appHTML = appHTML.replace(/<\/html\>/ig, injectHtml);
                     }
                     else {
-                        html += injectHtml;
+                        appHTML += injectHtml;
                     }
-                    ctx.body = html;
+                    ctx.body = appHTML;
                     resolve();
                     // }
                 });

@@ -17,7 +17,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceRoot}/test"
+                "${workspaceRoot}/test/webpack.test.tsx"
             ],
             "env": {
                 "NODE_ENV":"test"

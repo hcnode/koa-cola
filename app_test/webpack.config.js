@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+
 module.exports = {
 	entry: ['babel-polyfill', './views/app.tsx'],
 	output: {
@@ -42,7 +43,10 @@ module.exports = {
 	plugins: [
 		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
 		new webpack.IgnorePlugin(/\.\/src\/app/),
-		new webpack.IgnorePlugin(/mongoose/),
+		// new webpack.IgnorePlugin(/mongoose$/),
+		new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
+		new webpack.IgnorePlugin(/koa$/),
+		new webpack.IgnorePlugin(/koa-body$/),
 		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)
 	],
 	// When importing a module whose path matches one of the following, just

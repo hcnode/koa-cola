@@ -1,10 +1,15 @@
 // import { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } from 'controller-decorators';
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = app.decorators.controller;
-import * as Koa from 'koa';
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../../../dist').Decorators.controller;
 import Ok from '../responses/ok';
 import isLogin from '../policies/isLogin';
 import setUser from '../middlewares/setUser';
-import * as koaBody from 'koa-body';
+var Koa, koaBody = function(arg){}
+try {
+    Koa = require('koa');
+    koaBody = require('koa-body');
+} catch (err) {
+    
+}
 
 @Controller('')
 export default class  {
@@ -23,7 +28,7 @@ export default class  {
     getView2 ( ) {}
 
     @Get('/injectCtx')
-    injectCtx (@Ctx() ctx : Koa.Context) {
+    injectCtx (@Ctx() ctx ) {
         ctx.response.status = 201;
         ctx.body = 'injectCtx';
     }
@@ -54,30 +59,30 @@ export default class  {
     }
 
     @Get('/500')
-    get500 (@Ctx() ctx : Koa.Context) {
+    get500 (@Ctx() ctx ) {
         ctx.throw(500);
     }
 
     @Get('/notLogin')
     @Use(isLogin)
-    notLogin (@Ctx() ctx : Koa.Context) {
+    notLogin (@Ctx() ctx ) {
         return 'logined.'
     }
 
     @Get('/isLogin')
     @Use(setUser)
     @Use(isLogin)
-    isLogin (@Ctx() ctx : Koa.Context) {
+    isLogin (@Ctx() ctx ) {
         return 'logined.'
     }
 
     @Get('/session')
-    session (@Ctx() ctx : Koa.Context) {
+    session (@Ctx() ctx ) {
         return ctx.session.count;
     }
 
     @Get('/testConfigOverride')
-    testConfigOverride (@Ctx() ctx : Koa.Context) {
+    testConfigOverride (@Ctx() ctx ) {
         return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
     }
     @Post('/compose')
@@ -87,7 +92,7 @@ export default class  {
 
 
     @Get('/serverCallApi')
-    serverCallApi (@Ctx() ctx : Koa.Context) {
+    serverCallApi (@Ctx() ctx ) {
         return ctx.cookies.get('server_call_cookie') || 'hello';
     }
 }

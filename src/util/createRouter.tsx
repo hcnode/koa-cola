@@ -1,5 +1,3 @@
-import * as fs from 'fs'
-
 import * as React from 'react';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
@@ -13,21 +11,45 @@ export default function createRouter(routers) {
     app.routers = app.routers || {};
     app.routers.router = app.routers.router || <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
         {routers.map(router => {
-            return <Route path={router.path} component={app.pages[router.component]}/>
+            return <Route path={router.path} component={app.pages[router.component]} />
         })}
     </Router>
+}
 
-    var reducers = routers.map(router => {
-        return app.pages[router.component]._reducer || {};
+export function createProvider(controllers, views) {
+    var reactRouters = [];
+    const ROUTE_PREFIX = '$routes'
+    for (const ctrl of controllers) {
+        var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        if (routes) {
+            ctrl[ROUTE_PREFIX] = routes;
+        }
+        else {
+            routes = ctrl[ROUTE_PREFIX];
+        }
+        for (const { method, url, middleware, name, params, view, response } of routes) {
+            if (view) {
+                reactRouters.push({
+                    component: views && views[view] ? views[view] : view, path: url
+                });
+            }
+        }
+    }
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
+    var reducers = reactRouters.map(router => {
+        // return app.pages[router.component]._reducer || {};
+        return router.component._reducer || {};
     });
-
-    if(typeof window != 'undefined'){
-        const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), (window as any).__data);
-        app.routers.provider = app.routers.provider || <Provider store={store} key="provider">
+    const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), (window as any).__data);
+    return function(){
+        return <Provider store={store} key="provider">
             <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
-                {routers.map(router => {
-                    return <Route path={router.path} component={app.pages[router.component]}/>
-                })}
+                {
+                    reactRouters.map(router => {
+                        var component = router.component;
+                        return <Route path={router.path} component={component} />
+                    })
+                }
             </Router>
         </Provider>
     }

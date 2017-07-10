@@ -1,55 +1,48 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
-function default_1(routers) {
-    createRouter(routers);
-    createProvider(routers);
-}
-exports.default = default_1;
+const React = require("react");
+const react_router_1 = require("react-router");
+const redux_1 = require("redux");
+const react_redux_1 = require("react-redux");
 function createRouter(routers) {
-    var code = `
-    /**
-     * 此router代码由程序自动生成
-     */
-    import * as React from 'react';
-    import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = app.decorators.view;
-    export default <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
-        ${routers.map(router => {
-        return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`;
-    }).join('\n    ')}
-    </Router>
-    `;
-    fs.writeFileSync(`${process.cwd()}/views/routers.tsx`, code);
-    return code;
+    var { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
+    app.routers = app.routers || {};
+    app.routers.router = app.routers.router || React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
+        return React.createElement(react_router_1.Route, { path: router.path, component: app.pages[router.component] });
+    }));
 }
-exports.createRouter = createRouter;
-function createProvider(routers) {
-    var code = `
-    /**
-     * 此router代码由程序自动生成
-     */
-    import * as React from 'react';
-    import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-    var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require("koa-cola").Decorators.view;
-    import { createStore, combineReducers } from 'redux';
-    import { render } from 'react-dom'
-    import { Provider } from 'react-redux'
-    export default () => {
-        var reducers = Object.assign({}${routers.map(router => {
-        return `, (require('./pages/${router.component}').default._reducer || {})`;
-    }).join('')});
-        
-        const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect : reducer}, reducers)), (window as any).__data);
-        return <Provider store={store} key="provider">
-        <Router render={(props) => <ReduxAsyncConnect {...props}/>} history={browserHistory}>
-            ${routers.map(router => {
-        return `<Route path="${router.path}" component={require('./pages/${router.component}').default}/>`;
-    }).join('\n    ')}
-        </Router>
-        </Provider>
+exports.default = createRouter;
+function createProvider(controllers, views) {
+    var reactRouters = [];
+    const ROUTE_PREFIX = '$routes';
+    for (const ctrl of controllers) {
+        var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        if (routes) {
+            ctrl[ROUTE_PREFIX] = routes;
+        }
+        else {
+            routes = ctrl[ROUTE_PREFIX];
+        }
+        for (const { method, url, middleware, name, params, view, response } of routes) {
+            if (view) {
+                reactRouters.push({
+                    component: views && views[view] ? views[view] : view, path: url
+                });
+            }
+        }
     }
-    `;
-    fs.writeFileSync(`${process.cwd()}/views/provider.tsx`, code);
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
+    var reducers = reactRouters.map(router => {
+        // return app.pages[router.component]._reducer || {};
+        return router.component._reducer || {};
+    });
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data);
+    return function () {
+        return React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
+            React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {
+                var component = router.component;
+                return React.createElement(react_router_1.Route, { path: router.path, component: component });
+            })));
+    };
 }
 exports.createProvider = createProvider;

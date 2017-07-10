@@ -7,11 +7,12 @@ function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
     // however this is not a guarantee
     ctx.status = status || 500;
     ctx.type = 'html';
-    try {
-        var ErrorPage = require(`${process.cwd()}/views/pages/${status}`).default;
+    // var ErrorPage = require(`${process.cwd()}/views/pages/${status}`).default;
+    var ErrorPage = app.pages[status];
+    if (ErrorPage) {
         ctx.body = server_1.renderToString(React.createElement(ErrorPage, Object.assign({}, arguments[0])));
     }
-    catch (err) {
+    else {
         if (process.env.NODE_ENV == 'production') {
             ctx.body = error;
         }

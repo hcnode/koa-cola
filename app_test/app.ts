@@ -1,3 +1,2 @@
-import { RunApp } from 'koa-cola'
-
+var { RunApp } = require('../dist')
 RunApp();

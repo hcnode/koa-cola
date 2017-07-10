@@ -80,6 +80,9 @@ class App extends React.Component<Props, States>   {
         cola : ''
       }
   }
+  componentDidMount() {
+    document.getElementById('testWebpack').innerHTML = 'testWebpack did mount'
+  }
   render() {
     var result =  <div>
       <div><h2>koa-cola</h2></div>
@@ -97,7 +100,8 @@ class App extends React.Component<Props, States>   {
       }}>setState</button>
       <button id="btn4" onClick={() => {
         this.props.ajax()
-      }}>setState</button>
+      }}>serverCall</button>
+      <button id="testWebpack" >testWebpack</button>
       <div>{this.props.serverCallResult}</div>
     </div>
     return result;

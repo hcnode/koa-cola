@@ -160,7 +160,7 @@ export default function (colaApp?) {
 	try {
 		require(`${process.cwd()}/config/bootstrap`)(koaApp);
 	} catch (error) { }
-	const port = process.env.PORT || app.config.port;
+	const port = process.env.PORT || app.config.port || 5555;
 	return koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
 }
 

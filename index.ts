@@ -4,3 +4,7 @@ try{
     var { run } = require('./src/app');
 }catch(e){}
 export const RunApp = run;
+try{
+    var injectGlobal = require('./src/util/injectGlobal');
+}catch(e){}
+export { createProvider } from './src/util/createRouter';

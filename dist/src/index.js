@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Koa = require("koa");
 const chalk = require("chalk");
-const Router = require("koa-router");
 const http = require("http");
 // import sessionRedis = require('koa-generic-session');
 // import redisStore = require('koa-redis');
@@ -13,13 +12,34 @@ const session = require("koa-session");
 const createSchemaTypes_1 = require("./util/createSchemaTypes");
 const mountMiddleware_1 = require("./middlewares/mountMiddleware");
 const serverRouter_1 = require("./middlewares/serverRouter");
-const controller_decorators_1 = require("controller-decorators");
-const env_1 = require("./util/env");
 const createErrorPage_1 = require("./util/createErrorPage");
-const require_1 = require("./util/require");
-const decorators_1 = require("./util/decorators");
-function default_1() {
-    var logger = require('./util/logger').default;
+const injectGlobal_1 = require("./util/injectGlobal");
+/**
+ * colaApp 参数，可以作为可选的注入方式覆盖app的文件配置，module替换
+ *
+ * {
+ * 		config : {
+ * 			foo : 'hello world' // 将会替换app.config.foo
+ * 		},
+ * 		controllers : {
+ * 			FooController :  // 替换api/controllers/FooController.ts
+ * 		},
+ * 		middlewares : {
+ * 			...
+ * 		},
+ * 		models : {
+ * 			...
+ * 		},
+ * 		pages : {
+ * 			...
+ * 		},
+ * 		routers : {
+ * 			...
+ * 		}
+ * }
+ * @param colaApp
+ */
+function default_1(colaApp) {
     // add require css hook 否则使用ts-node启动有import css的ts文件会出错
     // 预处理的方式是直接删除，因为node里面正常情况下不需要使用import的css，而是由webpack处理
     const hook = require('css-modules-require-hook');
@@ -34,37 +54,10 @@ function default_1() {
         },
         extensions: ['.css', '.less', '.scss']
     });
-    var appConfig = env_1.getConfig();
+    // 注入全局变量
+    var routerRoutes = injectGlobal_1.default(colaApp);
     var koaApp = new Koa();
-    global.app = {};
-    global.app.config = appConfig;
-    if (global.globalConfig) {
-        global.app.config = Object.assign(global.app.config, global.globalConfig);
-    }
-    const port = process.env.PORT || appConfig.port;
-    // inject some decorators
-    global.app.decorators = decorators_1.default;
-    // load 全局对象
-    try {
-        var mongoose = require(`mongoose`);
-        mongoose.Promise = global.Promise;
-        global.app.mongoose = mongoose;
-    }
-    catch (error) {
-        console.log(`mongoose not found`);
-        // global.app.mongoose = require('mongoose');
-    }
-    global.app = Object.assign(global.app, 
-    // load models
-    { models: require_1.reqDir(`${process.cwd()}/api/models`) }, 
-    // load policies
-    { policies: require_1.reqDir(`${process.cwd()}/api/policies`) }, 
-    // load services
-    { services: require_1.reqDir(`${process.cwd()}/api/services`) }, 
-    // load managers
-    { managers: require_1.reqDir(`${process.cwd()}/api/managers`) });
-    global.app.logger = logger;
-    global.app.koaApp = koaApp;
+    // global.app.koaApp = koaApp
     // handle error, including 404
     // https://github.com/koajs/examples/issues/20
     koaApp.use(async function (ctx, next) {
@@ -76,11 +69,13 @@ function default_1() {
         }
         catch (err) {
             ctx.status = err.status || 500;
+            var env = process.env;
             try {
-                console.log(require('util').inspect(err));
+                if (env.NODE_ENV != 'test') {
+                    console.log(require('util').inspect(err));
+                }
             }
             catch (e) { }
-            var env = process.env;
             var message = err.message;
             if (err.status && !http.STATUS_CODES[err.status]) {
                 message = require('statuses')[err.status] || 'unknow error';
@@ -115,7 +110,6 @@ function default_1() {
         }
     });
     koaApp.keys = ['iTIssEcret'];
-    session;
     if (app.config.session) {
         // redis session
         if (app.config.session.host) {
@@ -130,15 +124,16 @@ function default_1() {
     }
     // 加载中间件
     mountMiddleware_1.default(koaApp);
-    // 以下开始自动router
-    var controllers = require_1.reqDir(`${process.cwd()}/api/controllers`);
+    /*// 以下开始自动router
+    var controllers = app.controllers
+    // var controllers = reqDir(`${process.cwd()}/api/controllers`);
     const routerRoutes = new Router();
-    var routers = controller_decorators_1.bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
+    var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
     routerRoutes.stack.forEach((item => {
-        console.log(`router:${item.methods.join('-')}:  ${item.path}`);
-    }));
+        console.log(`router:${item.methods.join('-')}:  ${item.path}`)
+    }))
     // 创建react router和react provider
-    // createRouter(routers);
+    createRouter(routers);*/
     // 必须在执行完bindRoutes后
     koaApp.use(serverRouter_1.default);
     // 在serverRouter后面，为了优先react router
@@ -157,6 +152,7 @@ function default_1() {
         require(`${process.cwd()}/config/bootstrap`)(koaApp);
     }
     catch (error) { }
+    const port = process.env.PORT || app.config.port || 5555;
     return koaApp.listen(port, () => console.log(chalk.white.bgBlue(`Listening on port ${port}`)));
 }
 exports.default = default_1;

@@ -7,7 +7,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
+    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register test/webpack.test.tsx",
     "watch": "mocha-typescript-watch",
     "build": "tsc -p compile"
   },

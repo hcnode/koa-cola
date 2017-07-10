@@ -4,6 +4,7 @@ import { bindRoutes } from 'controller-decorators';
 import decorators from './decorators'
 import * as Router from 'koa-router';
 import createRouter from './createRouter'
+import * as fs from 'fs'
 export default function inject(colaApp?){
     global.app = {};
 	/**
@@ -81,6 +82,7 @@ export default function inject(colaApp?){
 	routerRoutes.stack.forEach((item => {
 		console.log(`router:${item.methods.join('-')}:  ${item.path}`)
 	}))
+	fs.writeFileSync(`${process.cwd()}/routers.json`, JSON.stringify(routers, null, '/t'));
 	// 创建react router和react provider
 	createRouter(routers);
 	return routerRoutes;
