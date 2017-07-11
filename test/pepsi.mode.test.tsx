@@ -74,9 +74,6 @@ describe('#koa-cola pepsi mode', function () {
 			}
 			/*models : {
 				...
-			},
-			pages : {
-				...
 			}*/
 		});
 		mongoose = app.mongoose;

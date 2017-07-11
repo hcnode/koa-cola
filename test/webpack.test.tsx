@@ -18,11 +18,11 @@ describe('#koa-cola webpack', function () {
 		mongoose = app.mongoose;
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
-		mockgoose.prepareStorage().then(function () {
-			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function (err) {
-				done(err);
-			});
+		// mockgoose.prepareStorage().then(function () {
+		app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function (err) {
+			done(err);
 		});
+		// });
 	});
 
 	after(function (done) {
@@ -30,46 +30,40 @@ describe('#koa-cola webpack', function () {
 		done();
 	})
 	describe('#', function () {
-		/*it('#build bundle', function (done) {
+		it('#build bundle', function (done) {
 			var config = require(`${process.cwd()}/webpack.config`);
 			webpack(config, (err, stats) => {
 				if (err || stats.hasErrors()) {
 					throw (new Error('webpack build error'))
 				}
-				// Done processing
 				done();
 			});
-		});*/
-		it('#load bundle', async function (done) {
-			// var res = await request(server)
-			//     .get("/")
-			//     .expect(200)
-			//     .toPromise();
+		});
+		it('#load view and test client side react component', async function (done) {
 
 			const { JSDOM } = require('jsdom');
 			const virtualConsole = new (require('jsdom').VirtualConsole)();
-			virtualConsole.sendTo(console);
 			var dom = await JSDOM.fromURL(`http://127.0.0.1:${app.config.port}/cola`, {
-				virtualConsole : virtualConsole.sendTo(console),
+				virtualConsole: virtualConsole.sendTo(console),
 				runScripts: "dangerously",
 				features: {
-					FetchExternalResources : ["script"],
+					FetchExternalResources: ["script"],
 					ProcessExternalResources: ["script"]
 				},
 				resources: "usable",
-				/*resourceLoader: function (resource, callback) {
-					if (resource.url.href.startsWith("/bundle.js")) {
-						callback(null, fs.readFileSync(`${process.cwd()}/public/bundle.js`, "utf-8"))
-					} else {
-						resource.defaultFetch(callback)
-					}
-				}*/
 			})
 			const { window } = dom;
 			const document = window.document;
+			var pepsi2 = require(`${process.cwd()}/views/pages/cola`).pepsi2;
 			window.onload = () => {
-				document.getElementById('btn2').click();
-				console.log(document.getElementById('pepsi').innerHTML);
+				setTimeout(() => {
+					document.getElementById('dataFromServer').innerHTML.should.be.equal('hello')
+					document.getElementById('btn2').click();
+					should(document.getElementById('pepsi').innerHTML).be.equal(pepsi2);
+					document.getElementById('btn3').click();
+					should(document.getElementById('cola').innerHTML).be.equal('wow');
+					done();
+				}, 1000);
 			}
 		});
 	});

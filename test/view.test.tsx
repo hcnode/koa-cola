@@ -1,25 +1,27 @@
 import * as React from 'react';
 import * as should from 'should';
 import { shallow, mount, render } from 'enzyme';
-import Button from '../app_test/views/components/button'
-import Cola from '../app_test/views/pages/cola'
-import { initBrowser } from './util';
+import { initBrowser, chdir } from './util';
+var { createProvider } = require('../dist');
 
 
 
 describe("#tsx component", function () {
     before(function (done) {
+        chdir();
         initBrowser()
         done();
     });
 
-	after(function (done) {
-		delete global.app;
+    after(function (done) {
+        delete global.app;
         done();
-	})
+    })
     it("button", function () {
         var click = false;
-        var wrapper = mount(<Button text="xxx" onClick={() => {
+
+        var CustomButton = require(`${process.cwd()}/views/components/button`).default;
+        var wrapper = mount(<CustomButton text="xxx" onClick={() => {
             click = true;
         }} />, { attachTo: document.getElementById('app') });
 
@@ -31,6 +33,5 @@ describe("#tsx component", function () {
         should(click).be.equal(true);
         wrapper.detach();
     });
-
 
 });

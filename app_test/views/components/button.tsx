@@ -6,7 +6,7 @@ interface Props {
 interface States {
     isMounted?: boolean
 }
-class Button extends React.Component<Props, States>   {
+class CustomButton extends React.Component<Props, States>   {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -29,4 +29,4 @@ class Button extends React.Component<Props, States>   {
     }
 };
 
-export default Button
+export default CustomButton

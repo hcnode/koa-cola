@@ -7,7 +7,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register test/webpack.test.tsx",
+    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "watch": "mocha-typescript-watch",
     "build": "tsc -p compile"
   },
@@ -36,7 +36,7 @@
     "css-modules-require-hook": "^4.0.6",
     "dotenv": "^2.0.0",
     "eslint": "^3.19.0",
-    "history": "^4.6.3",
+    "history": "^3.0.0",
     "js-beautify": "^1.6.14",
     "jsdom": "^11.0.0",
     "koa": "^2.2.0",
@@ -89,6 +89,7 @@
     "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.6.0",
+    "react-router-test-context": "^0.1.0",
     "should": "^11.2.1",
     "source-map-loader": "^0.2.1",
     "source-map-support": "^0.4.15",
