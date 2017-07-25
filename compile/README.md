@@ -1,0 +1,1 @@
+此目录的tsconfig.json 是用来build ts命令用的，通过在package.json的scripts里面配置build命令

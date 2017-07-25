@@ -1,3 +1,6 @@
+/**
+ * 使用jsdom模拟浏览器的dom在node环境
+ */
 import * as React from 'react';
 const { JSDOM } = require('jsdom');
 export default function setDom(html) {

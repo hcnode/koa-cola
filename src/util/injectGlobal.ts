@@ -1,3 +1,7 @@
+/**
+ * 全局变量注入，启动时，koa-cola读取所依赖的的api相关对象都将读取app.xxx，而不是读基于文件的对象
+ */
+
 import { getConfig, getEnvironment } from './env'
 import { reqDir } from './require';
 import { bindRoutes } from 'controller-decorators';

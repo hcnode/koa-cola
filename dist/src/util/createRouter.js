@@ -1,9 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 创建react路由
+ * node端创建Router对象
+ * 浏览器端则创建provider对象
+ */
 const React = require("react");
 const react_router_1 = require("react-router");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
+/**
+ * 创建node端react路由并保存在全局app.routers.router
+ * @param routers
+ */
 function createRouter(routers) {
     var { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
@@ -12,12 +21,27 @@ function createRouter(routers) {
     }));
 }
 exports.default = createRouter;
+/**
+ * 参考 app_test/views/app.tsx :
+ *
+ * var Provider = createProvider([
+        require('../api/controllers/IndexController').default
+    ],{
+        cola : require('./pages/cola').default,
+        simple : require('./pages/simple').default,
+    });
+
+    render(<Provider />, document.getElementById('app'))
+
+ * @param controllers controller数组
+ * @param views react page页面数组
+ */
 function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes';
     for (const ctrl of controllers) {
         try {
-            var Reflect = require('reflect-metadata');
+            require('reflect-metadata');
             var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
         }
         catch (error) { }
@@ -27,19 +51,22 @@ function createProvider(controllers, views) {
         else {
             routes = ctrl[ROUTE_PREFIX];
         }
+        // 保存react-router所需要的component和path
         for (const { method, url, middleware, name, params, view, response } of routes) {
             if (view) {
                 reactRouters.push({
-                    component: views && views[view] ? views[view] : view, path: url
+                    component: views && views[view] ? views[view] : view,
+                    path: url
                 });
             }
         }
     }
     var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
+    // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.map(router => {
-        // return app.pages[router.component]._reducer || {};
         return router.component._reducer || {};
     });
+    // 合并reducer，并使用页面的__data作为初始化数据
     const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data);
     return function () {
         return React.createElement(react_redux_1.Provider, { store: store, key: "provider" },

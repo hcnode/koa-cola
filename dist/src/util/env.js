@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 获取当前环境，和当前配置
+ */
 const require_1 = require("./require");
 const fs = require("fs");
 function getEnvironment() {
@@ -9,6 +12,8 @@ function getEnvironment() {
 exports.getEnvironment = getEnvironment;
 function getConfig() {
     try {
+        // config目录下的配置，可视为通用的配置
+        // config/env/环境/ 下的配置，将覆盖通用的配置
         var configPath = `${process.cwd()}/config`;
         var envPath = `${process.cwd()}/config/env/${getEnvironment()}.js`;
         if (!fs.existsSync(configPath)) {
@@ -23,6 +28,7 @@ function getConfig() {
             env = require(envPath);
             Object.keys(env).forEach(key => {
                 var isFunc = typeof env[key] == 'function';
+                // 如果有key是function
                 if (isFunc) {
                     env[key] = env[key](defConfig[key]);
                 }

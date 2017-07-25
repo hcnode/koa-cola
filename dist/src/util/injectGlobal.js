@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * 全局变量注入，启动时，koa-cola读取所依赖的的api相关对象都将读取app.xxx，而不是读基于文件的对象
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 const env_1 = require("./env");
 const require_1 = require("./require");

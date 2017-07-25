@@ -1,3 +1,6 @@
+/**
+ * 获取当前环境，和当前配置
+ */
 import { reqDir } from './require';
 import * as fs from 'fs'
 export function getEnvironment() {
@@ -6,6 +9,8 @@ export function getEnvironment() {
 }
 export function getConfig() {
 	try {
+		// config目录下的配置，可视为通用的配置
+		// config/env/环境/ 下的配置，将覆盖通用的配置
 		var configPath = `${process.cwd()}/config`;
 		var envPath = `${process.cwd()}/config/env/${getEnvironment()}.js`;
 		if (!fs.existsSync(configPath)) {
@@ -20,6 +25,7 @@ export function getConfig() {
 			env = require(envPath);
 			Object.keys(env).forEach(key => {
 				var isFunc = typeof env[key] == 'function';
+				// 如果有key是function
 				if (isFunc) {
 					env[key] = env[key](defConfig[key]);
 				}

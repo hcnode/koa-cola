@@ -1,3 +1,8 @@
+/**
+ * 加载中间件
+ * 包括默认的中间件和自定义中间件
+ */
+
 import * as Koa from 'koa';
 import { req } from '../util/require';
 export default function createMiddleware(koaApp : Koa){
@@ -20,8 +25,10 @@ export default function createMiddleware(koaApp : Koa){
             defaultMiddlewares = defaultMiddlewares.filter(item => item.name != key)
         }
     });
+    // 合并中间件
     var combineMiddlewares = defaultMiddlewares.concat(customMiddlewares);
     var keys = combineMiddlewares.map(item => item.name);
+    // 排序
     if(app.config.sort){
         keys = app.config.sort(keys);
     }

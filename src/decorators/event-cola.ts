@@ -1,3 +1,6 @@
+/**
+ * 使用EventCola装饰器实现支持低版本不支持reactjs的浏览器，试验性质，还没有想到完美的方案
+ */
 import 'reflect-metadata';
 import * as React from 'react';
 const EVENT_PREFIX = "#EVENT_PREFIX";

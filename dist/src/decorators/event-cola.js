@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 使用EventCola装饰器实现支持低版本不支持reactjs的浏览器，试验性质，还没有想到完美的方案
+ */
 require("reflect-metadata");
 const React = require("react");
 const EVENT_PREFIX = "#EVENT_PREFIX";

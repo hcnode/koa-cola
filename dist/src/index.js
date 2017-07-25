@@ -124,20 +124,12 @@ function default_1(colaApp) {
     }
     // 加载中间件
     mountMiddleware_1.default(koaApp);
-    /*// 以下开始自动router
-    var controllers = app.controllers
-    // var controllers = reqDir(`${process.cwd()}/api/controllers`);
-    const routerRoutes = new Router();
-    var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
-    routerRoutes.stack.forEach((item => {
-        console.log(`router:${item.methods.join('-')}:  ${item.path}`)
-    }))
-    // 创建react router和react provider
-    createRouter(routers);*/
+    // 加载路由
     koaApp.use(routerRoutes.routes());
     koaApp.use(routerRoutes.allowedMethods());
+    // 加载react路由
     koaApp.use(serverRouter_1.default);
-    // create schema types
+    // create schema types，生成typings/schema.ts
     createSchemaTypes_1.default();
     // error emit
     koaApp.on('error', function (err) {
@@ -145,12 +137,12 @@ function default_1(colaApp) {
             // TODO
         }
     });
-    // app bootstrap config
+    // 调用config配置里面的boostrap
     try {
         require(`${process.cwd()}/config/bootstrap`)(koaApp);
     }
     catch (error) { }
     const port = process.env.PORT || app.config.port || 5555;
-    return koaApp.listen(port, () => console.log(chalk.blue(`Listening on port ${port}`)));
+    return koaApp.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
 }
 exports.default = default_1;

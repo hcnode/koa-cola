@@ -10,14 +10,18 @@ program
 	.version('0.1.7')
 	.option('-n, --new [name]', 'new koa-cola project')
 	.parse(process.argv);
-
+/**
+ * 使用命令新建koa-cola项目，自动创建模版文件，并自动安装依赖，自动运行
+ * koa-cola --new app
+ */
 if (program.new) {
 	var name = program.new;
 	var projectPath = path.join(process.cwd(), name);
 	var templatePath = path.join(__dirname, '../', 'template');
 	if(fs.existsSync(projectPath)){
-		console.log('project exists : ' + projectPath);
+		console.log(chalk.red('project exists : ' + projectPath));
 	}else{
+		// copy boilerplate project
 		shell.cp('-R', templatePath, projectPath);
 		// fs.copySync(templatePath, projectPath);
 		console.log(chalk.green(`project ${name} created.`));

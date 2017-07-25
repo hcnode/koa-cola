@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 启动文件
+ */
 const index_1 = require("./index");
 var server;
-// run();
 function run() {
     if (server) {
         server.close();

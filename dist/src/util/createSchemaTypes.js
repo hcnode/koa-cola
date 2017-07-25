@@ -1,5 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 创建基于mongoose的mongodb数据库的实体类typing，并保存在typings/schema.ts，生成的文件可参考：app_test/typings/schema.ts
+ * 目的可以和api.ts结合使用，通过api对象获取result属性，并通过vscode的intellisense可以自动识别实体类和对应的字段
+ * 可参考app_test/api.ts
+ */
 const path = require("path");
 const require_1 = require("./require");
 const fs = require("fs");

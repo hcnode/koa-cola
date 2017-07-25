@@ -32,6 +32,7 @@
             true,
             "spaces"
         ],
+        "import-sources-order" : "any",
         "no-eval": true,
         "no-internal-module": true,
         "no-trailing-whitespace": true,
@@ -43,7 +44,7 @@
         ],
         "quotemark": [
             true,
-            "double"
+            "single"
         ],
         "semicolon": [
             true,

@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * default middlewares of koa
- * these middleware can be enabled or disabled or change arguments in app.config.middlewares
- * and be sorted in app.config.sort
+ * koa-cola默认中间件，这些中间件可以通过app.config.middlewares启用或者禁用，也可以修改参数
+ * 并可以通过配置app.config.sort进行排序
  */
 const fs = require("fs");
 exports.default = [
