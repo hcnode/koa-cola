@@ -7,7 +7,7 @@ var shell = require('shelljs');
 var chalk = require('chalk');
 
 program
-	.version('0.1.6')
+	.version('0.1.7')
 	.option('-n, --new [name]', 'new koa-cola project')
 	.parse(process.argv);
 
@@ -20,12 +20,12 @@ if (program.new) {
 	}else{
 		shell.cp('-R', templatePath, projectPath);
 		// fs.copySync(templatePath, projectPath);
-		console.log(chalk.blue(`project ${name} created.`));
-		console.log(chalk.blue('now npm installing... please wait a moment.'));
+		console.log(chalk.green(`project ${name} created.`));
+		console.log(chalk.green('now npm installing... please wait a moment.'));
 		shell.cd(`${projectPath}`);
 		shell.exec('npm install');
-		console.log(chalk.blue('npm install done. '));
-		console.log(chalk.blue('now webpack building project... please wait a moment.'));
+		console.log(chalk.green('npm install done. '));
+		console.log(chalk.green('now webpack building project... please wait a moment.'));
 		shell.exec('npm run open');
 	}
 } else {
