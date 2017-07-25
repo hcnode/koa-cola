@@ -27,7 +27,7 @@ class FooController {
 
 	@Get('/view')
 	@View('pepsiView')
-	view( @Ctx() ctx) { }
+	view( @Ctx() ctx) { } 
 }
 
 class PepsiView extends React.Component<{
