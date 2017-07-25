@@ -12,9 +12,7 @@ class Index extends React.Component<Props, States>   {
       
   };
   render() {
-    return <div>
-      <h1>Wow koa-cola!</h1>
-    </div>
+    return <h1>Wow koa-cola!</h1>
   }
 };
 export default Index

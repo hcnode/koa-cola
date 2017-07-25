@@ -16,8 +16,11 @@ function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes';
     for (const ctrl of controllers) {
-        var Reflect = require('reflect-metadata');
-        var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        try {
+            var Reflect = require('reflect-metadata');
+            var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        }
+        catch (error) { }
         if (routes) {
             ctrl[ROUTE_PREFIX] = routes;
         }
@@ -42,7 +45,7 @@ function createProvider(controllers, views) {
         return React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {
                 var component = router.component;
-                return React.createElement(react_router_1.Route, { path: router.path, component: component });
+                return React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component });
             })));
     };
 }

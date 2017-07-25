@@ -6,8 +6,7 @@ var {createProvider} = require('koa-cola');
 var Provider = createProvider([
     require('../api/controllers/IndexController').default
 ], {
-    index : require('./pages/index').default,
-    login : require('./pages/login').default,
+    index : require('./pages/index').default
 });
 
 render(<Provider />, document.getElementById('app'));

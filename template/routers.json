@@ -2,9 +2,5 @@
 /t{
 /t/t"component": "index",
 /t/t"path": "/"
-/t},
-/t{
-/t/t"component": "login",
-/t/t"path": "/login"
 /t}
 ]

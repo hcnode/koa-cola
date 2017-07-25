@@ -20,12 +20,13 @@ export function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes'
     for (const ctrl of controllers) {
-        var Reflect = require('reflect-metadata');
-        var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        try {
+            var Reflect = require('reflect-metadata');
+            var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
+        } catch (error) {}
         if (routes) {
             ctrl[ROUTE_PREFIX] = routes;
-        }
-        else {
+        }else {
             routes = ctrl[ROUTE_PREFIX];
         }
         for (const { method, url, middleware, name, params, view, response } of routes) {
@@ -48,7 +49,7 @@ export function createProvider(controllers, views) {
                 {
                     reactRouters.map(router => {
                         var component = router.component;
-                        return <Route path={router.path} component={component} />
+                        return <Route key="route" path={router.path} component={component} />
                     })
                 }
             </Router>
