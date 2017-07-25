@@ -134,11 +134,9 @@ function default_1(colaApp) {
     }))
     // 创建react router和react provider
     createRouter(routers);*/
-    // 必须在执行完bindRoutes后
-    koaApp.use(serverRouter_1.default);
-    // 在serverRouter后面，为了优先react router
     koaApp.use(routerRoutes.routes());
     koaApp.use(routerRoutes.allowedMethods());
+    koaApp.use(serverRouter_1.default);
     // create schema types
     createSchemaTypes_1.default();
     // error emit

@@ -20,6 +20,7 @@ export function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes'
     for (const ctrl of controllers) {
+        var Reflect = require('reflect-metadata');
         var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
         if (routes) {
             ctrl[ROUTE_PREFIX] = routes;
