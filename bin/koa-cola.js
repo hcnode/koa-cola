@@ -7,7 +7,7 @@ var shell = require('shelljs');
 var chalk = require('chalk');
 
 program
-	.version('0.1.4')
+	.version('0.1.6')
 	.option('-n, --new [name]', 'new koa-cola project')
 	.parse(process.argv);
 
