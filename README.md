@@ -8,7 +8,7 @@
 * react-redux
 * react-router
 * both server-side and client router render
-* decorators
+* decorators mvc
 
 ## koa-cola目录结构
 * `src` koa-cola 源码

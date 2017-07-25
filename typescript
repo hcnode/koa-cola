@@ -1,0 +1,8 @@
+Script started on Tue Jul 11 16:31:30 2017
+bash: /usr/local/opt/nvm/nvm.sh[: No such file or directory
+[?1034hbash-3.2$ npm test
+bash-3.2$ 
+bash-3.2$ exit
+exit
+
+Script done on Tue Jul 11 16:34:57 2017

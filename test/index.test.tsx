@@ -14,11 +14,11 @@ describe('#koa-cola', function() {
 		mongoose = app.mongoose;
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
-		// mockgoose.prepareStorage().then(function() {
+		mockgoose.prepareStorage().then(function() {
 			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
 				done(err);
 			}); 
-		// });
+		});
 	});
 	after(function(done){
 		server.close();
@@ -127,32 +127,6 @@ describe('#koa-cola', function() {
 		});
 	});
 
-	describe('#middleware', function() {
-		it('#requestTime', async function(){
-			var res = await request(server)
-                .get('/testMiddleware')
-                .expect(200)
-                .toPromise();
-			should(res.text).match(/requestTime:\d*/);
-		});
-
-		it('#checkMiddlewareOrder', async function(){
-			var res = await request(server)
-                .get('/checkMiddlewareOrder')
-                .expect(200)
-                .toPromise();
-			should(res.text).be.equal(['checkMiddlewareOrder', 'requestTime'].join('-'))
-		});
-
-
-		it('#disabledMiddleware', async function(){
-			var res = await request(server)
-                .get('/disabledMiddleware')
-                .expect(404)
-                .toPromise();
-		});
-	});
-
 	describe('#models', function() {
 		
 		it('#base', async function(){
@@ -177,7 +151,7 @@ describe('#koa-cola', function() {
 			var [result] = await User.find({name : 'harry'}).exec();
 			result.name.should.be.equal('harry');
 		});
-
+		// when use mockgoose something wrong with aggregate
 		// it('#aggregate', async function(){
 		// 	var User = global.app.models.user
 		// 	await User.create({name : 'harry', email : 'xxx@gmail.com'});

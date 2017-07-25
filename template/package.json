@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress --profile --colors --watch",
-    "local": "NODE_ENV=local node -r ts-node/register ./app.ts ./node_modules/ts-node/dist/_bin.js"
+    "local": "NODE_ENV=local node -r ts-node/register ./app.ts ./node_modules/ts-node/dist/_bin.js",
+    "open": "webpack;koa-cola"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "koa-body": "^2.1.0",
-    "koa-cola": "github:koa-cola/koa-cola",
+    "koa-cola": "^0.1.0",
     "serialize-javascript": "^1.3.0"
   },
   "devDependencies": {
