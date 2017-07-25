@@ -15,6 +15,7 @@ module.exports = {
             "error",
             "tab"
         ],
+        "no-console": ["error", { allow: ["log", "warn", "error"] }],
         // "linebreak-style": [
         //     "error",
         //     "unix"

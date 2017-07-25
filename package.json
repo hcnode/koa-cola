@@ -37,6 +37,7 @@
     "css-modules-require-hook": "^4.0.6",
     "dotenv": "^2.0.0",
     "eslint": "^3.19.0",
+    "fs-extra": "^4.0.0",
     "history": "^3.0.0",
     "js-beautify": "^1.6.14",
     "jsdom": "^11.0.0",
