@@ -27,6 +27,10 @@ export default class  {
     @View('cola')
     getView2 ( ) {}
 
+    @Get('/multiChildren')
+    @View('multiChildren')
+    multiChildren ( ) {}
+
     @Get('/injectCtx')
     injectCtx (@Ctx() ctx ) {
         ctx.response.status = 201;

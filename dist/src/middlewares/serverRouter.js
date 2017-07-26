@@ -37,7 +37,14 @@ exports.default = async (ctx, next) => {
                         }
                     }
                  */
-                loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(() => {
+                var components = [];
+                renderProps.components.forEach(element => {
+                    components.push(element);
+                });
+                if (components[1] && components[1].childrenComponents) {
+                    components = components.concat(components[1].childrenComponents);
+                }
+                loadOnServer({ components, store, helpers: { ctx } }).then(() => {
                     var { location } = renderProps;
                     var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
                         React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));

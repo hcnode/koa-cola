@@ -19,7 +19,8 @@ export default function createRouter(routers) {
     app.routers = app.routers || {};
     app.routers.router = app.routers.router || <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
         {routers.map(router => {
-            return <Route path={router.path} component={app.pages[router.component]} />
+            var component = app.pages[router.component];
+            return <Route path={router.path} component={component} />
         })}
     </Router>
 }
@@ -42,15 +43,15 @@ export function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes'
     for (const ctrl of controllers) {
-        try { // 不知道什么原因，有时候Reflect.getMetadata会出错
+        /* try { // 不知道什么原因，有时候Reflect.getMetadata会出错
             require('reflect-metadata');
             var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
         } catch (error) {}
         if (routes) {
             ctrl[ROUTE_PREFIX] = routes;
-        }else {
-            routes = ctrl[ROUTE_PREFIX];
-        }
+        }else { */
+            var routes = ctrl[ROUTE_PREFIX];
+        // }
         // 保存react-router所需要的component和path
         for (const { method, url, middleware, name, params, view, response } of routes) {
             if (view) {

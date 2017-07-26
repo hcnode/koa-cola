@@ -9,7 +9,6 @@ const controller_decorators_1 = require("controller-decorators");
 const decorators_1 = require("./decorators");
 const Router = require("koa-router");
 const createRouter_1 = require("./createRouter");
-const fs = require("fs");
 function inject(colaApp) {
     global.app = {};
     /**
@@ -88,7 +87,7 @@ function inject(colaApp) {
     routerRoutes.stack.forEach((item => {
         console.log(`router:${item.methods.join('-')}:  ${item.path}`);
     }));
-    fs.writeFileSync(`${process.cwd()}/routers.json`, JSON.stringify(routers, null, '/t'));
+    // fs.writeFileSync(`${process.cwd()}/routers.json`, JSON.stringify(routers, null, '\t'));
     // 创建react router和react provider
     createRouter_1.default(routers);
     return routerRoutes;

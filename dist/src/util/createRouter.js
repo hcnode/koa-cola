@@ -17,7 +17,8 @@ function createRouter(routers) {
     var { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
     app.routers.router = app.routers.router || React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
-        return React.createElement(react_router_1.Route, { path: router.path, component: app.pages[router.component] });
+        var component = app.pages[router.component];
+        return React.createElement(react_router_1.Route, { path: router.path, component: component });
     }));
 }
 exports.default = createRouter;
@@ -40,17 +41,15 @@ function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes';
     for (const ctrl of controllers) {
-        try {
+        /* try { // 不知道什么原因，有时候Reflect.getMetadata会出错
             require('reflect-metadata');
             var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
-        }
-        catch (error) { }
+        } catch (error) {}
         if (routes) {
             ctrl[ROUTE_PREFIX] = routes;
-        }
-        else {
-            routes = ctrl[ROUTE_PREFIX];
-        }
+        }else { */
+        var routes = ctrl[ROUTE_PREFIX];
+        // }
         // 保存react-router所需要的component和path
         for (const { method, url, middleware, name, params, view, response } of routes) {
             if (view) {
