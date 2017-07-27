@@ -1,6 +1,6 @@
 {
   "name": "koa-cola",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/index.js",
   "bin": {
@@ -10,6 +10,7 @@
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist; tsc -p compile",
+    "preversion": "rm package-lock.json",
     "postversion": "npm publish && git push",
     "prepublish": "npm run build"
   },
