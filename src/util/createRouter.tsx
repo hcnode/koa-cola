@@ -20,7 +20,13 @@ export default function createRouter(routers) {
     app.routers.router = app.routers.router || <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
         {routers.map(router => {
             var component = app.pages[router.component];
-            return <Route path={router.path} component={component} />
+            if(component.childrenComponents){
+                return <Route path={router.path} component={component} >
+                    <IndexRoute components={component.childrenComponents} />
+                </Route>    
+            }else{
+                return <Route path={router.path} component={component} />
+            }
         })}
     </Router>
 }
@@ -75,7 +81,13 @@ export function createProvider(controllers, views) {
                 {
                     reactRouters.map(router => {
                         var component = router.component;
-                        return <Route key="route" path={router.path} component={component} />
+                        if(component.childrenComponents){
+                            return <Route key="route" path={router.path} component={component} >
+                                <IndexRoute components={component.childrenComponents} />
+                            </Route>    
+                        }else{
+                            return <Route key="route" path={router.path} component={component} />
+                        }
                     })
                 }
             </Router>

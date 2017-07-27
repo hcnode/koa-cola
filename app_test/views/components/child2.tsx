@@ -6,6 +6,7 @@ export interface Props {
   prop1?: any
   prop2?: any
   propClick?:any
+  Child1?:any
 }
 export interface States {
 }
@@ -31,6 +32,7 @@ export default class Child2 extends React.Component<Props, States>   {
     var result = <div style={{border:"blue solid 1px", padding : '3px', margin : "5px"}}>
       <h3>child2</h3>
       {this.props.prop2} - {this.props.propClick}
+      {this.props.Child1}
     </div>
     return result;
   }

@@ -13,6 +13,8 @@ export interface Props {
   prop1?: any
   prop2?: any
   propClick?:any
+  Child1?:any
+  Child2?:any
 }
 export interface States {
 }
@@ -42,17 +44,19 @@ class MultiChildren extends React.Component<Props, States>   {
 
   componentDidMount() {
   }
-  static childrenComponents = [
+  static childrenComponents = {
     Child1, Child2
-  ]
+  }
   render() {
     var result = <div>
       <div style={{border:"blue solid 1px", padding : '3px', margin : "5px"}}>
         <h3>parent</h3>
         {this.props.prop1} - {this.props.prop2} - {this.props.propClick}
       </div>
-      <Child1 />
-      <Child2 />
+      
+      {this.props.Child1}
+      <Child2 {...this.props} />
+      <Child2 {...this.props} />
     </div>
     return result;
   }
