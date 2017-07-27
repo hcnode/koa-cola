@@ -19,9 +19,9 @@ export default async (ctx, next) => {
         return await next();
     }
     // router.component._reducer为react-redux的自定义reducer
-    var reducers = routes.map(router => {
+    var reducers = app.reactRouters.map(router => {
         var component = app.pages[router.component];
-        return router.component._reducer || {};
+        return component._reducer || {};
     });
     const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)));
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
