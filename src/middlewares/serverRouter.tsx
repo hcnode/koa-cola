@@ -18,7 +18,13 @@ export default async (ctx, next) => {
         console.log('${process.cwd()}/views/routers not found');
         return await next();
     }
-    const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
+    // router.component._reducer为react-redux的自定义reducer
+    var reducers = routes.map(router => {
+        var component = app.pages[router.component];
+        return router.component._reducer || {};
+    });
+    const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)));
+    // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
             match({ routes, location: ctx.url }, (err, redirect, renderProps) => {

@@ -86,6 +86,7 @@ export default function inject(colaApp?){
 	routerRoutes.stack.forEach((item => {
 		console.log(`router:${item.methods.join('-')}:  ${item.path}`)
 	}))
+	app.reactRouters = routers;
 	// fs.writeFileSync(`${process.cwd()}/routers.json`, JSON.stringify(routers, null, '\t'));
 	// 创建react router和react provider
 	createRouter(routers);
