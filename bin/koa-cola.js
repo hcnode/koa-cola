@@ -33,5 +33,5 @@ if (program.new) {
 		shell.exec('npm run open');
 	}
 } else {
-	shell.exec(`node -r ts-node/register ${process.cwd()}/app.ts ${__dirname}/../node_modules/ts-node/dist/_bin.js`);
+	shell.exec(`${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.ts`);
 }
