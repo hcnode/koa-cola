@@ -30,7 +30,7 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 
 ### 开发文档
 
-#### d-mcv
+### d-mcv
 koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller是必须用提供的decorator来开发（因为涉及到router相关的定义），model和view层则没有强制需要demo所演示的decorator来开发。
 * Controller
     
