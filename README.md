@@ -39,7 +39,7 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
     @Get('/some_path')  // 定义router已经method
     @Use(isLogin)       // 验证用户是否已登陆，类似sails的policy
     @Response(Ok)       // 定义数据返回的结构
-    isLogin (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
+    isLogin (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
         // 返回数据，最终回使用Ok response结构返回
         return {
             foo : 'bar'
@@ -51,7 +51,7 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
 
 * View
 
-    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux。
+    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux。
     
 1. React.Component组件
 
