@@ -47,6 +47,7 @@ describe('#koa-cola view', function () {
 			wrapper.detach();
 		});
 		it('#build bundle', function (done) {
+			console.log(`testing webpack building bundle.js, please wait around 30's`)
 			var config = require(`${process.cwd()}/webpack.config`);
 			webpack(config, (err, stats) => {
 				if (err || stats.hasErrors()) {

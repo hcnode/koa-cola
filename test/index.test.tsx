@@ -115,7 +115,7 @@ describe('#koa-cola', function() {
 		it('#router', async function(){
 			var router = app.routers.router;
 			router.should.be.ok;
-			router.props.children.length.should.be.equal(2);
+			router.props.children.length.should.be.equal(3);
 			router.props.children[0].type.displayName.should.be.equal('Route');
 			// router.props.children[0].type.should.be.equal(Route);
 			router.props.children[0].props.path.should.be.ok;

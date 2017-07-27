@@ -17,7 +17,7 @@ export function reqDir(dir){
         });
         return libs;
     } catch (err) {
-        console.log(err)
+        console.log(`dir ${dir} does not exist`)
         return {};
     }
 }

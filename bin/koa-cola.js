@@ -9,6 +9,7 @@ var chalk = require('chalk');
 program
 	.version('0.1.7')
 	.option('-n, --new [name]', 'new koa-cola project')
+	.option('-c, --cheer', 'build webpack bundle and launch app')
 	.parse(process.argv);
 /**
  * 使用命令新建koa-cola项目，自动创建模版文件，并自动安装依赖，自动运行
@@ -32,6 +33,8 @@ if (program.new) {
 		console.log(chalk.green('now webpack building project... please wait a moment.'));
 		shell.exec('npm run open');
 	}
-} else {
+} else if(program.cheer){
+	shell.exec('webpack;koa-cola');
+}else {
 	shell.exec(`${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.ts`);
 }

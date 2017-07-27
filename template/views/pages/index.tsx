@@ -1,7 +1,5 @@
 import * as React from 'react';
-export interface Props{
-    
-}
+export interface Props{}
 export interface States {}
 
 class Index extends React.Component<Props, States>   {
