@@ -9,7 +9,9 @@
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "watch": "mocha-typescript-watch",
-    "build": "tsc -p compile"
+    "build": "rm -rf ./dist; tsc -p compile",
+    "postversion": "npm publish && git push",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "typescript",
