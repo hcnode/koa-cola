@@ -80,9 +80,9 @@ describe('#koa-cola pepsi mode', function () {
 		var Mockgoose = require('mockgoose').Mockgoose;
 		var mockgoose = new Mockgoose(mongoose);
 		mockgoose.prepareStorage().then(function() {
-		app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function (err) {
-			done(err);
-		});
+			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function (err) {
+				done(err);
+			});
 		});
 	});
 

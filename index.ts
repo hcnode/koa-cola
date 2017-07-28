@@ -6,6 +6,10 @@ export const RunApp = run;
 try{
     var injectGlobal = require('./src/util/injectGlobal');
     exports.injectGlobal = injectGlobal;
+    exports.reqInject = function(cb){
+        if(!global.app) injectGlobal();
+        cb();
+    }
 }catch(e){}
 
 export { createProvider } from './src/util/createRouter';
