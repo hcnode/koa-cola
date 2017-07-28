@@ -42,11 +42,7 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
     @Get('/some_path')  // 定义router以及method
     @Use(isLogin)       // 使用中间件验证用户是否已登陆，类似sails的policy
     @Response(Ok)       // 定义数据返回的结构
-<<<<<<< HEAD
-    orderList (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
-=======
-    isLogin (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
->>>>>>> a78d4e307d5bdcba15a92fd7649511ab05316df9
+    orderList (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
         // 返回数据，最终回使用Ok response结构返回
         return {
             foo : 'bar'
