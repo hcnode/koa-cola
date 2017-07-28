@@ -68,6 +68,7 @@ export function createProvider(controllers, views) {
             }
         }
     }
+    
     var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.map(router => {

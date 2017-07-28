@@ -1,11 +1,11 @@
 import { testSchema } from './typings/schema';
 import { ApiBase, apiFetch } from 'koa-cola'
 export interface ComposeBody{
-    foo? : string,
+    foo : string,
     bar? : number
 }
 export class Compose extends ApiBase<ComposeBody, testSchema, {}>{
-    constructor(body){
+    constructor(body : ComposeBody){
         super(body)
     }
     url : string = '/compose'

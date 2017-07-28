@@ -8,6 +8,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const require_1 = require("./require");
 const fs = require("fs");
+const mongoose = require("mongoose");
+const chalk = require("chalk");
 function getFields(documentSchema) {
     documentSchema = documentSchema.tree || documentSchema;
     return Object.keys(documentSchema).map(field => {
@@ -57,7 +59,7 @@ function default_1() {
                 import * as mongoose from 'mongoose'
                 ${Object.keys(schemas).map(schema => `
                     ${Object.keys(schemas[schema]).map(document => {
-                var documentSchema = schemas[schema][document](app.mongoose);
+                var documentSchema = schemas[schema][document](mongoose);
                 return `
                             export interface ${document} {
                                 ${getFields(documentSchema)}
@@ -68,7 +70,8 @@ function default_1() {
             `;
             var beautify = require('js-beautify').js_beautify;
             try {
-                fs.writeFileSync(path.resolve(typingsPath, 'schema.ts'), beautify(codes, { indent_size: 4 }));
+                fs.writeFileSync(schemaTypesFile, beautify(codes, { indent_size: 4 }));
+                console.log(chalk.green('model schemas created.'));
             }
             catch (e) {
                 console.log(e);

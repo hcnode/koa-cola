@@ -7,6 +7,7 @@ import * as path from 'path'
 import {reqDir} from './require'
 import * as fs from 'fs';
 import * as mongoose from 'mongoose';
+import * as chalk from 'chalk';
 function getFields (documentSchema){
     documentSchema = documentSchema.tree || documentSchema;
     return Object.keys(documentSchema).map(field => {
@@ -54,7 +55,7 @@ export default function (){
                 import * as mongoose from 'mongoose'
                 ${Object.keys(schemas).map(schema => `
                     ${Object.keys(schemas[schema]).map(document => {
-                        var documentSchema = schemas[schema][document](app.mongoose);
+                        var documentSchema = schemas[schema][document](mongoose);
                         
                         return `
                             export interface ${document} {
@@ -67,7 +68,8 @@ export default function (){
             
             var beautify = require('js-beautify').js_beautify;
             try{
-                fs.writeFileSync(path.resolve(typingsPath, 'schema.ts'), beautify(codes, { indent_size: 4 }))
+                fs.writeFileSync(schemaTypesFile, beautify(codes, { indent_size: 4 }))
+                console.log(chalk.green('model schemas created.'));
             }catch(e){
                 console.log(e)
             }
