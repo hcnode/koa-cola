@@ -23,6 +23,7 @@ koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts�
         * [server](#server)
     * [inject global](#inject-global)
     * [api开发模式](#api开发模式)
+    * [universal ("isomorphic")](#universal ("isomorphic"))
     * [typescript](#typescript)
     * [cluster模式](#cluster模式)
     * [调试](#调试)
@@ -419,7 +420,7 @@ RunApp({
         }
     },
     controllers: {
-        FooController: class FooController {
+        FooController: @Controller('') class FooController {
             @Get('/')
             index(@Ctx() ctx) {
                 return app.config.foo
@@ -449,6 +450,7 @@ RunApp({
 });
 ```
 
+## universal ("isomorphic")
 
 ## typescript
 

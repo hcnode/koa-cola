@@ -6,7 +6,7 @@ import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../').Decorators.controller;
 import { chdir } from './util'
 import App from '../src/index'
-@Controller('')
+@Controller('') 
 class FooController {
 	@Get('/')
 	index() {
