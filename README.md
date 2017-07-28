@@ -35,7 +35,7 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 
 ### d-mcv
 koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller是必须用提供的decorator来开发（因为涉及到router相关的定义），model和view层则没有强制需要demo所演示的decorator来开发。
-* Controller
+#### Controller
     
     使用decorator装饰器来注入相关依赖，路由层的decorators包括router、中间件、response、view，响应阶段的decorators包括koa.Context、param、response、request等，比如以下例子：
 ```javascript
@@ -56,13 +56,9 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
 
     因为使用decorator定义router，所以在koa-cola里面不需要单独定义router。
 
-* View
+#### View
 
-<<<<<<< HEAD
-    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux，以下是view层支持的react组件类型。
-=======
-    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux。
->>>>>>> a78d4e307d5bdcba15a92fd7649511ab05316df9
+    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux，以下是view层支持的react组件类型。
     
 1. React.Component组件
 
@@ -132,7 +128,7 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
     export default Index
 ```
 
-* model
+#### model
 和必须使用decorator的controller层、必须使用react组件的view层不一样，model层是完全没有耦合，你可以使用任何你喜欢的orm或者odm，或者不需要model层也可以，不过使用koa-cola风格的来写model，你可以体验不一样的开发模式。
 
 1. 你可以直接在目录api/models下创建如user.ts：
