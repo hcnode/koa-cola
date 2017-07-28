@@ -1,6 +1,6 @@
 
 # koa-cola
-koa-cola是一个基于koa的SSR(server side render)web框架的，react完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router），并使用ts开发，使用d-mvc（es7 decorator风格的mvc），此外，作者是一个深度中毒的universal ("isomorphic") 开发模式，可以前后端复用的模块或者代码都会尽量复用，koa-cola除了react技术栈的完全前后端universal，model层的数据schema和controller的router也是可以复用。
+koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts开发，使用d-mvc（es7 decorator风格的mvc），此外，作者是一个深度中毒的universal ("isomorphic") 开发模式，react技术栈完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router），其他可以前后端复用的模块或者代码都会尽量复用，除了react技术栈的完全前后端universal，model层的数据schema和controller的router也是可以复用。
 
 1. [特点](#特点)
 2. [使用方法](#使用方法)
@@ -19,7 +19,7 @@ koa-cola是一个基于koa的SSR(server side render)web框架的，react完全�
         * [启动应用](#启动应用)
         * [生成model schema文件](#生成model-schema文件)
     * [代码编译](#代码编译)
-        * [client](#webpack)
+        * [client](#client)
         * [server](#server)
     * [inject global](#inject-global)
     * [api开发模式](#api开发模式)
@@ -391,7 +391,7 @@ import { reqInject } from 'koa-cola'
 var user;
 reqInject(function(){
     user = require('./api/models/user').default // 直接require项目内的文件
-    var config = app.config; // 或者或者app当前配置
+    var config = app.config; // 或者app当前配置
 });
 ```
 
