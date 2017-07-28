@@ -53,7 +53,7 @@ function default_1() {
     if (fs.existsSync(schemasPath)) {
         var typingsPath = path.resolve(dir, 'typings');
         if (fs.existsSync(typingsPath)) {
-            var schemaTypesFile = path.resolve(typingsPath, 'schema.d.ts');
+            var schemaTypesFile = path.resolve(typingsPath, 'schema.ts');
             var schemas = require_1.reqDir(schemasPath);
             var codes = `
                 import * as mongoose from 'mongoose'
