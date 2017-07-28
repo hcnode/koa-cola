@@ -72,7 +72,7 @@ function createProvider(controllers, views) {
         return router.component._reducer || {};
     });
     // 合并reducer，并使用页面的__data作为初始化数据
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data);
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     return function () {
         return React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {

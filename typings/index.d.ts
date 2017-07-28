@@ -8,6 +8,7 @@ declare module NodeJS  {
         documentRef : any
         globalConfig : any
         mongoose : any
+        
     }
 }
 declare var app : any

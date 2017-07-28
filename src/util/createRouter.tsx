@@ -74,7 +74,8 @@ export function createProvider(controllers, views) {
         return router.component._reducer || {};
     });
     // 合并reducer，并使用页面的__data作为初始化数据
-    const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), (window as any).__data);
+    const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)),
+         (window as any).__data, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
     return function(){
         return <Provider store={store} key="provider">
             <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
