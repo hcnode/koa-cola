@@ -135,11 +135,102 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
 * model
 和必须使用decorator的controller层、必须使用react组件的view层不一样，model层是完全没有耦合，你可以使用任何你喜欢的orm或者odm，或者不需要model层也可以，不过使用koa-cola风格的来写model，你可以体验不一样的开发模式。
 
-你可以直接在目录api/models下创建如user.ts：
+1. 你可以直接在目录api/models下创建如user.ts：
 ```javascript
-var mongoose = require('mongoose')
-export default mongoose.model('model', new mongoose.Schema({
+import * as mongoose from 'mongoose'
+export default mongoose.model('user', new mongoose.Schema({
     name : String,
     email : String
 }))
 ```
+
+然后就可以在其他代码里面使用：
+```javascript
+var user = await app.models.user.find({name : 'harry'})
+```
+
+2. 使用koa-cola的约定方式定义机遇mongoose的model
+首先在api/schemas目录创建user.ts
+
+```javascript
+export const userSchema = function(mongoose){
+    return {
+        name: {
+            type : String
+        },
+        email : {
+            type : String
+        }
+    }
+}
+```
+
+你可以直接在目录api/models下创建如user.ts：
+```javascript
+import * as mongoose from 'mongoose'
+import userSchema from '../schemas/user'
+export default mongoose.model('user', userSchema(mongoose))
+```
+
+生成model的schema
+`koa-cola --schema` 自动生成model的接口定义在typings/schema.ts
+
+然后你可以在代码通过使用typescript的类型定义，享受vscode的intellisense带来的乐趣
+```javascript
+import {userSchema} from './typings/schema' 
+var user : userSchema = await app.models.user.find({name : 'harry'})
+```
+
+在前面提到的为什么需要在api/schemas定义model的schema，原因是这部分可以在浏览器端代码复用，比如数据Validate。详细可以查看[文档](http://mongoosejs.com/docs/browser.html)
+
+3. koa-cola提供了前后端universal的api接口定义，比如todolist demo的获取数据的接口定义
+
+```javascript
+import { todoListSchema } from './typings/schema';
+import { ApiBase, apiFetch } from 'koa-cola';
+
+export class GetTodoList extends ApiBase<
+  {
+      // 参数类型
+  },
+  {
+    code: number;
+    result: [todoListSchema];
+  },
+  {
+      // 异常定义
+  }
+> {
+  constructor(body) {
+    super(body);
+  }
+  url: string = '/api/getTodoList';
+  method: string = 'get';
+}
+```
+
+在代码里面使用api，并享受ts带来的乐趣：
+```javascript
+var api = new GetTodoList({});
+var data = await api.fetch(helpers.ctx);
+```
+![api1](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png)
+![api2](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png)
+
+又比如参数body的定义，如果定义了必传参数，调用时候没有传，则vscode会提示错误
+```javascript
+import { testSchema } from './typings/schema';
+import { ApiBase, apiFetch } from 'koa-cola'
+export interface ComposeBody{
+    foo : string,
+    bar? : number
+}
+export class Compose extends ApiBase<ComposeBody, testSchema, {}>{
+    constructor(body : ComposeBody){
+        super(body)
+    }
+    url : string = '/compose'
+    method : string = 'post'
+}
+```
+![api3](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png)
