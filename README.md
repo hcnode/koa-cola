@@ -1,5 +1,6 @@
+
 ## koa-cola
-koa-cola是一个基于koa的SSR(server side render)web框架的，react完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router），并使用ts开发，使用d-mvc（es7 decorator风格的mvc）。
+koa-cola是一个基于koa的SSR(server side render)web框架的，react完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router），并使用ts开发，使用d-mvc（es7 decorator风格的mvc），此外，作者是一个深度中毒的universal ("isomorphic") 开发模式，可以前后端复用的模块或者代码都会尽量复用，koa-cola除了react技术栈的完全前后端universal，model层的数据schema和controller的router也是可以复用。
 
 
 ### 特点
@@ -19,7 +20,9 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 
 ### Examples
 使用[官方react-redux的todolist](http://redux.js.org/docs/basics/UsageWithReact.html)作为基础，演示了官方的和基于koa-cola的例子（完整的mvc结构）
+
 **demo依赖本地的mongodb**
+
 使用方法：
 * `npm i koa-cola -g`
 * `git clone https://github.com/koa-cola/todolist`
@@ -34,12 +37,12 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller是必须用提供的decorator来开发（因为涉及到router相关的定义），model和view层则没有强制需要demo所演示的decorator来开发。
 * Controller
     
-    使用decorator装饰器来注入相关依赖，路由层的decorators包括router、中间件、response、view，响应阶段的decorators包括koa.Context、param、response、request等：
+    使用decorator装饰器来注入相关依赖，路由层的decorators包括router、中间件、response、view，响应阶段的decorators包括koa.Context、param、response、request等，比如以下例子：
 ```javascript
-    @Get('/some_path')  // 定义router已经method
-    @Use(isLogin)       // 验证用户是否已登陆，类似sails的policy
+    @Get('/some_path')  // 定义router以及method
+    @Use(isLogin)       // 使用中间件验证用户是否已登陆，类似sails的policy
     @Response(Ok)       // 定义数据返回的结构
-    isLogin (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
+    orderList (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
         // 返回数据，最终回使用Ok response结构返回
         return {
             foo : 'bar'
@@ -51,7 +54,7 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
 
 * View
 
-    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux。
+    view层可以是简单的React.Component或者是stateless的函数组件，也可以是使用官方的react-redux封装过的组件，todolist demo的view则是使用了[redux-connect](https://github.com/makeomatic/redux-connect) 提供的decorator(当然你也可以直接用它的connect方法)，redux-connect也是基于react-redux，以下是view层支持的react组件类型。
     
 1. React.Component组件
 
@@ -121,4 +124,14 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
     export default Index
 ```
 
+* model
+和必须使用decorator的controller层、必须使用react组件的view层不一样，model层是完全没有耦合，你可以使用任何你喜欢的orm或者odm，或者不需要model层也可以，不过使用koa-cola风格的来写model，你可以体验不一样的开发模式。
 
+你可以直接在目录api/models下创建如user.ts：
+```javascript
+var mongoose = require('mongoose')
+export default mongoose.model('model', new mongoose.Schema({
+    name : String,
+    email : String
+}))
+```
