@@ -11,6 +11,11 @@ exports.RunApp = run;
 try {
     var injectGlobal = require('./src/util/injectGlobal');
     exports.injectGlobal = injectGlobal;
+    exports.reqInject = function (cb) {
+        if (!global.app)
+            injectGlobal();
+        cb();
+    };
 }
 catch (e) { }
 var createRouter_1 = require("./src/util/createRouter");
