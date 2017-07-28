@@ -216,8 +216,9 @@ export class GetTodoList extends ApiBase<
 var api = new GetTodoList({});
 var data = await api.fetch(helpers.ctx);
 ```
-![api1](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png =500x)
-![api2](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png =500x)
+
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png" alt="Drawing" style="width: 500px;"/>
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png" alt="Drawing" style="width: 500px;"/>
 
 又比如参数body的定义，如果定义了必传参数，调用时候没有传，则vscode会提示错误
 ```javascript
@@ -235,4 +236,4 @@ export class Compose extends ApiBase<ComposeBody, testSchema, {}>{
     method : string = 'post'
 }
 ```
-![api3](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png =500x)
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png" alt="Drawing" style="width: 500px;"/>
