@@ -141,8 +141,9 @@ export default mongoose.model('user', new mongoose.Schema({
 var user = await app.models.user.find({name : 'harry'})
 ```
 
-2. 使用koa-cola的约定方式定义机遇mongoose的model
-首先在api/schemas目录创建user.ts
+2. 使用koa-cola的约定方式定义基于mongoose的model
+
+首先在`api/schemas`目录创建user.ts
 
 ```javascript
 export const userSchema = function(mongoose){
@@ -157,15 +158,16 @@ export const userSchema = function(mongoose){
 }
 ```
 
-你可以直接在目录api/models下创建如user.ts：
+在目录`api/models`下创建model如user.ts：
 ```javascript
 import * as mongoose from 'mongoose'
 import userSchema from '../schemas/user'
 export default mongoose.model('user', userSchema(mongoose))
 ```
 
-生成model的schema
-`koa-cola --schema` 自动生成model的接口定义在typings/schema.ts
+使用cli生成model的schema
+
+`koa-cola --schema` 自动生成model的接口定义在`typings/schema.ts`
 
 然后你可以在代码通过使用typescript的类型定义，享受vscode的intellisense带来的乐趣
 ```javascript
@@ -206,8 +208,9 @@ export class GetTodoList extends ApiBase<
 var api = new GetTodoList({});
 var data = await api.fetch(helpers.ctx);
 ```
-![api1](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png)
-![api2](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png)
+
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png" alt="Drawing" style="width: 500px;"/>
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png" alt="Drawing" style="width: 500px;"/>
 
 又比如参数body的定义，如果定义了必传参数，调用时候没有传，则vscode会提示错误
 ```javascript
@@ -225,4 +228,4 @@ export class Compose extends ApiBase<ComposeBody, testSchema, {}>{
     method : string = 'post'
 }
 ```
-![api3](https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png)
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png" alt="Drawing" style="width: 500px;"/>
