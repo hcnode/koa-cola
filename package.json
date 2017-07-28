@@ -10,6 +10,7 @@
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist; tsc -p compile",
+    "postinstall" : "npm i ts-node -g",
     "preversion": "rm package-lock.json; npm run build",
     "postversion": "npm publish; git push"
   },
