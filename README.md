@@ -4,12 +4,12 @@ koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts�
 
 1. [特点](#特点)
 2. [使用方法](#使用方法)
-3. [todolist例子](#Examples)
+3. [todolist例子](#examples)
 4. [开发文档](#开发文档)
     * [d-mcv](#d-mcv)
-        * [Controller](#Controller)
-        * [View](#View)
-        * [Model](#Model)
+        * [Controller](#controller)
+        * [View](#view)
+        * [Model](#model)
     * [配置](#配置)
         * [app初始化](#app初始化)
         * [koa中间件](#koa中间件)
@@ -154,7 +154,7 @@ view层可以是简单的React.Component或者是stateless的函数组件，也�
     export default Index
 ```
 
-### model
+### Model
 和必须使用decorator的controller层、必须使用react组件的view层不一样，model层是完全没有耦合，你可以使用任何你喜欢的orm或者odm，或者不需要model层也可以，不过使用koa-cola风格的来写model，你可以体验不一样的开发模式。
 
 1. 你可以直接在目录api/models下创建如user.ts：
@@ -171,7 +171,7 @@ export default mongoose.model('user', new mongoose.Schema({
 var user = await app.models.user.find({name : 'harry'})
 ```
 
-2. 使用koa-cola的约定方式定义基于mongoose的model
+2. 使用koa-cola的风格写model
 
 首先在`api/schemas`目录创建user.ts
 
@@ -195,6 +195,16 @@ import userSchema from '../schemas/user'
 export default mongoose.model('user', userSchema(mongoose))
 ```
 
+当然也可以使用decorator方式定义model，还可以定义相关hook，详情可以参考[mongoose-decorators](https://github.com/aksyonov/mongoose-decorators)
+
+```javascript
+import { todoListSchema } from '../schemas/todoList';
+var { model } = app.decorators.model;
+
+@model(todoListSchema(app.mongoose))
+export default class TodoList {}
+```
+
 使用cli生成model的schema
 
 `koa-cola --schema` 自动生成model的接口定义在`typings/schema.ts`
@@ -205,7 +215,7 @@ import {userSchema} from './typings/schema'
 var user : userSchema = await app.models.user.find({name : 'harry'})
 ```
 
-在前面提到的为什么需要在api/schemas定义model的schema，原因是这部分可以在浏览器端代码复用，比如数据Validate。详细可以查看[文档](http://mongoosejs.com/docs/browser.html)
+在前面提到的为什么需要在api/schemas定义model的schema，除了上面可以自动生成schema的接口，这部分可以在浏览器端代码复用，比如数据Validate。详细可以查看[文档](http://mongoosejs.com/docs/browser.html)
 
 3. koa-cola提供了前后端universal的api接口定义，比如todolist demo的获取数据的接口定义
 
@@ -312,7 +322,7 @@ koa-cola默认会使用以下几个中间件，并按照这个顺序：
 
 参数详情可以查看[这里](https://github.com/koa-cola/koa-cola/blob/master/src/middlewares/defaultMiddlewares.ts)
 
-如果开发者希望修改默认的中间件，或者添加自定义的中间件，又或者希望重新排序，可以通过config.middlewares来修改默认：
+如果开发者希望修改默认的中间件，或者添加自定义的中间件，又或者希望重新排序，可以通过config.middlewares来修改默认：
 
 ```javascript
 module.exports = {
@@ -340,7 +350,7 @@ koa-cola提供了一些有用的cli命令，包括新建项目、启动项目、
 
 ### 创建koa-cola项目
 
-`koa-cola --name app` 或者 `koa-cola --n app` 在当前目录创建文件夹名字为app的模版项目，并自动安装依赖，和自动build bundle和启动应用。
+`koa-cola --new app` 或者 `koa-cola --n app` 在当前目录创建文件夹名字为app的模版项目，并自动安装依赖，和自动build bundle和启动应用。
 
 ### 启动应用
 
