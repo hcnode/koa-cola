@@ -5,3 +5,6 @@ before_install:
   - npm i -g webpack
   - npm i -g typescript
   - npm i -g ts-node
+  - cd app_test
+  - npm i
+  - cd ../
