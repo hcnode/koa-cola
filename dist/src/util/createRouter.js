@@ -9,7 +9,6 @@ const React = require("react");
 const react_router_1 = require("react-router");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
-var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -90,6 +89,7 @@ function createProvider(controllers, views) {
             }
         }
     }
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.map(router => {
         return router.component._reducer || {};

@@ -9,7 +9,6 @@ import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { createStore, combineReducers } from 'redux';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
 
 /**
  * 创建node端react路由并保存在全局app.routers.router
@@ -89,7 +88,7 @@ export function createProvider(controllers, views) {
             }
         }
     }
-    
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.map(router => {
         return router.component._reducer || {};
