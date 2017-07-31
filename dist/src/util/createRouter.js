@@ -9,6 +9,7 @@ const React = require("react");
 const react_router_1 = require("react-router");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
+var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -18,6 +19,9 @@ function createRouter(routers) {
     app.routers = app.routers || {};
     app.routers.router = app.routers.router || React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
         var component = app.pages[router.component];
+        if (component.name != 'Connect') {
+            component = asyncConnect([{ key: 'ctrl', promise: () => null }])(component);
+        }
         if (component.childrenComponents) {
             return React.createElement(react_router_1.Route, { path: router.path, component: component },
                 React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents }));
@@ -59,14 +63,33 @@ function createProvider(controllers, views) {
         // 保存react-router所需要的component和path
         for (const { method, url, middleware, name, params, view, response } of routes) {
             if (view) {
-                reactRouters.push({
-                    component: views && views[view] ? views[view] : view,
-                    path: url
-                });
+                if (typeof view == 'string') {
+                    var viewComponent = views && views[view];
+                    if (!viewComponent) {
+                        try {
+                            viewComponent = require(`${process.cwd()}/view/pages/${view}`).default;
+                        }
+                        catch (error) { }
+                    }
+                    if (viewComponent) {
+                        reactRouters.push({
+                            component: viewComponent,
+                            path: url
+                        });
+                    }
+                    else {
+                        console.log(`view ${view} not found`);
+                    }
+                }
+                else {
+                    reactRouters.push({
+                        component: view,
+                        path: url
+                    });
+                }
             }
         }
     }
-    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.map(router => {
         return router.component._reducer || {};

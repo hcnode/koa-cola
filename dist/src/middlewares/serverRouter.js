@@ -5,6 +5,7 @@ const React = require("react");
 const server_1 = require("react-dom/server");
 const react_router_1 = require("react-router");
 var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 var createHistory = require('history').createMemoryHistory;
 const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
@@ -28,7 +29,7 @@ exports.default = async (ctx, next) => {
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
-            react_router_1.match({ routes, location: ctx.url }, (err, redirect, renderProps) => {
+            react_router_1.match({ routes, location: ctx.url }, async (err, redirect, renderProps) => {
                 if (!renderProps)
                     return reject();
                 /** load data, 并传入ctx到helpers，可以在async redux里面获取
@@ -50,10 +51,38 @@ exports.default = async (ctx, next) => {
                 if(components[1] && components[1].childrenComponents){
                     components = components.concat(components[1].childrenComponents);
                 }  */
-                loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(() => {
+                loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(async () => {
+                    try {
+                        var reactRouter = app.reactRouters.find(item => item.path == ctx.path);
+                        if (reactRouter) {
+                            var { func, args } = reactRouter;
+                            if (renderProps.components[1]) {
+                                renderProps.components[1].reduxAsyncConnect = renderProps.components[1].reduxAsyncConnect || [];
+                                var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(item => item.key == 'ctrl');
+                                if (ctrlItem) {
+                                    var result = await reactRouter.func(...reactRouter.args(ctx, next));
+                                    store.dispatch(loadSuccess('ctrl', result));
+                                }
+                            }
+                        }
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
                     var { location } = renderProps;
-                    var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
-                        React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
+                    try {
+                        var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
+                            React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
+                    }
+                    catch (error) {
+                        if (process.env.NODE_ENV != 'production') {
+                            ctx.body = require('util').inspect(error);
+                        }
+                        else {
+                            ctx.body = 'unexpected error.';
+                        }
+                        return resolve();
+                    }
                     /**
                      * 必须配置layout，并且必须在layout引用bundle文件
                      * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入

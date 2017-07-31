@@ -1,6 +1,7 @@
 language: node_js
 node_js:
- - "8.1.1"
+  — "node"
+  — "8.1.1"
 install:
  — npm install koa-cola -g
  — npm install webpack -g
