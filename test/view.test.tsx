@@ -54,7 +54,7 @@ describe('#koa-cola view', function() {
       should(click).be.equal(true);
       wrapper.detach();
     });
-    it('#build bundle', function(done) {
+    /* it('#build bundle', function(done) {
       console.log(
         `testing webpack building bundle.js, please wait around 30's`
       );
@@ -98,6 +98,6 @@ describe('#koa-cola view', function() {
           }, 1000);
         };
       });
-    });
+    }); */
   });
 });
