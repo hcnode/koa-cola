@@ -18,7 +18,7 @@ function createRouter(routers) {
     app.routers = app.routers || {};
     app.routers.router = app.routers.router || React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
         var component = app.pages[router.component];
-        if (component.name != 'Connect') {
+        if (component && component.name != 'Connect') {
             component = asyncConnect([{ key: 'ctrl', promise: () => null }])(component);
         }
         if (component.childrenComponents) {
