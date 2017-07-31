@@ -1,5 +1,5 @@
 import { testSchema } from './typings/schema';
-import { ApiBase, apiFetch } from 'koa-cola'
+import { ApiBase, apiFetch } from '../'
 export interface ComposeBody{
     foo : string,
     bar? : number
