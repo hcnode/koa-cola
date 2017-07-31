@@ -1,6 +1,6 @@
 
 # koa-cola
-[![Build Status](https://travis-ci.org/koa-cola/koa-cola.svg?branch=master)](https://travis-ci.org/koa-cola/koa-cola)
+[![Build Status](https://travis-ci.org/koa-cola/koa-cola.svg?branch=develop)](https://travis-ci.org/koa-cola/koa-cola)
 
 koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts开发，使用d-mvc（es7 decorator风格的mvc），此外，作者是一个深度中毒的universal ("isomorphic") 开发模式，react技术栈完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router），其他可以前后端复用的模块或者代码都会尽量复用，除了react技术栈的完全前后端universal，model层的数据schema和controller的router也是可以复用。
 
