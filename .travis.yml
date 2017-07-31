@@ -1,10 +1,7 @@
 language: node_js
 node_js:
-  — "node"
-  — "8.1.1"
-install:
- — npm install koa-cola -g
- — npm install webpack -g
- — npm install typescript -g
- — npm install ts-node -g
- — npm install
+  - "8"
+before_install:
+  - npm i -g webpack
+  - npm i -g typescript
+  - npm i -g ts-node
