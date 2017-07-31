@@ -99,4 +99,12 @@ export default class  {
     serverCallApi (@Ctx() ctx ) {
         return ctx.cookies.get('server_call_cookie') || 'hello';
     }
+
+    @Get('/autoLoadFromPages1')
+    @View('autoLoadFromPages1')
+    async autoLoadFromPages1 (@Ctx() ctx ) {
+        return {
+            foo : ctx.query.foo
+        }
+    }
 }

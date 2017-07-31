@@ -9,6 +9,7 @@ var Provider = createProvider([
     cola : require('./pages/cola').default,
     simple : require('./pages/simple').default,
     multiChildren : require('./pages/multiChildren').default,
+    autoLoadFromPages1 : require('./pages/autoLoadFromPages1').default,
 });
 
 render(<Provider />, document.getElementById('app'))
