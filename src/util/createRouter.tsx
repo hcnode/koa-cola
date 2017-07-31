@@ -20,7 +20,7 @@ export default function createRouter(routers) {
     app.routers.router = app.routers.router || <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
         {routers.map(router => {
             var component = app.pages[router.component];
-            if(component.name != 'Connect'){
+            if(component && component.name != 'Connect'){
                 component = asyncConnect([{key : 'ctrl', promise : () =>  null}])(component);
             }
             if(component.childrenComponents){

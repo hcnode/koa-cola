@@ -4,8 +4,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { shallow, mount, render } from 'enzyme';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-import inject from '../src/util/injectGlobal';
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../').Decorators.controller;
+var inject = require('../dist').injectGlobal;
 import { chdir, initBrowser } from './util';
 describe('#koa-cola inject global', function () {
 	var server, mongoose;

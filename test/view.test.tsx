@@ -4,11 +4,11 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { shallow, mount, render } from 'enzyme';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-import inject from '../src/util/injectGlobal';
+var inject = require('../dist').injectGlobal;
 import { chdir, initBrowser, loadScript } from './util';
 import * as webpack from "webpack";
 import * as fs from 'fs';
-import App from '../src/index'
+var App = require('../dist').RunApp
 describe('#koa-cola view', function () {
 	var server, mongoose;
 	before(function (done) {

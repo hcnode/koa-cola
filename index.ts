@@ -4,7 +4,7 @@ try{
 }catch(e){}
 export const RunApp = run;
 try{
-    var injectGlobal = require('./src/util/injectGlobal');
+    var injectGlobal = require('./src/util/injectGlobal').default;
     exports.injectGlobal = injectGlobal;
     exports.reqInject = function(cb){
         if(!global.app) injectGlobal();

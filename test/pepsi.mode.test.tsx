@@ -3,9 +3,10 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../').Decorators.controller;
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../dist').Decorators.controller;
 import { chdir } from './util'
-import App from '../src/index'
+// import App from '../src/index'
+var App = require('../dist/src').default
 @Controller('') 
 class FooController {
 	@Get('/')
@@ -49,7 +50,7 @@ class PepsiView extends React.Component<{
 describe('#koa-cola pepsi mode', function () {
 	var server, mongoose;
 	before(function (done) {
-		// chdir();
+		chdir();
 		server = App({
 			mode: 'pepsi',
 			config: {

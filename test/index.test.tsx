@@ -4,7 +4,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir } from './util'
-import App from '../src/index'
+var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
   console.log('unhandledRejection', require('util').inspect(error));
 });
