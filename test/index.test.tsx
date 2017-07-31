@@ -5,6 +5,9 @@ import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir } from './util'
 import App from '../src/index'
+process.on('unhandledRejection', error => {
+  console.log('unhandledRejection', require('util').inspect(error));
+});
 describe('#koa-cola', function() {
     var server;
 	var mongoose;
@@ -101,6 +104,15 @@ describe('#koa-cola', function() {
 			should(res.text).containEql(coca);
 		});
 
+		it('#view with inject props from controller', async function(){
+			var res = await request(server)
+                .get('/autoLoadFromPages1?foo=bar')
+                .expect(200)
+                .toPromise();
+			should(res.text).containEql('bar');
+			should(res.text).containEql('"ctrl":{"foo":"bar"}');
+		});
+
 		/*it('#view with server call api', async function(){
 			var res = await request(server)
                 .get('/cola')
@@ -115,7 +127,7 @@ describe('#koa-cola', function() {
 		it('#router', async function(){
 			var router = app.routers.router;
 			router.should.be.ok;
-			router.props.children.length.should.be.equal(3);
+			router.props.children.length.should.be.equal(4);
 			router.props.children[0].type.displayName.should.be.equal('Route');
 			// router.props.children[0].type.should.be.equal(Route);
 			router.props.children[0].props.path.should.be.ok;
