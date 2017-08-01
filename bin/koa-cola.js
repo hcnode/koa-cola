@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
 var program = require('commander');
 var path = require('path');
@@ -32,13 +32,19 @@ if (program.new) {
 		shell.cd(`${projectPath}`);
 		shell.exec('npm install');
 		console.log(chalk.green('npm install done. '));
-		console.log(chalk.green('now webpack building project... please wait a moment.'));
-		shell.exec('npm run open');
+		// console.log(chalk.green('now webpack building project... please wait a moment.'));
+		// shell.exec('npm run open');
 	}
 } else if(program.cheer){
 	shell.exec('webpack;koa-cola');
 } else if(program.schema){
 	createSchemaTypes();
 }else {
-	shell.exec(`${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.ts`);
+	if(fs.existsSync(`${process.cwd()}/app.ts`)){
+		shell.exec(`${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.ts`);
+	}else if(fs.existsSync(`${process.cwd()}/app.tsx`)){
+		shell.exec(`${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.tsx`);
+	}else{
+		console.log(chalk.red(`${process.cwd()}/app.ts(x) not found`));
+	}
 }
