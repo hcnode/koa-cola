@@ -1,5 +1,5 @@
-import * as should from 'should'
 require('should')
+import * as should from 'should'
 import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'

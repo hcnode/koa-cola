@@ -91,7 +91,7 @@ exports.default = async (ctx, next) => {
                         appHTML = layout(appHTML, store);
                     }
                     else {
-                        console.log(`${process.cwd()}/views/pages/layout nor found`);
+                        console.log(`${process.cwd()}/views/pages/layout not found`);
                     }
                     var injectHtml = `
                             <!-- its a Redux initial data -->
