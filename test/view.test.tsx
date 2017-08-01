@@ -5,25 +5,17 @@ import * as React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var inject = require('../dist').injectGlobal;
-import { chdir, initBrowser, loadScript } from './util';
+import { chdir, initBrowser, loadScript, initDb } from './util';
 import * as webpack from 'webpack';
 import * as fs from 'fs';
 var App = require('../dist').RunApp;
 describe('#koa-cola view', function() {
   var server, mongoose;
-  before(function(done) {
+  before(function() {
     chdir();
     initBrowser();
     server = App();
-    mongoose = app.mongoose;
-    var Mockgoose = require('mockgoose').Mockgoose;
-    var mockgoose = new Mockgoose(mongoose);
-    mockgoose.helper.setDbVersion('3.5.7');
-    mockgoose.prepareStorage().then(function() {
-      app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
-        done(err);
-      });
-    });
+    return initDb();
   });
 
   after(function(done) {
@@ -54,7 +46,7 @@ describe('#koa-cola view', function() {
       should(click).be.equal(true);
       wrapper.detach();
     });
-    /* it('#build bundle', function(done) {
+    it('#build bundle', function(done) {
       console.log(
         `testing webpack building bundle.js, please wait around 30's`
       );
@@ -93,11 +85,11 @@ describe('#koa-cola view', function() {
             document.getElementById('btn2').click();
             should(document.getElementById('pepsi').innerHTML).be.equal(pepsi2);
             document.getElementById('btn3').click();
-			should(document.getElementById('cola').innerHTML).be.equal('wow');
-			resolve()
+            should(document.getElementById('cola').innerHTML).be.equal('wow');
+            resolve();
           }, 1000);
         };
       });
-    }); */
+    });
   });
 });
