@@ -100,6 +100,9 @@ function createProvider(controllers, views) {
         return React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {
                 var component = router.component;
+                if (component && component.name != 'Connect') {
+                    component = asyncConnect([{ key: 'ctrl', promise: () => null }])(component);
+                }
                 if (component.childrenComponents) {
                     return React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component },
                         React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents }));
