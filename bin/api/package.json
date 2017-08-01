@@ -1,0 +1,11 @@
+{
+  "name": "#{name}",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "koa-cola"
+  },
+  "dependencies": {
+    "koa-cola": "^0.2.13",
+    "react": "^15.6.1"
+  }
+}

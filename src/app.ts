@@ -3,10 +3,10 @@
  */
 import App from './index'
 var server;
-export function run(){
+export function run(colaApp){
     if(server){
         server.close();
     }
-    server = App();
+    server = App(colaApp);
     return server;
 }

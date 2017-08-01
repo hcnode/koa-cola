@@ -11,10 +11,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
+        "indent": ["error", 2],
         "no-console": ["error", { allow: ["log", "warn", "error"] }],
         // "linebreak-style": [
         //     "error",
