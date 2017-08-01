@@ -87,7 +87,7 @@ export default async (ctx: Koa.Context, next) => {
                     if (layout) {
                         appHTML = layout(appHTML, store);
                     } else {
-                        console.log(`${process.cwd()}/views/pages/layout nor found`)
+                        console.log(`${process.cwd()}/views/pages/layout not found`)
                     }
                     var injectHtml = `
                             <!-- its a Redux initial data -->
