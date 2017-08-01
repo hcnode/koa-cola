@@ -93,9 +93,9 @@ describe('#koa-cola pepsi mode', function () {
 	});
 
 	after(function (done) {
-		// server.close();
-		// app.mongoose.disconnect(done)
-		// delete global.app;
+		server.close();
+		app.mongoose.disconnect(done)
+		delete global.app;
 	})
 
 	describe('#cola mode', function () {

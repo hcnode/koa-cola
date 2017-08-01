@@ -5,7 +5,7 @@
 koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts开发，使用d-mvc（es7 decorator风格的mvc），此外，作者是一个深度中毒的universal ("isomorphic") 开发模式，react技术栈完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router），其他可以前后端复用的模块或者代码都会尽量复用，除了react技术栈的完全前后端universal，model层的数据schema和controller的router也是可以复用。
 
 1. [特点](#特点)
-2. [使用方法](#使用方法)
+2. [Getting started](#getting-started)
 3. [todolist例子](#examples)
 4. [开发文档](#开发文档)
     * [d-mcv](#d-mcv)
@@ -41,10 +41,44 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 * SSR(server side render)的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
 
 
-## 使用方法
+## Getting started
+
+1. 创建koa-cola项目模版方式，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
 * `npm i koa-cola -g`
-* `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖，并自动使用webpack build bundle，并自动启动项目
+* `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖
+* `koa-cola -c` 执行webpack build bundle，并自动启动项目
 * 访问[http://localhost:3000](http://localhost:3000)
+
+2. 使用api方式创建项目，通过这种方式，可以一分钟内部署好koa-cola项目，适合简单短平快的web项目开发。
+
+```javascript
+import { RunApp } from 'koa-cola'
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('koa-cola').Decorators.controller;
+RunApp({
+    controllers: {
+        FooController: @Controller('') class FooController {
+            @Get('/')
+            index(@Ctx() ctx) {
+                return app.config.foo
+            }
+
+            @Get('/view')
+            @View('some_view')
+            async view( ) { 
+                return await Promise.resolve({
+                    foo : 'bar'
+                });
+            } 
+        }
+    },
+    pages: {
+        some_view : function({ctrl : {foo}}){
+            return <div>{foo}</div>
+        }
+    }
+});
+```
+
 
 ## Examples
 使用[官方react-redux的todolist](http://redux.js.org/docs/basics/UsageWithReact.html)作为基础，演示了官方的和基于koa-cola的例子（完整的mvc结构）
