@@ -4,7 +4,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../dist').Decorators.controller;
-import { chdir } from './util'
+import { chdir, initDb } from './util';
 // import App from '../src/index'
 var App = require('../dist/src').default
 @Controller('') 
@@ -49,7 +49,7 @@ class PepsiView extends React.Component<{
 };
 describe('#koa-cola pepsi mode', function () {
 	var server, mongoose;
-	before(function (done) {
+	before(function () {
 		chdir();
 		server = App({
 			mode: 'pepsi',
@@ -77,21 +77,13 @@ describe('#koa-cola pepsi mode', function () {
 				...
 			}*/
 		});
-		mongoose = app.mongoose;
-		var Mockgoose = require('mockgoose').Mockgoose;
-		var mockgoose = new Mockgoose(mongoose);
-		mockgoose.helper.setDbVersion('3.5.7');
-		mockgoose.prepareStorage().then(function() {
-			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function (err) {
-				done(err);
-			});
-		});
+		return initDb();
 	});
 
 	after(function (done) {
 		server.close();
+		app.mongoose.disconnect(done)
 		delete global.app;
-		mongoose.disconnect(done)
 	})
 
 	describe('#cola mode', function () {

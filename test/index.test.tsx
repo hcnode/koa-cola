@@ -3,7 +3,7 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-import { chdir } from './util'
+import { chdir, initDb } from './util';
 var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
   console.log('unhandledRejection', require('util').inspect(error));
@@ -11,23 +11,15 @@ process.on('unhandledRejection', error => {
 describe('#koa-cola', function() {
     var server;
 	var mongoose;
-	before(function(done) {
+	before(function() {
 		chdir();
 		server = App();
-		mongoose = app.mongoose;
-		var Mockgoose = require('mockgoose').Mockgoose;
-		var mockgoose = new Mockgoose(mongoose);
-		mockgoose.helper.setDbVersion('3.5.7');
-		mockgoose.prepareStorage().then(function() {
-			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
-				done(err);
-			}); 
-		});
+		return initDb();
 	});
 	after(function(done){
 		server.close();
+		app.mongoose.disconnect(done)
 		delete global.app;
-		mongoose.disconnect(done);
 	})
 	describe('#koa', function() {
 		it('#hello world', async function(){

@@ -5,27 +5,19 @@ import * as React from 'react'
 import { shallow, mount, render } from 'enzyme';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var inject = require('../dist').injectGlobal;
-import { chdir, initBrowser } from './util';
+import { chdir, initBrowser, initDb } from './util';
 describe('#koa-cola inject global', function () {
 	var server, mongoose;
-	before(function (done) {
+	before(function () {
 		chdir();
 		inject();	
 		initBrowser();
-		mongoose = app.mongoose;
-		var Mockgoose = require('mockgoose').Mockgoose;
-		var mockgoose = new Mockgoose(mongoose);
-		mockgoose.helper.setDbVersion('3.5.7');
-		mockgoose.prepareStorage().then(function() {
-			app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
-				done(err);
-			}); 
-		});
+		return initDb();
 	});
 	
 	after(function (done) {
+		app.mongoose.disconnect(done)
 		delete global.app;
-		mongoose.disconnect(done);
 	})
 	describe('#', function () {
 		it('#get inject manager', async function () {
