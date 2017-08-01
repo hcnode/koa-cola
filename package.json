@@ -6,6 +6,11 @@
   "bin": {
     "koa-cola": "./bin/koa-cola.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koa-cola/koa-cola.git"
+  },
+  "author": "Harry Chen <hcnode@gmail.com> (http://github.com/hcnode)",
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "pretest": "npm run build",
@@ -14,12 +19,8 @@
     "preversion": "rm package-lock.json; npm run build",
     "postversion": "npm publish; git push"
   },
-  "keywords": [
-    "typescript",
-    "koa",
-    "koa2"
-  ],
-  "license": "ISC",
+  "keywords": ["typescript", "koa", "koa2"],
+  "license": "MIT",
   "dependencies": {
     "@types/chalk": "^0.4.31",
     "@types/form-data": "0.0.32",
