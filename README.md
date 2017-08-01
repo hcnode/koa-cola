@@ -92,6 +92,8 @@ RunApp({
 
 **demo依赖本地的mongodb**
 
+[online demo](http://koa-cola.com:3000/)
+
 使用方法：
 * `npm i koa-cola -g`
 * `git clone https://github.com/koa-cola/todolist`

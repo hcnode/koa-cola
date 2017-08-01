@@ -25,7 +25,7 @@ exports.default = async (ctx, next) => {
         var component = app.pages[router.component];
         return component._reducer || {};
     });
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, reducers)));
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)));
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {

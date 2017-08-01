@@ -13,5 +13,5 @@ catch (e) { }
 exports.default = {
     controller: controllerDecorators,
     model: mongooseDecorators,
-    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store') })
+    view: Object.assign(reduxConnect, { store: require('redux-connect/lib/store') })
 };
