@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const index_1 = require("./index");
 var server;
-function run() {
+function run(colaApp) {
     if (server) {
         server.close();
     }
-    server = index_1.default();
+    server = index_1.default(colaApp);
     return server;
 }
 exports.run = run;
