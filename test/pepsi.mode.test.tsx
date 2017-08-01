@@ -1,11 +1,10 @@
-import * as should from 'should'
+require('should')
 import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../dist').Decorators.controller;
 import { chdir, initDb } from './util';
-// import App from '../src/index'
 var App = require('../dist/src').default
 @Controller('') 
 class FooController {
@@ -28,13 +27,23 @@ class FooController {
 
 	@Get('/view')
 	@View('pepsiView')
-	view( @Ctx() ctx) { } 
-}
+	view( @Ctx() ctx) { 
+		
+	} 
 
-class PepsiView extends React.Component<{
-	foo: string
-}, {}>   {
-	constructor(props: {foo: string}) {
+	@Get('/simpleView')
+	@View('simpleView')
+	simpleView( @Ctx() ctx) { 
+		return {
+			foo_from_ctrl : 'bar from ctrl'
+		}
+	} 
+}
+interface Props  {
+	foo: string, ctrl : any
+}
+class PepsiView extends React.Component<Props, {}>   {
+	constructor(props: Props) {
 		super(props);
 	}
 	static defaultProps = {
@@ -50,7 +59,7 @@ class PepsiView extends React.Component<{
 describe('#koa-cola pepsi mode', function () {
 	var server, mongoose;
 	before(function () {
-		chdir();
+		// chdir();
 		server = App({
 			mode: 'pepsi',
 			config: {
@@ -71,7 +80,10 @@ describe('#koa-cola pepsi mode', function () {
 				}
 			},
 			pages: {
-				pepsiView: PepsiView
+				pepsiView: PepsiView,
+				simpleView : function({ctrl : {foo_from_ctrl}}){
+					return <div>{foo_from_ctrl}</div>
+				}
 			}
 			/*models : {
 				...
@@ -81,9 +93,9 @@ describe('#koa-cola pepsi mode', function () {
 	});
 
 	after(function (done) {
-		server.close();
-		app.mongoose.disconnect(done)
-		delete global.app;
+		// server.close();
+		// app.mongoose.disconnect(done)
+		// delete global.app;
 	})
 
 	describe('#cola mode', function () {
@@ -114,6 +126,14 @@ describe('#koa-cola pepsi mode', function () {
 				.expect(200)
 				.toPromise();
 			res.text.should.be.containEql('fooooo');
+		});
+
+		it('# view router && inject views && use props return from controller', async function () {
+			var res = await request(server)
+				.get("/simpleView")
+				.expect(200)
+				.toPromise();
+			res.text.should.be.containEql('bar from ctrl');
 		});
 	});
 });
