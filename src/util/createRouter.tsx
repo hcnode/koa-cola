@@ -102,6 +102,9 @@ export function createProvider(controllers, views) {
                 {
                     reactRouters.map(router => {
                         var component = router.component;
+                        if(component && component.name != 'Connect'){
+                            component = asyncConnect([{key : 'ctrl', promise : () =>  null}])(component);
+                        }
                         if(component.childrenComponents){
                             return <Route key="route" path={router.path} component={component} >
                                 <IndexRoute components={component.childrenComponents} />

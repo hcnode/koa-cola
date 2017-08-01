@@ -5,7 +5,7 @@ var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ct
 class FooController {
     @Get('/')
     index(@Ctx() ctx) {
-        return 'hello koa-cola !'
+        return '<h1>hello koa-cola !</h1>'
     }
 
     @Get('/view')
