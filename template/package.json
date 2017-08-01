@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/webpack-env": "^1.13.0",
     "fs-extra": "^4.0.0",
     "koa-body": "^2.1.0",
     "koa-cola": "^0.1.4",
