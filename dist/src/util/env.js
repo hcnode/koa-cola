@@ -21,7 +21,7 @@ function getConfig() {
         }
         var configs = require_1.reqDir(configPath);
         var defConfig = Object.keys(configs).reduce((config, key) => {
-            return Object.assign(config, configs[key]);
+            return Object.assign({}, config, configs[key]);
         }, {});
         var env = {};
         if (fs.existsSync(envPath)) {

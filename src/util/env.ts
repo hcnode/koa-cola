@@ -18,7 +18,7 @@ export function getConfig() {
 		}
 		var configs = reqDir(configPath);
 		var defConfig = Object.keys(configs).reduce((config, key) => {
-			return Object.assign(config, configs[key]);
+			return {...config, ...configs[key]};
 		}, {});
 		var env = {};
 		if (fs.existsSync(envPath)) {
@@ -31,7 +31,7 @@ export function getConfig() {
 				}
 			})
 		}
-		return Object.assign({}, defConfig, env);
+		return {...defConfig, ...env};
 	} catch (err) {
 		return {};
 	}

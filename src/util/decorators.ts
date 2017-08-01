@@ -10,5 +10,5 @@ try{
 export default {
 	controller : controllerDecorators,
 	model : mongooseDecorators,
-	view : Object.assign(reduxConnect, {store : require('redux-connect/lib/store')})
+	view : {...reduxConnect, store : require('redux-connect/lib/store')}
 }

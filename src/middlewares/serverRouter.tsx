@@ -24,7 +24,7 @@ export default async (ctx: Koa.Context, next) => {
         var component = app.pages[router.component];
         return component._reducer || {};
     });
-    const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)));
+    const store = createStore(combineReducers({ reduxAsyncConnect: reducer , ...reducers}));
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
