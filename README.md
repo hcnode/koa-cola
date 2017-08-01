@@ -8,7 +8,7 @@ koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts�
 2. [Getting started](#getting-started)
 3. [todolist例子](#examples)
 4. [开发文档](#开发文档)
-    * [d-mcv](#d-mcv)
+    * [d-mvc](#d-mvc)
         * [Controller](#controller)
         * [View](#view)
         * [Model](#model)
@@ -104,7 +104,7 @@ RunApp({
 
 ## 开发文档
 
-## d-mcv
+## d-mvc
 koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller是必须用提供的decorator来开发（因为涉及到router相关的定义），model和view层则没有强制需要demo所演示的decorator来开发。
 ### Controller
     

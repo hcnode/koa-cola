@@ -5,8 +5,8 @@ export default function(html, store){
     <body>
         <div id="app">${html}</div>
     </body>
-    <script src="/bundle.js"></script>
 </html>
+<script src="/bundle.js"></script>
     `
 }
 
