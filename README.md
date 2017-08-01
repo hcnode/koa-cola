@@ -500,77 +500,77 @@ client端Provider则是:
 
 server端redux:
 
-    * controller返回props+普通react组件
-    react组件最终会转换成react-redux组件，在生命周期的render之前，你可以使用redux比如dispatch。
+* controller返回props+普通react组件
+react组件最终会转换成react-redux组件，在生命周期的render之前，你可以使用redux比如dispatch。
 
-    ```javascript
-    @Get('/view')
-    @View('some_view')
-    async view( @Ctx() ctx ) { // controller返回数据传递到react组件的props.ctrl
-        return await Promise.resolve({
-            foo : 'bar'
-        });
-    } 
-    ```
+```javascript
+@Get('/view')
+@View('some_view')
+async view( @Ctx() ctx ) { // controller返回数据传递到react组件的props.ctrl
+    return await Promise.resolve({
+        foo : 'bar'
+    });
+} 
+```
 
-    react组件：
+react组件：
 
-    ```javascript
-    function({ctrl : {foo}}){
-        return <div>{foo}</div>
+```javascript
+function({ctrl : {foo}}){
+    return <div>{foo}</div>
+}
+```
+
+或者
+
+```javascript
+class Page extends React.Component<Props, States>   {
+    constructor(props: Props) {
+        super(props);
     }
-    ```
-
-    或者
-
-    ```javascript
-    class Page extends React.Component<Props, States>   {
-        constructor(props: Props) {
-            super(props);
-        }
-        render() {
-            return <div>{this.props.ctrl.foo}</div>
-        }
-    };
-    ```
-    * react-redux组件，无法获得controller返回的props
-    ```javascript
-    import { connect } from 'react-redux'
-    var Index = function({some_props}) {
-        return <h1>Wow koa-cola!</h1>
+    render() {
+        return <div>{this.props.ctrl.foo}</div>
     }
-    export default connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Index)
-    ```
-    或者是经过redux-connect封装的react-redux:
-
-    ```javascript
-    var {
-        asyncConnect,
-    } = require('koa-cola').Decorators.view;
-
-    @asyncConnect(
-    [{
-        key: 'foo',
-        promise: async ({ params, helpers}) => {
-            return await Promise.resolve('this will go to this.props.some_props')
-        }
-    }],
+};
+```
+* react-redux组件，无法获得controller返回的props
+```javascript
+import { connect } from 'react-redux'
+var Index = function({some_props}) {
+    return <h1>Wow koa-cola!</h1>
+}
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-    )
-    class Index extends React.Component<Props, States>   {
-        constructor(props: Props) {
-            super(props);
-        }
-        render() {
-            return <h1>{this.props.foo}</h1>
-        }
-    };
-    export default Index
-    ```
+)(Index)
+```
+    或者是经过redux-connect封装的react-redux:
+
+```javascript
+var {
+    asyncConnect,
+} = require('koa-cola').Decorators.view;
+
+@asyncConnect(
+[{
+    key: 'foo',
+    promise: async ({ params, helpers}) => {
+        return await Promise.resolve('this will go to this.props.some_props')
+    }
+}],
+mapStateToProps,
+mapDispatchToProps
+)
+class Index extends React.Component<Props, States>   {
+    constructor(props: Props) {
+        super(props);
+    }
+    render() {
+        return <h1>{this.props.foo}</h1>
+    }
+};
+export default Index
+```
 
 client端的redux
 
