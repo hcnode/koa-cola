@@ -25,7 +25,7 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
         * [server](#server)
     * [inject global](#inject-global)
     * [api开发模式](#api开发模式)
-    * [universal ("isomorphic")](#universal-("isomorphic"))
+    * [universal ("isomorphic")](#universal-isomorphic)
         * [前后端router](#前后端router)
         * [前后端redux](#前后端redux)
         * [react组件的前后端复用](#react组件的前后端复用)
