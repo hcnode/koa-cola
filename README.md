@@ -174,37 +174,47 @@ view层可以是简单的React.Component或者是stateless的函数组件，也�
 
 4. redux-connect的decorator
 使用这种方式的话，需要注意两点：
-    * redux的reducer需要创建在组件类的静态属性`_reducer`
-    * 如果有子组件也是使用redux-connect封装，则需要在组件类建立静态属性`childrenComponents`
+    * redux的reducer需要使用装饰器colaReducer
+    * 如果有子组件也是使用redux-connect封装，则需要使用装饰器include
     * 以上两点可以参考todolist的[代码](https://github.com/koa-cola/todolist/blob/master/views/pages/colastyleDemo.tsx)
 
 ```javascript
-    var {
-        asyncConnect,
-    } = require('koa-cola').Decorators.view;
-
-    @asyncConnect(
-    [{
-        key: 'some_props',
-        promise: async ({ params, helpers}) => {
-            return Promise.resolve('this will go to this.props.some_props')
-        }
-    }],
-    mapStateToProps,
-    mapDispatchToProps
-    )
-    class Index extends React.Component<Props, States>   {
-        constructor(props: Props) {
-            super(props);
-        }
-        static defaultProps = {
-            
-        };
-        render() {
-            return <h1>Wow koa-cola!</h1>
-        }
-    };
-    export default Index
+import AddTodo from '../official-demo/containers/AddTodo';
+import FilterLink from '../official-demo/containers/FilterLink';
+import VisibleTodoList from '../official-demo/containers/VisibleTodoList';
+var {
+  asyncConnect,
+  colaReducer,
+  include
+} = require('koa-cola').Decorators.view;
+@asyncConnect([
+  {
+    key: 'todosData',
+    promise: async ({ params, helpers, store: { dispatch } }) => {
+      var api = new GetTodoList({});
+      var data = await api.fetch(helpers.ctx);
+      dispatch({
+        type: 'INIT_TODO',
+        data: data.result.result
+      });
+      return data.result.result;
+    }
+  }
+])
+@colaReducer({
+  todos,
+  visibilityFilter
+})
+@include({ AddTodo, FilterLink, VisibleTodoList })
+class ColastyleDemo extends React.Component<Props, States> {
+  constructor(props: Props) {
+    super(props);
+  }
+  render() {
+    return <App />;
+  }
+}
+export default ColastyleDemo;
 ```
 
 ### Model
@@ -659,3 +669,7 @@ export default Page;
 }
 ```
 便可享受vscode的调试ts的乐趣。
+
+另外，koa-cola加了redux调试支持，你也可以使用chrome的react-redux插件调试：
+
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/dev-tool.png" alt="Drawing" width="600"/>
