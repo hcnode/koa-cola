@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer } = require('../../../').Decorators.view;
+var { ReduxAsyncConnect, asyncConnect, reducer, store } = require('../../../').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props {
   prop1?: any

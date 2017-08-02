@@ -8,18 +8,25 @@
 
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { ReduxAsyncConnect, asyncConnect, reducer, store, SyncReducer  } = require('../../../').Decorators.view;
+var {
+  ReduxAsyncConnect,
+  asyncConnect,
+  reducer,
+  store,
+  colaReducer
+} = require('../../../dist').Decorators.view;
 var loadSuccess = store.loadSuccess;
-export interface Props{
-    pepsi?: string
-    coca?: string
-    onClick? : any
-    onAsyncClick? : any
-    ajax? : any
-    serverCallResult? : string
+export interface Props {
+  pepsi?: string;
+  coca?: string;
+  onClick?: any;
+  onAsyncClick?: any;
+  ajax?: any;
+  serverCallResult?: string;
+  colaPepsi? :any
 }
 export interface States {
-  cola? : string
+  cola?: string;
 }
 
 export const pepsi = 'this is pepsi-cola';
@@ -27,83 +34,137 @@ export const pepsi2 = 'this is pepsi-cola again';
 export const coca = 'this is coca-cola';
 export const coca2 = 'this is coca-cola again';
 export const timeout = 500;
-@asyncConnect([{
-  key: 'pepsi',
-  promise: ({ params, helpers }) => {
-    return Promise.resolve(pepsi);
-  }
-},{
-  key: 'coca',
-  promise: ({ params, helpers }) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(coca), timeout)
-    })
-  }
-},{
-  key: 'serverCallResult',
-  promise: async ({ params, helpers }) => {
-    var ctx = helpers.ctx;
-    var serverCallApi = new ServerCallApi({});
-    var data = await serverCallApi.fetch(ctx);
-    return data.result;
-  }
-}], 
-// mapStateToProps
-({ pepsi }) => {
-  return {
-    pepsi
-  }
-}, 
-// mapDispatchToProps
-(dispatch) => {
-  return {
-    onClick: () => {
-      dispatch(loadSuccess('pepsi', pepsi2));
-    },
-    onAsyncClick: async () => {
-      var data = await new Promise((resolve, reject) => {
-        setTimeout(() => resolve(coca2), timeout)
-      })
-      dispatch(loadSuccess('coca', data));
-    },
-    ajax : async () => {
-      var compose = new Compose({foo : 'bar'})
-      compose = await compose.fetch();
-      console.log(compose);
-    }
-  }
-})
-class App extends React.Component<Props, States>   {
-  constructor(props: Props) {
-      super(props);
-      this.state = {
-        cola : ''
+@asyncConnect(
+  [
+    {
+      key: 'pepsi',
+      promise: ({ params, helpers }) => {
+        return Promise.resolve(pepsi);
       }
+    },
+    {
+      key: 'coca',
+      promise: ({ params, helpers }) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => resolve(coca), timeout);
+        });
+      }
+    },
+    {
+      key: 'serverCallResult',
+      promise: async ({ params, helpers }) => {
+        var ctx = helpers.ctx;
+        var serverCallApi = new ServerCallApi({});
+        var data = await serverCallApi.fetch(ctx);
+        return data.result;
+      }
+    }
+  ],
+  // mapStateToProps
+  ({ colaPepsi }) => {
+    return {
+      colaPepsi
+    };
+  },
+  // mapDispatchToProps
+  dispatch => {
+    return {
+      onClick: () => {
+        dispatch(loadSuccess('pepsi', pepsi2));
+        dispatch({
+          type: 'GET_COLAPEPSI',
+          data: pepsi2
+        });
+      },
+      onAsyncClick: async () => {
+        var data = await new Promise((resolve, reject) => {
+          setTimeout(() => resolve(coca2), timeout);
+        });
+        dispatch(loadSuccess('coca', data));
+      },
+      ajax: async () => {
+        var compose = new Compose({ foo: 'bar' });
+        compose = await compose.fetch();
+        console.log(compose);
+      }
+    };
   }
-  componentDidMount() {
+)
+@colaReducer({
+  colaPepsi : (state = [], action) => {
+  switch (action.type) {
+    case 'GET_COLAPEPSI':
+      return action.data;
+    default:
+      return state;
   }
+}
+})
+class App extends React.Component<Props, States> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      cola: ''
+    };
+  }
+  componentDidMount() {}
   render() {
-    var result =  <div>
-      <div><h2>koa-cola</h2></div>
-      <div id="pepsi">{this.props.pepsi}</div>
-      <div id="coca">{this.props.coca}</div>
-      <div id="cola">{this.state.cola}</div>
-      <button id="btn1" onClick={() => {
-        this.props.onAsyncClick();
-      }}>test async</button>
-      <button id="btn2" onClick={() => {
-        this.props.onClick();
-      }}>click</button>
-      <button id="btn3" onClick={() => {
-        this.setState({cola : 'wow'});
-      }}>setState</button>
-      <button id="btn4" onClick={() => {
-        this.props.ajax()
-      }}>serverCall</button>
-      <div id="dataFromServer">{this.props.serverCallResult}</div>
-    </div>
+    var result = (
+      <div>
+        <div>
+          <h2>koa-cola</h2>
+        </div>
+        <div id="pepsi">
+          {this.props.pepsi}
+        </div>
+        <div id="coca">
+          {this.props.coca}
+        </div>
+        <div id="cola">
+          {this.state.cola}
+        </div>
+        <button
+          id="btn1"
+          onClick={() => {
+            this.props.onAsyncClick();
+          }}
+        >
+          test async
+        </button>
+        <button
+          id="btn2"
+          onClick={() => {
+            this.props.onClick();
+          }}
+        >
+          click
+        </button>
+        <button
+          id="btn3"
+          onClick={() => {
+            this.setState({ cola: 'wow' });
+          }}
+        >
+          setState
+        </button>
+        <button
+          id="btn4"
+          onClick={() => {
+            this.props.ajax();
+          }}
+        >
+          serverCall
+        </button>
+        <div id="dataFromServer">
+          {this.props.serverCallResult}
+        </div>
+        <div>
+          {this.props.colaPepsi}
+        </div>
+      </div>
+    );
     return result;
   }
-};
+}
 
-export default App
+export default App;

@@ -17,6 +17,7 @@ try {
  */
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
+import { ColaReducer, ChildrenComponents } from './src/decorators/views';
 export { Base as ApiBase, fetch as apiFetch } from './src/util/api';
 export { createProvider } from './src/util/createRouter';
 /* try {
@@ -26,5 +27,8 @@ catch (e) { } */
 exports.Decorators = {
   controller: controllerDecorators,
   // model: mongooseDecorators,
-  view : {...reduxConnect, store: require('redux-connect/lib/store')}
+  view: { ...reduxConnect, 
+    store: require('redux-connect/lib/store'),
+    colaReducer: ColaReducer,
+    include: ChildrenComponents }
 };

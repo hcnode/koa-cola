@@ -20,6 +20,7 @@ catch (e) { }
  */
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
+const views_1 = require("./src/decorators/views");
 var api_1 = require("./src/util/api");
 exports.ApiBase = api_1.Base;
 exports.apiFetch = api_1.fetch;
@@ -32,5 +33,5 @@ catch (e) { } */
 exports.Decorators = {
     controller: controllerDecorators,
     // model: mongooseDecorators,
-    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store') })
+    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store'), colaReducer: views_1.ColaReducer, include: views_1.ChildrenComponents })
 };

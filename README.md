@@ -2,7 +2,7 @@
 # koa-cola
 [![Build Status](https://travis-ci.org/koa-cola/koa-cola.svg?branch=develop)](https://travis-ci.org/koa-cola/koa-cola)
 
-koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts开发，使用d-mvc（es7 decorator风格的mvc），另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal ("isomorphic")（server端和client端均可以使用同一套component、react-redux、react-router）。
+koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈框架，并使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
 
 1. [特点](#特点)
 2. [Getting started](#getting-started)
@@ -26,12 +26,17 @@ koa-cola是一个基于koa的SSR(server side render)web框架的，并使用ts�
     * [inject global](#inject-global)
     * [api开发模式](#api开发模式)
     * [universal ("isomorphic")](#universal-("isomorphic"))
+        * [前后端router](#前后端router)
+        * [前后端redux](#前后端redux)
+        * [react组件的前后端复用](#react组件的前后端复用)
+        * [http api和请求fetch](#http-api和请求fetch)
+            
     * [cluster模式](#cluster模式)
     * [调试](#调试)
 
 ## 特点
 koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响，所以此项目的比如配置模式、api目录结构也是模仿sails。
-此项目还在完善中，不过已经使用过在线上活动项目，node8+原生async/await
+此项目还在完善中，不过已经使用过在线上某个活动项目，环境使用node8+原生async/await。
 * 使用koa作为web服务（使用node8可以完美高性能使用async/await）
 * 使用typescript开发
 * 使用完整的react技术栈(包括react-router和react-redux)
@@ -41,13 +46,15 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 
 ## Getting started
 
+开发者可以通过两种开发模式进行koa-cola项目开发
+
 1. 使用通用的模版方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
     * `npm i koa-cola -g`
     * `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖
     * `koa-cola -c` 执行webpack build bundle，并自动启动项目
     * 访问[http://localhost:3000](http://localhost:3000)
 
-2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单短平快的web项目开发。
+2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的短平快项目开发。
     * `npm i koa-cola -g`
     * `koa-cola -n app -m api` 在目录里面创建api.tsx,package.json,tsconfig.json, 并自动安装依赖和启动项目
     * 访问[http://localhost:5555](http://localhost:5555)
@@ -95,7 +102,7 @@ RunApp({
 [online demo](http://koa-cola.com:3000/)
 
 使用方法：
-* `npm i koa-cola -g`
+* `npm i koa-cola typescript -g`
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
 * `npm i`
@@ -461,7 +468,9 @@ api开发模式的缺点就是暂时不能build webpack bundle，所以api开发
 
 前面说过koa-cola是个react技术栈前后端可以复用的universal开发模式。
 
-1. 通过controller生成server端的react-router，并且也生成client端的react-reduxt的Provider(里面还是封装了react-router)
+### 前后端router
+
+通过controller生成server端的react-router，并且也生成client端的react-reduxt的Provider(里面还是封装了react-router)
 
 ```javascript
 @Controller('') 
@@ -498,11 +507,13 @@ client端Provider则是:
 </Provider>
 ```
 
-2. 在前后端使用redux，koa-cola集成了react-redux方案
+### 前后端redux
+
+koa-cola集成了react-redux方案
 
 server端redux:
 
-* controller返回props+普通react组件
+#### controller返回props+普通react组件
 
 react组件最终会转换成react-redux组件，在生命周期的render之前，你可以使用redux比如dispatch。
 
@@ -536,7 +547,7 @@ class Page extends React.Component<Props, States>   {
     }
 };
 ```
-* 使用react-redux组件，但是无法获得controller返回的props
+#### 使用react-redux组件，但是无法获得controller返回的props
 
 ```javascript
 import { connect } from 'react-redux'
@@ -583,7 +594,7 @@ client端的redux
 
 但是client端的redux store会依赖server端，如果server端的store已经经过一系列的数据流操作，那么将会在render阶段之前的数据保存起来，作为client端react-redux的初始化数据（详细查看[redux的createStore](http://redux.js.org/docs/api/createStore.html)），那么这样就可以完美地redux数据流从server端无缝衔接到client端。
 
-3. react组件的前后端复用
+### react组件的前后端复用
 
 从前面react-router和react-redux可以看到react组件是可以完全前后端复用，在前端可以使用react所有功能，但是在server端只能使用render之前的生命周期，包括：
 
@@ -593,14 +604,17 @@ client端的redux
 
 如果你的组件会依赖浏览器的dom，如果是在以上生命周期里面调用，则在server端渲染时出错，所以避免出错，你需要判断当前环境，比如：`if(typeof window != 'undefined')`，或者你可以使用这个类似[模拟浏览器端方案](https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md)。
 
-4. http api和请求fetch
+### http api和请求fetch
 
 在前面[Model](#model)的介绍，也说到过可以使用koa-cola定义的api基类来创建自己的api类，并使用api的fetch方法获取数据：
+
 ```javascript
 var api = new GetTodoList({});
 var data = await api.fetch(helpers.ctx);
 ```
+
 上面代码也是可以兼容server端和服务器端，ajax库使用了[axios](https://github.com/mzabriskie/axios)，比如todolist demo有个react组件定义：
+
 ```javascript
 @asyncConnect([
   {
