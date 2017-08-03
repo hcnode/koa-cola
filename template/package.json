@@ -2,15 +2,14 @@
   "name": "app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "build": "webpack --progress --profile --colors --watch",
-    "local": "NODE_ENV=local ./node_modules/ts-node/dist/bin.js -F ./app.ts",
-    "open": "webpack;koa-cola",
-    "cheer" : "npm run open"
+    "watch": "webpack --progress --profile --colors --watch",
+    "build": "webpack -p",
+    "local": "NODE_ENV=local ts-node -F ./app.ts"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/webpack-env": "^1.13.0",
     "fs-extra": "^4.0.0",
