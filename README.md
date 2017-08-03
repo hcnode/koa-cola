@@ -454,11 +454,11 @@ var Provider = createProvider([IndexController], {
 });
 
 render(<Provider />, document.getElementById('app'));
+```
 
 wepack build 新建默认的项目得到的bundle的大小有400K，依赖的库组成如下图：
 <img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/bundle.png" alt="Drawing" width="800"/>
 
-```
 
 ### server
 koa-cola本身框架只编译了部分代码，比如es6的module import和export，ts类型相关的语法，对es6或者es7（比如async/await）没有进行编译，尽量用到node.js原生的es高级语法（所以会不支持低版本的node），如果你想希望你的应用在低版本node下使用，则需要你手动build出你所希望的代码，并包括所依赖的koa-cola库。
