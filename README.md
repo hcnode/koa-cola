@@ -255,7 +255,7 @@ export const userSchema = function(mongoose){
 ```javascript
 import * as mongoose from 'mongoose'
 import userSchema from '../schemas/user'
-export default mongoose.model('user', userSchema(mongoose))
+export default mongoose.model('user', new mongoose.Schema(userSchema(mongoose)))
 ```
 
 当然也可以使用decorator方式定义model，还可以定义相关hook，详情可以参考[mongoose-decorators](https://github.com/aksyonov/mongoose-decorators)
@@ -651,6 +651,8 @@ export default Page;
 ## cluster模式
 
 如果你想使用cluster模式，koa-cola提供了pm2的配置文件，使用cli新建项目时候会生成这个配置文件，启动方式使用：`pm2 start pm2.config.js`
+
+不过pm2最新的版本支持ts-node会有[问题](https://github.com/Unitech/pm2/issues/2675)
 
 ## 调试
 
