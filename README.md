@@ -49,13 +49,13 @@ koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sa
 开发者可以通过两种开发模式进行koa-cola项目开发
 
 1. 使用通用的模版方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
-    * `npm i koa-cola -g`
+    * `npm i koa-cola ts-node -g`
     * `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖
     * `koa-cola -c` 执行webpack build bundle，并自动启动项目
     * 访问[http://localhost:3000](http://localhost:3000)
 
 2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的短平快项目开发。
-    * `npm i koa-cola -g`
+    * `npm i koa-cola ts-node -g`
     * `koa-cola -n app -m api` 在目录里面创建api.tsx,package.json,tsconfig.json, 并自动安装依赖和启动项目
     * 访问[http://localhost:5555](http://localhost:5555)
 
