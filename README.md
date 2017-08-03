@@ -455,6 +455,9 @@ var Provider = createProvider([IndexController], {
 
 render(<Provider />, document.getElementById('app'));
 
+wepack build 新建默认的项目得到的bundle的大小有400K，依赖的库组成如下图：
+<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/bundle.png" alt="Drawing" width="800"/>
+
 ```
 
 ### server
