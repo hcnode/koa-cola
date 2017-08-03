@@ -655,8 +655,6 @@ export default Page;
 
 如果你想使用cluster模式，koa-cola提供了pm2的配置文件，使用cli新建项目时候会生成这个配置文件，启动方式使用：`pm2 start pm2.config.js`
 
-不过pm2最新的版本支持ts-node会有[问题](https://github.com/Unitech/pm2/issues/2675)
-
 ## 调试
 
 如果需要调试koa-cola项目，需要添加两个依赖`npm i ts-node typescript -S`，然后在vscode新建调试配置：
@@ -680,6 +678,6 @@ export default Page;
 ```
 便可享受vscode的调试ts的乐趣。
 
-另外，koa-cola加了redux调试支持，你也可以使用chrome的react-redux插件调试：
+另外，koa-cola加了redux调试支持，你也可以使用chrome的redux插件调试：
 
 <img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/dev-tool.png" alt="Drawing" width="600"/>
