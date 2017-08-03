@@ -6,10 +6,10 @@ module.exports = {
 	apps: [
 		// server
 		{
-			name: 'koa-cola-todolist',
+			name: 'koa-cola-app',
 			script: __dirname + '/node_modules/ts-node/dist/_bin.js',
-			instances: 2,
-			exec_mode: 'cluster',
+			// instances: 2,
+			exec_mode: 'fork',
 			interpreter_args: '-r ts-node/register ./app.ts -F'
 		}
 	]
