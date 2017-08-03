@@ -2,7 +2,7 @@
 # koa-cola
 [![Build Status](https://travis-ci.org/koa-cola/koa-cola.svg?branch=develop)](https://travis-ci.org/koa-cola/koa-cola)
 
-koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈框架，并使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
+koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈框架，并使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
 
 1. [特点](#特点)
 2. [Getting started](#getting-started)
@@ -25,7 +25,7 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
         * [server](#server)
     * [inject global](#inject-global)
     * [api开发模式](#api开发模式)
-    * [universal ("isomorphic")](#universal-("isomorphic"))
+    * [universal ("isomorphic")](#universal-isomorphic)
         * [前后端router](#前后端router)
         * [前后端redux](#前后端redux)
         * [react组件的前后端复用](#react组件的前后端复用)
