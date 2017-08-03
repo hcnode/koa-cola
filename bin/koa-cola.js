@@ -57,11 +57,11 @@ if (program.new) {
 } else {
   if (fs.existsSync(`${process.cwd()}/app.ts`)) {
     shell.exec(
-      `${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.ts`
+      `ts-node -F ${process.cwd()}/app.ts`
     );
   } else if (fs.existsSync(`${process.cwd()}/app.tsx`)) {
     shell.exec(
-      `${__dirname}/../node_modules/ts-node/dist/bin.js -F ${process.cwd()}/app.tsx`
+      `ts-node -F ${process.cwd()}/app.tsx`
     );
   } else {
     console.log(chalk.red(`${process.cwd()}/app.ts(x) not found`));
