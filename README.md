@@ -421,6 +421,11 @@ koa-cola提供了一些有用的cli命令，包括新建项目、启动项目、
 
 `koa-cola --cheer` 或者 `koa-cola -c` 先build bundle，再launch app
 
+**windows环境使用koa-cola命令启动可能有问题，可以尝试以下方式启动**
+
+* 先安装全局的ts-node `npm i ts-node -g`
+* 使用ts-node运行 `ts-node ./app.ts`
+
 ### 生成model schema文件
 
 `koa-cola --schema` 或者 `koa-cola --s` 生成`api/schenmas`下面的model schema定义，保存在`typings/schema.ts`
