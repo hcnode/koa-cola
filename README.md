@@ -6,7 +6,7 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
 
 1. [特点](#特点)
 2. [如何使用](#如何使用)
-3. [对比next.js](#对比next.js)
+3. [对比next.js](#对比nextjs)
 4. [todolist例子](#examples)
 5. [开发文档](#开发文档)
     * [d-mvc](#d-mvc)
