@@ -10,7 +10,8 @@ export const foo = 'this is foo';
 
 @doNotUseLayout
 @bundle([
-  "/bundle.js"
+  "/bundle.js",
+  "/test.js"
 ])
 @header(() => {
   return <head>
