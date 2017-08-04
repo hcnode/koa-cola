@@ -59,7 +59,7 @@ export default async (ctx: Koa.Context, next) => {
                                 renderProps.components[1].reduxAsyncConnect = renderProps.components[1].reduxAsyncConnect || [];
                                 var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(item => item.key == 'ctrl')
                                 if (ctrlItem) {
-                                    var result = await reactRouter.func(...reactRouter.args(ctx, next));
+                                    var result = await func(...args(ctx, next));
                                     store.dispatch(loadSuccess('ctrl', result));
                                 }
                             }
