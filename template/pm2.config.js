@@ -6,8 +6,8 @@ module.exports = {
 	apps: [
 		// server
 		{
-			name: 'koa-cola-todolist',
-			script: __dirname + '/pm2.ts',
+			name: 'koa-cola-app',
+			script: __dirname + '/pm2.js',
 			instances: 2,
 			exec_mode: 'cluster'
 		}

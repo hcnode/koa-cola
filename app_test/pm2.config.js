@@ -7,7 +7,7 @@ module.exports = {
 		// server
 		{
 			name: 'koa-cola-app-test',
-			script: __dirname + '/pm2.ts',
+			script: __dirname + '/pm2.js',
 			instances: 2,
 			exec_mode: 'cluster'
 		}
