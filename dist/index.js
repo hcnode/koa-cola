@@ -33,5 +33,5 @@ catch (e) { } */
 exports.Decorators = {
     controller: controllerDecorators,
     // model: mongooseDecorators,
-    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store'), colaReducer: views_1.ColaReducer, include: views_1.ChildrenComponents })
+    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store'), colaReducer: views_1.ColaReducer, include: views_1.ChildrenComponents, header: views_1.header, bundle: views_1.bundle, doNotUseLayout: views_1.doNotUseLayout })
 };

@@ -60,7 +60,7 @@ exports.default = async (ctx, next) => {
                                 renderProps.components[1].reduxAsyncConnect = renderProps.components[1].reduxAsyncConnect || [];
                                 var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(item => item.key == 'ctrl');
                                 if (ctrlItem) {
-                                    var result = await reactRouter.func(...reactRouter.args(ctx, next));
+                                    var result = await func(...args(ctx, next));
                                     store.dispatch(loadSuccess('ctrl', result));
                                 }
                             }
@@ -83,28 +83,46 @@ exports.default = async (ctx, next) => {
                         }
                         return resolve();
                     }
-                    /**
-                     * 必须配置layout，并且必须在layout引用bundle文件
-                     * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
-                     */
-                    if (layout) {
-                        appHTML = layout(appHTML, store);
-                    }
-                    else {
-                        console.log(`${process.cwd()}/views/pages/layout not found`);
-                    }
-                    var injectHtml = `
-                            <!-- its a Redux initial data -->
-                            <script>
-                                window.__data=${serialize(store.getState())};
-                            </script>
+                    var { _doNotUseLayout, Header, _bundle } = renderProps.components[1];
+                    if (_doNotUseLayout) {
+                        appHTML = `
+                            <!doctype html>
+                            <html>
+                                ${Header ? server_1.renderToString(React.createElement(Header, null)) : ''}
+                                <body><div>${appHTML}</div></body>
+                                <script>
+                                    window.__data=${serialize(store.getState())};
+                                </script>
+                                ${_bundle ? _bundle.map(item => {
+                            return `<script src='${item}'></script>`;
+                        }) : ''}
                             </html>
-                        `;
-                    if (/<\/html\>/ig.test(appHTML)) {
-                        appHTML = appHTML.replace(/<\/html\>/ig, injectHtml);
+                                `;
                     }
                     else {
-                        appHTML += injectHtml;
+                        /**
+                         * 必须配置layout，并且必须在layout引用bundle文件
+                         * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
+                         */
+                        if (layout) {
+                            appHTML = layout(appHTML, store);
+                        }
+                        else {
+                            console.log(`${process.cwd()}/views/pages/layout not found`);
+                        }
+                        var injectHtml = `
+                                <!-- its a Redux initial data -->
+                                <script>
+                                    window.__data=${serialize(store.getState())};
+                                </script>
+                                </html>
+                            `;
+                        if (/<\/html\>/ig.test(appHTML)) {
+                            appHTML = appHTML.replace(/<\/html\>/ig, injectHtml);
+                        }
+                        else {
+                            appHTML += injectHtml;
+                        }
                     }
                     ctx.body = appHTML;
                     resolve();
