@@ -11,11 +11,12 @@ export function req(module){
 
 export function reqDir(dir){
     try {
-        var libs = requireDir(dir);
-        Object.keys(libs).forEach(key => {
-            libs[key] = libs[key].default || libs[key];
-        });
-        return libs;
+        const libs = requireDir(dir);
+        return Object.keys(libs).reduce((host: {}, key: string) => {
+            host[key] = libs[key].default || libs[key];
+            return host;
+        }, {});
+    
     } catch (err) {
         console.log(`dir ${dir} does not exist`)
         return {};
