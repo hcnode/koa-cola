@@ -2,10 +2,10 @@
   "name": "#{name}",
   "version": "1.0.0",
   "scripts": {
-    "start": "koa-cola"
+    "local": "NODE_ENV=local ts-node -F ./app.ts"
   },
   "dependencies": {
-    "koa-cola": "^0.2.13",
+    "koa-cola": "latest",
     "react": "^15.6.1"
   }
 }
