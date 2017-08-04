@@ -1,6 +1,10 @@
 {
   "name": "koa-cola",
+<<<<<<< HEAD
   "version": "0.3.5",
+=======
+  "version": "0.3.8",
+>>>>>>> develop
   "description": "",
   "main": "dist/index.js",
   "bin": {
@@ -8,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/koa-cola/koa-cola.git"
+    "url": "https://github.com/hcnode/koa-cola.git"
   },
   "author": "Harry Chen <hcnode@gmail.com> (http://github.com/hcnode)",
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
-    "pretest": "npm run build",
+    "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist; tsc -p compile",
     "preversion": "rm package-lock.json; npm run build",

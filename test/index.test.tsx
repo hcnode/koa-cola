@@ -107,6 +107,16 @@ describe('#koa-cola', function() {
 			should(res.text).containEql('"ctrl":{"foo":"bar"}');
 		});
 
+
+		it('#header and bundle decorator', async function(){
+			var res = await request(server)
+                .get('/headerAndBundle')
+                .expect(200)
+                .toPromise();
+			should(res.text).containEql('<meta name="viewport" content="width=device-width"');
+			should(res.text).containEql('<script src=\'/test.js\'></script>');
+		});
+
 		/*it('#view with server call api', async function(){
 			var res = await request(server)
                 .get('/cola')
@@ -121,7 +131,7 @@ describe('#koa-cola', function() {
 		it('#router', async function(){
 			var router = app.routers.router;
 			router.should.be.ok;
-			router.props.children.length.should.be.equal(4);
+			router.props.children.length.should.be.equal(5);
 			router.props.children[0].type.displayName.should.be.equal('Route');
 			// router.props.children[0].type.should.be.equal(Route);
 			router.props.children[0].props.path.should.be.ok;

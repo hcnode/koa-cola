@@ -1,13 +1,14 @@
 
 # koa-cola
-[![Build Status](https://travis-ci.org/koa-cola/koa-cola.svg?branch=develop)](https://travis-ci.org/koa-cola/koa-cola)
+[![Build Status](https://travis-ci.org/hcnode/koa-cola.svg?branch=develop)](https://travis-ci.org/hcnode/koa-cola)
 
-koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈框架，并使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
+koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈应用框架，使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
 
 1. [特点](#特点)
-2. [Getting started](#getting-started)
-3. [todolist例子](#examples)
-4. [开发文档](#开发文档)
+2. [如何使用](#如何使用)
+3. [对比next.js](#对比next.js)
+4. [todolist例子](#examples)
+5. [开发文档](#开发文档)
     * [d-mvc](#d-mvc)
         * [Controller](#controller)
         * [View](#view)
@@ -33,31 +34,38 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
             
     * [cluster模式](#cluster模式)
     * [调试](#调试)
+    * [Tips](#tips)
+        * [tips 1: 初始化react组件数据](#tips-1-初始化react组件数据)
+        * [tips 2: redux-connect组件的redux坑](#tips-2-redux-connect组件的redux坑)
 
 ## 特点
-koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响，所以此项目的比如配置模式、api目录结构也是模仿sails。
-此项目还在完善中，不过已经使用过在线上某个活动项目，环境使用node8+原生async/await。
-* 使用koa作为web服务（使用node8可以完美高性能使用async/await）
+koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响。
+* 使用koa作为web服务（使用node8可以使用最新的v8高性能原生使用async/await）
 * 使用typescript开发
 * 使用完整的react技术栈(包括react-router和react-redux)
-* react相关代码前后台复用(包括component、react-router和react-redux)
+* react相关代码前后端复用(包括component渲染、react-router和react-redux)
 * SSR(server side render)的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
 
 
-## Getting started
+## 如何使用
+
+koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的最新的v8版本，而且8.0会在[今年10月正式激活LTS](https://github.com/nodejs/LTS)，因为koa-cola的async/await是原生方式使用没有经过transform成es6，所以不支持node7.6以下的node版本。
 
 开发者可以通过两种开发模式进行koa-cola项目开发
 
-1. 使用通用的模版方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
+1. 基于模版的文件结构方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
     * `npm i koa-cola ts-node -g`
-    * `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖
-    * `koa-cola -c` 执行webpack build bundle，并自动启动项目
+    * `koa-cola -n app` 在当前文件夹创建名字为app的新koa-cola项目，创建完整的目录结构，并自动安装依赖
+    * `cd app`
+    * `koa-cola -c` 执行webpack build bundle，并启动项目
     * 访问[http://localhost:3000](http://localhost:3000)
+    (在开发环境，可以使用`npm run watch`和`npm run local`进行开发)
 
-2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的短平快项目开发。
+2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的项目开发。
     * `npm i koa-cola ts-node -g`
     * `koa-cola -n app -m api` 在目录里面创建api.tsx,package.json,tsconfig.json, 并自动安装依赖和启动项目
-    * 访问[http://localhost:5555](http://localhost:5555)
+    * 访问[http://localhost:3000](http://localhost:3000)
+    (在开发环境，可以使用`npm run local`进行开发)
 
 api模式只需要一个app.tsx即可启动一个koa-cola web服务：
 
@@ -93,6 +101,72 @@ RunApp({
 
 ```
 
+## 对比next.js
+
+[next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js支持component和react-router，并没有集成redux，在服务器端，也没有太多支持，比如controller层和express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
+
+在数据初始化，两者有点类似，next.js使用静态方法getInitialProps来初始化数据：
+```javascript
+import React from 'react'
+export default class extends React.Component {
+  static async getInitialProps ({ req }) {
+    return req
+      ? { userAgent: req.headers['user-agent'] }
+      : { userAgent: navigator.userAgent }
+  }
+  render () {
+    return <div>
+      Hello World {this.props.userAgent}
+    </div>
+  }
+}
+```
+
+koa-cola提供[两种方式](#tips-1-初始化react组件数据)来进行数据初始化，更加灵活。
+
+而且，next.js不支持子组件的数据初始化：
+
+> Note: getInitialProps can not be used in children components. Only in pages.
+
+koa-cola则只需要加上decorator "include", 完全支持所有的子组件的数据初始化。
+
+```javascript
+import * as React from 'react';
+
+var {
+  asyncConnect,
+  include
+} = require('../../../dist').Decorators.view;
+// Child1, Child2 是asyncConnect的组件，并且会进行数据初始化
+var Child1 = require('../components/child1').default;
+var Child2 = require('../components/child2').default;
+
+export interface Props {}
+export interface States {}
+
+@asyncConnect([])
+@include({
+  Child1,
+  Child2
+})
+class MultiChildren extends React.Component<Props, States> {
+  constructor(props: Props) {
+    super(props);
+  }
+  render() {
+    return <div>
+        <Child1 {...this.props} />
+        <Child2 {...this.props} />
+      </div>
+  }
+}
+
+export default MultiChildren;
+
+```
+
+koa-cola不但可以支持component的数据初始化，还可以合并page和component的reducer，使用同一个store，page和component的redux无缝结合。详细可参考[多子组件的redux页面例子源码](https://github.com/hcnode/koa-cola/blob/master/app_test/views/pages/multiChildren.tsx)和[在线Demo](http://koa-cola.com:3001/multiChildren)
+
 
 ## Examples
 使用[官方react-redux的todolist](http://redux.js.org/docs/basics/UsageWithReact.html)作为基础，演示了官方的和基于koa-cola的例子（完整的mvc结构）
@@ -102,11 +176,12 @@ RunApp({
 [online demo](http://koa-cola.com:3000/)
 
 使用方法：
-* `npm i koa-cola typescript -g`
+* `npm i koa-cola ts-node -g`
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
 * `npm i`
-* `koa-cola --cheer`
+* `webpack`
+* `koa-cola`
 * 访问[http://localhost:3000](http://localhost:3000)，选择官方demo或者是koa-cola风格的demo
 
 ## 开发文档
@@ -117,15 +192,27 @@ koa-cola可以使用es7的decorator装饰器开发模式来写mvc，controller�
     
 使用decorator装饰器来注入相关依赖，路由层的decorators包括router、中间件、response、view，响应阶段的decorators包括koa.Context、param、response、request等，比如以下例子：
 ```javascript
-    @Get('/some_path')  // 定义router以及method
-    @Use(isLogin)       // 使用中间件验证用户是否已登陆，类似sails的policy
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('koa-cola').Decorators.controller;
+@Controller('') 
+class FooController {
+    @Get('/some_api')  // 定义router以及method
     @Response(Ok)       // 定义数据返回的结构
-    orderList (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
-        // 返回数据，最终回使用Ok response结构返回
+    some_api (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
+        // 初始化数据，数据将会以“Ok”定义的格式返回
         return {
             foo : 'bar'
         }
     }
+
+    @Get('/some_page')  // 定义router以及method
+    @View('some_page')
+    some_page (@Ctx() ctx, @QueryParam() param : any) { // 注入ctx和param
+        // 初始化数据，数据将会注入到react组件的props，如：this.props.ctrl.foo
+        return {
+            foo : 'bar'
+        }
+    }
+}
 ```    
 
     因为使用decorator定义router，所以在koa-cola里面不需要单独定义router。
@@ -215,6 +302,31 @@ class ColastyleDemo extends React.Component<Props, States> {
   }
 }
 export default ColastyleDemo;
+```
+
+5. 自定义header和bundle方式
+
+koa-cola渲染页面时，默认会找views/pages/layout.ts封装页面的html，如果没有这个layout文件，则直接输出page组件的html，如果view组件使用了doNotUseLayout decorator，则页面不会使用layout.ts输出，这时你可以自定义header和bundle的decorator。
+
+```javascript
+import * as React from 'react';
+var {
+  header, bundle, doNotUseLayout
+} = require('../../../dist').Decorators.view;
+@doNotUseLayout
+@bundle([
+  "/bundle.js",
+  "/test.js"
+])
+@header(() => {
+  return <head>
+    <meta name="viewport" content="width=device-width" />
+  </head>
+})
+function Page (){
+  return <h1>koa-cola</h1>
+};
+export default Page
 ```
 
 ### Model
@@ -312,8 +424,8 @@ var api = new GetTodoList({});
 var data = await api.fetch(helpers.ctx);
 ```
 
-<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api1.png" alt="Drawing" width="600"/>
-<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api2.png" alt="Drawing" width="600"/>
+<img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/api1.png" alt="Drawing" width="600"/>
+<img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/api2.png" alt="Drawing" width="600"/>
 
 又比如参数body的定义，如果定义了必传参数，调用时候没有传，则vscode会提示错误
 ```javascript
@@ -331,7 +443,7 @@ export class Compose extends ApiBase<ComposeBody, testSchema, {}>{
     method : string = 'post'
 }
 ```
-<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/api3.png" alt="Drawing" width="600"/>
+<img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/api3.png" alt="Drawing" width="600"/>
 
 
 ## 配置
@@ -383,7 +495,7 @@ koa-cola默认会使用以下几个中间件，并按照这个顺序：
 5. koa-compress
 6. koa-static
 
-参数详情可以查看[这里](https://github.com/koa-cola/koa-cola/blob/master/src/middlewares/defaultMiddlewares.ts)
+参数详情可以查看[这里](https://github.com/hcnode/koa-cola/blob/master/src/middlewares/defaultMiddlewares.ts)
 
 如果开发者希望修改默认的中间件，或者添加自定义的中间件，又或者希望重新排序，可以通过config.middlewares来修改默认：
 
@@ -406,7 +518,7 @@ module.exports = {
 ```
 
 ### 其他配置
-默认的配置包括端口默认是5555，session默认是使用内存模式，如果需要修改可以在config下或者对应的config/env下修改
+默认的配置包括端口默认是3000，session默认是使用内存模式，如果需要修改可以在config下或者对应的config/env下修改
 
 ## Cli
 koa-cola提供了一些有用的cli命令，包括新建项目、启动项目、生成model schema文件
@@ -433,7 +545,7 @@ koa-cola提供了一些有用的cli命令，包括新建项目、启动项目、
 ## 代码编译
 
 ### client
-前端的bundle build使用webpack来构建，使用cli命令创建项目，会自动生成[webpack配置](https://github.com/koa-cola/koa-cola/blob/master/template/webpack.config.js)
+前端的bundle build使用webpack来构建，使用cli命令创建项目，会自动生成[webpack配置](https://github.com/hcnode/koa-cola/blob/master/template/webpack.config.js)
 ts文件的loader使用了[awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader)，并配置了使用babel，加入babel-polyfill到bundle，可以兼容ie9+。
 
 webpack的入口tsx文件在项目里面的`view/app.tsx`:
@@ -457,7 +569,18 @@ render(<Provider />, document.getElementById('app'));
 ```
 
 wepack build 新建默认的项目得到的bundle的大小有400K，依赖的库组成如下图：
-<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/bundle.png" alt="Drawing" width="800"/>
+<img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/bundle.png" alt="Drawing" width="800"/>
+
+webpack的配置文件默认加了四个IgnorePlugin插件，因为有些文件是前后端都会使用，所以需要忽略服务器端的require。
+
+```javascript
+// 以下两个是给服务器端使用，不能打包到webpack
+new webpack.IgnorePlugin(/\.\/src\/app/),
+new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
+// 以下两个是controller引用的，也是服务器端使用，也不能打包到webpack，如果你的controller也有服务器端使用的库，也必须要加IgnorePlugin插件
+new webpack.IgnorePlugin(/koa$/),
+new webpack.IgnorePlugin(/koa-body$/),
+```
 
 
 ### server
@@ -483,8 +606,6 @@ reqInject(function(){
 api开发模式的缺点就是暂时不能build webpack bundle，所以api开发模式适合ssr静态页面渲染，或者是简单的交互的页面的渲染（交互js无法耦合react组件）
 
 ## universal ("isomorphic")
-
-前面说过koa-cola是个react技术栈前后端可以复用的universal开发模式。
 
 ### 前后端router
 
@@ -655,8 +776,6 @@ export default Page;
 
 如果你想使用cluster模式，koa-cola提供了pm2的配置文件，使用cli新建项目时候会生成这个配置文件，启动方式使用：`pm2 start pm2.config.js`
 
-不过pm2最新的版本支持ts-node会有[问题](https://github.com/Unitech/pm2/issues/2675)
-
 ## 调试
 
 如果需要调试koa-cola项目，需要添加两个依赖`npm i ts-node typescript -S`，然后在vscode新建调试配置：
@@ -680,6 +799,134 @@ export default Page;
 ```
 便可享受vscode的调试ts的乐趣。
 
-另外，koa-cola加了redux调试支持，你也可以使用chrome的react-redux插件调试：
+另外，koa-cola加了redux调试支持，你也可以使用chrome的redux插件调试：
 
-<img src="https://github.com/koa-cola/koa-cola/raw/master/screenshots/dev-tool.png" alt="Drawing" width="600"/>
+<img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/dev-tool.png" alt="Drawing" width="600"/>
+
+## Tips
+
+### tips 1: 初始化react组件数据
+
+koa-cola提供两种方式初始化react。
+
+1. 在controller里面初始化
+
+初始化数据，数据将会注入到react组件的props.ctrl，如：this.props.ctrl.foo
+
+```javascript
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('koa-cola').Decorators.controller;
+@Controller('') 
+class FooController {
+    @Get('/some_page')  
+    @View('some_page') // some_page是普通react组件
+    async some_page (@Ctx() ctx, @QueryParam() param : any) { 
+        // 初始化数据，数据将会注入到react组件的props，如：this.props.ctrl.foo
+        return await Promise.resolve({
+            foo : 'bar'
+        });
+    }
+}
+```  
+
+2. 在redux-connect封装的react组件初始化数据
+
+
+```javascript
+var {asyncConnect} = require('koa-cola').Decorators.view;
+@asyncConnect([
+  {
+    key: 'foo',
+    promise: async ({ params, helpers, store: { dispatch } }) => {
+        return await Promise.resolve({
+            foo : 'bar'
+        });
+    }
+  }
+])
+class Some_Page extends React.Component<Props, States> {
+  constructor(props: Props) {
+    super(props);
+  }
+  render() {
+    return <div>{this.props.foo}</div>;
+  }
+}
+export default Some_Page;
+```
+
+这两种方式的区别是：
+
+第一种方式：
+* 只会在服务器端进行初始化
+* 只支持非react-redux或者redux-connect封装的组件
+* 因为只会在服务器端进行初始化，所以可以支持任何获取数据的方式比如数据库获取
+
+第二种方式：
+* 服务器端和浏览器端都支持（服务器端就是SSR，浏览器端就是异步获取数据）
+* redux-connect封装的组件
+* 因为服务器端和浏览器端都支持初始化，所以数据的获取必须前后端Universal，比如使用axios库
+
+
+### tips 2: redux-connect组件的redux坑
+
+使用redux-connect进行数据初始化，如果这个key和自定义的mapStateToProps的props属性有冲突，那么key定义的数据将会更优先
+
+下面例子，定义了初始化的props属性foo，然后mapStateToProps也定义了返回的props.foo的新value，但是，其实dispatch后props.foo还是最开始的"bar"，而不是"bar again"。
+
+```javascript
+var {asyncConnect, colaReducer, store} = require('koa-cola').Decorators.view;
+@asyncConnect([
+  {
+    key: 'foo',
+    promise: async ({ params, helpers, store: { dispatch } }) => {
+        return await Promise.resolve('bar');
+    }
+  }
+], // mapStateToProps
+({ fooState }) => {
+    return {
+        foo : fooState
+    };
+}, dispatch => {
+    return {
+        changeFoo: () => {
+            dispatch({
+                type: 'CHANGE_FOO'
+            });
+        }
+    };
+})
+@colaReducer({
+    fooState : (state = '', action) => {
+        switch (action.type) {
+            case 'CHANGE_FOO':
+                return 'bar again';
+            default:
+                return state;
+        }
+    }
+})
+class Some_Page extends React.Component<Props, States> {
+  constructor(props: Props) {
+    super(props);
+  }
+  render() {
+    return <div>
+        {this.props.foo}
+        <button onClick={() => this.props.changeFoo()}>change foo</button>
+    </div>;
+  }
+}
+export default Some_Page;
+```
+
+如果必须要修改props.foo，可以使用下面的方法。
+
+```javascript
+var loadSuccess = store.loadSuccess;
+...
+...
+changeFoo: () => {
+    dispatch(loadSuccess('foo', 'bar again'));
+}
+```

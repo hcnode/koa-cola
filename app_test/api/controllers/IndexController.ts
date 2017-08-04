@@ -107,4 +107,8 @@ export default class  {
             foo : ctx.query.foo
         }
     }
+
+    @Get('/headerAndBundle')
+    @View('headerAndBundle')
+    async headerAndBundle (@Ctx() ctx ) {}
 }
