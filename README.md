@@ -2,10 +2,10 @@
 # koa-cola
 [![Build Status](https://travis-ci.org/hcnode/koa-cola.svg?branch=develop)](https://travis-ci.org/hcnode/koa-cola)
 
-koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈应用框架，并使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
+koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈应用框架，使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
 
 1. [特点](#特点)
-2. [Getting started](#getting-started)
+2. [如何使用](#如何使用)
 3. [对比next.js](#对比next.js)
 4. [todolist例子](#examples)
 5. [开发文档](#开发文档)
@@ -37,31 +37,33 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
     * [Tips](#tips)
 
 ## 特点
-koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响，所以此项目的比如配置模式、api目录结构也是模仿sails。
-此项目还在完善中，不过已经使用过在线上某个活动项目，环境使用node8+原生async/await。
-* 使用koa作为web服务（使用node8可以完美高性能使用async/await）
+koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响。
+* 使用koa作为web服务（使用node8可以使用最新的v8高性能原生使用async/await）
 * 使用typescript开发
 * 使用完整的react技术栈(包括react-router和react-redux)
-* react相关代码前后台复用(包括component、react-router和react-redux)
+* react相关代码前后端复用(包括component渲染、react-router和react-redux)
 * SSR(server side render)的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
 
 
-## Getting started
+## 如何使用
 
 koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的最新的v8版本，而且8.0会在[今年10月正式激活LTS](https://github.com/nodejs/LTS)，因为koa-cola的async/await是原生方式使用没有经过transform成es6，所以不支持node7.6以下的node版本。
 
 开发者可以通过两种开发模式进行koa-cola项目开发
 
-1. 使用通用的模版方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
+1. 基于模版的文件结构方式创建koa-cola项目，通过这种方式创建出完整的项目工程，适合大型的web项目开发。
     * `npm i koa-cola ts-node -g`
-    * `koa-cola -n app` 在当前文件夹创建新的koa-cola项目，创建完整的目录结构，并自动安装依赖
-    * `koa-cola -c` 执行webpack build bundle，并自动启动项目
+    * `koa-cola -n app` 在当前文件夹创建名字为app的新koa-cola项目，创建完整的目录结构，并自动安装依赖
+    * `cd app`
+    * `koa-cola -c` 执行webpack build bundle，并启动项目
     * 访问[http://localhost:3000](http://localhost:3000)
+    (在开发环境，可以使用`npm run watch`和`npm run local`进行开发)
 
-2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的短平快项目开发。
+2. 使用api方式创建项目，通过这种方式，可以几分钟内部署好koa-cola项目，适合简单的项目开发。
     * `npm i koa-cola ts-node -g`
     * `koa-cola -n app -m api` 在目录里面创建api.tsx,package.json,tsconfig.json, 并自动安装依赖和启动项目
     * 访问[http://localhost:3000](http://localhost:3000)
+    (在开发环境，可以使用`npm run local`进行开发)
 
 api模式只需要一个app.tsx即可启动一个koa-cola web服务：
 
@@ -99,7 +101,7 @@ RunApp({
 
 ## 对比next.js
 
-[next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js支持component和react-router，并没有集成redux，在服务器端，也没有太多支持，比如controller层，express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
+[next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js支持component和react-router，并没有集成redux，在服务器端，也没有太多支持，比如controller层和express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
 
 在数据初始化，两者有点类似，next.js使用静态方法getInitialProps来初始化数据：
 ```javascript
@@ -124,7 +126,7 @@ koa-cola提供[两种方式](#tips-1-初始化react组件数据)来进行数据�
 
 > Note: getInitialProps can not be used in children components. Only in pages.
 
-koa-cola则只需要加上decorator "include", 完全支持所有的字组件的初始化。
+koa-cola则只需要加上decorator "include", 完全支持所有的子组件的数据初始化。
 
 ```javascript
 import * as React from 'react';
@@ -133,7 +135,7 @@ var {
   asyncConnect,
   include
 } = require('../../../dist').Decorators.view;
-// Child1, Child2 是asyncConnect的组件，并且进行数据初始化
+// Child1, Child2 是asyncConnect的组件，并且会进行数据初始化
 var Child1 = require('../components/child1').default;
 var Child2 = require('../components/child2').default;
 
@@ -161,9 +163,7 @@ export default MultiChildren;
 
 ```
 
-koa-cola不但可以支持component的数据初始化，还可以合并page和component的reducer，使用同一个store，page和component的redux无缝结合。参考[多子组件的redux页面例子源码](https://github.com/hcnode/koa-cola/blob/master/app_test/views/pages/multiChildren.tsx)和[在线Demo](http://koa-cola.com:3001/multiChildren)
-
-
+koa-cola不但可以支持component的数据初始化，还可以合并page和component的reducer，使用同一个store，page和component的redux无缝结合。详细可参考[多子组件的redux页面例子源码](https://github.com/hcnode/koa-cola/blob/master/app_test/views/pages/multiChildren.tsx)和[在线Demo](http://koa-cola.com:3001/multiChildren)
 
 
 ## Examples
@@ -568,6 +568,17 @@ render(<Provider />, document.getElementById('app'));
 
 wepack build 新建默认的项目得到的bundle的大小有400K，依赖的库组成如下图：
 <img src="https://github.com/hcnode/koa-cola/raw/master/screenshots/bundle.png" alt="Drawing" width="800"/>
+
+webpack的配置文件默认加了四个IgnorePlugin插件，因为有些文件是前后端都会使用，所以需要忽略服务器端的require。
+
+```javascript
+// 以下两个是给服务器端使用，不能打包到webpack
+new webpack.IgnorePlugin(/\.\/src\/app/),
+new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
+// 以下两个是controller引用的，也是服务器端使用，也不能打包到webpack，如果你的controller也有服务器端使用的库，也必须要加IgnorePlugin插件
+new webpack.IgnorePlugin(/koa$/),
+new webpack.IgnorePlugin(/koa-body$/),
+```
 
 
 ### server
