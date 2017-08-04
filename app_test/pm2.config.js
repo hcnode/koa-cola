@@ -6,11 +6,10 @@ module.exports = {
 	apps: [
 		// server
 		{
-			name: 'koa-cola',
-			script: __dirname + '/node_modules/ts-node/dist/_bin.js',
+			name: 'koa-cola-app-test',
+			script: __dirname + '/pm2.ts',
 			instances: 2,
-			exec_mode: 'cluster',
-			interpreter_args: '-r ts-node/register ./app.ts -F'
+			exec_mode: 'cluster'
 		}
 	]
 };
