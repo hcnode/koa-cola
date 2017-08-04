@@ -15,23 +15,28 @@ import { Provider } from 'react-redux'
  * @param routers 
  */
 export default function createRouter(routers) {
-    var { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
+    //app.decorators.view defined in util.decorators.ts
+    const { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
-    app.routers.router = app.routers.router || <Router render={(props) => <ReduxAsyncConnect {...props} />} history={browserHistory}>
-        {routers.map(router => {
-            var component = app.pages[router.component];
-            if(component && component.name != 'Connect'){
-                component = asyncConnect([{key : 'ctrl', promise : () =>  null}])(component);
-            }
-            if(component.childrenComponents){
-                return <Route path={router.path} component={component} >
-                    <IndexRoute components={component.childrenComponents} />
-                </Route>    
-            }else{
-                return <Route path={router.path} component={component} />
-            }
-        })}
-    </Router>
+    app.routers.router =
+        app.routers.router ||
+        <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
+            {routers.map(router => {
+                let component = app.pages[router.component];
+                if (component && component.name != "Connect") {
+                    component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
+                }
+                if (component.childrenComponents) {
+                    return (
+                        <Route path={router.path} component={component}>
+                            <IndexRoute components={component.childrenComponents} />
+                        </Route>
+                    );
+                } else {
+                    return <Route path={router.path} component={component} />;
+                }
+            })}
+        </Router>;
 }
 /**
  * 参考 app_test/views/app.tsx :
