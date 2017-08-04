@@ -35,6 +35,8 @@ koa-cola是一个基于koa和react的SSR(server side render)web前后端全栈�
     * [cluster模式](#cluster模式)
     * [调试](#调试)
     * [Tips](#tips)
+        * [tips 1: 初始化react组件数据](#tips-1-初始化react组件数据)
+        * [tips 2: redux-connect组件的redux坑](#tips-2-redux-connect组件的redux坑)
 
 ## 特点
 koa-cola的开发风格受[sails](http://sailsjs.com/)影响，之前使用过sails开发过大型的web应用，深受其[约定优先配置](https://en.wikipedia.org/wiki/Convention_over_configuration)的开发模式影响。
