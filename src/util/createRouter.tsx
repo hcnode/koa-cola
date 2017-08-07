@@ -19,8 +19,7 @@ export default function createRouter(routers) {
     const { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
     app.routers.router =
-        app.routers.router ||
-        <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
+        app.routers.router || <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
             {routers.map(router => {
                 let component = app.pages[router.component];
                 if (component && component.name != "Connect") {
@@ -95,9 +94,15 @@ export function createProvider(controllers, views) {
     }
     var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
-    var reducers = reactRouters.map(router => {
-        return router.component._reducer || {};
-    });
+    var reducers = reactRouters.reduce((_reducer, router) => {
+        _reducer.push(router.component._reducer || {});
+        if(router.component.childrenComponents){
+            Object.keys(router.component.childrenComponents).forEach(child => {
+                _reducer.push(router.component.childrenComponents[child]._reducer || {});
+            })
+        }
+        return _reducer;
+    }, []);
     // 合并reducer，并使用页面的__data作为初始化数据
     const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)),
          (window as any).__data, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
