@@ -81,14 +81,19 @@ export default function inject(colaApp?){
 	var logger = require('./logger').default;
 	global.app.logger = logger;
 	var controllers = app.controllers
-	const routerRoutes = new Router();
-	var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
+    const routerRoutes = new Router();
+
+    //bindRoutes(routerTable, controllers, getter) - Binds the controller to the route table.
+    var routers = bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
+    
 	routerRoutes.stack.forEach((item => {
 		console.log(`router:${item.methods.join('-')}:  ${item.path}`)
-	}))
+    }));
+
 	app.reactRouters = routers;
 	// fs.writeFileSync(`${process.cwd()}/routers.json`, JSON.stringify(routers, null, '\t'));
 	// 创建react router和react provider
-	createRouter(routers);
+    createRouter(routers);
+
 	return routerRoutes;
 }
