@@ -34,6 +34,7 @@ export const pepsi2 = 'this is pepsi-cola again';
 export const coca = 'this is coca-cola';
 export const coca2 = 'this is coca-cola again';
 export const timeout = 500;
+
 @asyncConnect(
   [
     {

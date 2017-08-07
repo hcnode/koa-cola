@@ -27,12 +27,14 @@ module.exports = {
 					}
 				}
 			},
+			// 专门配置一个babel-loader来编译koa-cola，因为koa-cola没有经过完整的编译，只是简单的es module，ts等transform
+			// 原因见：https://github.com/hcnode/koa-cola#server
 			{
 				test: /\.jsx?$/,
 				use: {
 					loader: 'babel-loader'
 				},
-				exclude: /node_modules\/(?!(koa-cola)|(controller-decorators)\/).*/,
+				exclude: /node_modules\/(?!(koa-cola)\/).*/,
 			},
 
 			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
@@ -48,6 +50,7 @@ module.exports = {
 		// 以下两个是controller引用的，也是服务器端使用，也不能打包到webpack，如果你的controller也有服务器端使用的库，也必须要加IgnorePlugin插件
 		new webpack.IgnorePlugin(/koa$/),
 		new webpack.IgnorePlugin(/koa-body$/),
+		// 分析bundle构成
 		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)
 		/* new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
 			// Can be `server`, `static` or `disabled`. 

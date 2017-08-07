@@ -35,3 +35,4 @@ build
 bundle.*
 package-lock.json
 typescript
+.vs
