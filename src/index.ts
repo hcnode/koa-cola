@@ -7,7 +7,7 @@ import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
-import * as http from 'http'
+import * as http from 'http';
 // import sessionRedis = require('koa-generic-session');
 // import redisStore = require('koa-redis');
 import session = require('koa-session');
