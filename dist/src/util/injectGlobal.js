@@ -83,6 +83,7 @@ function inject(colaApp) {
     global.app.logger = logger;
     var controllers = app.controllers;
     const routerRoutes = new Router();
+    //bindRoutes(routerTable, controllers, getter) - Binds the controller to the route table.
     var routers = controller_decorators_1.bindRoutes(routerRoutes, Object.keys(controllers).map(key => controllers[key]));
     routerRoutes.stack.forEach((item => {
         console.log(`router:${item.methods.join('-')}:  ${item.path}`);

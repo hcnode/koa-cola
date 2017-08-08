@@ -14,21 +14,23 @@ const react_redux_1 = require("react-redux");
  * @param routers
  */
 function createRouter(routers) {
-    var { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
+    //app.decorators.view defined in util.decorators.ts
+    const { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
-    app.routers.router = app.routers.router || React.createElement(react_router_1.Router, { render: (props) => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
-        var component = app.pages[router.component];
-        if (component && component.name != 'Connect') {
-            component = asyncConnect([{ key: 'ctrl', promise: () => null }])(component);
-        }
-        if (component.childrenComponents) {
-            return React.createElement(react_router_1.Route, { path: router.path, component: component },
-                React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents }));
-        }
-        else {
-            return React.createElement(react_router_1.Route, { path: router.path, component: component });
-        }
-    }));
+    app.routers.router =
+        app.routers.router || React.createElement(react_router_1.Router, { render: props => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
+            let component = app.pages[router.component];
+            if (component && component.name != "Connect") {
+                component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
+            }
+            if (component.childrenComponents) {
+                return (React.createElement(react_router_1.Route, { path: router.path, component: component },
+                    React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents })));
+            }
+            else {
+                return React.createElement(react_router_1.Route, { path: router.path, component: component });
+            }
+        }));
 }
 exports.default = createRouter;
 /**
@@ -91,9 +93,15 @@ function createProvider(controllers, views) {
     }
     var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../").Decorators.view;
     // router.component._reducer为react-redux的自定义reducer
-    var reducers = reactRouters.map(router => {
-        return router.component._reducer || {};
-    });
+    var reducers = reactRouters.reduce((_reducer, router) => {
+        _reducer.push(router.component._reducer || {});
+        if (router.component.childrenComponents) {
+            Object.keys(router.component.childrenComponents).forEach(child => {
+                _reducer.push(router.component.childrenComponents[child]._reducer || {});
+            });
+        }
+        return _reducer;
+    }, []);
     // 合并reducer，并使用页面的__data作为初始化数据
     const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     return function () {
