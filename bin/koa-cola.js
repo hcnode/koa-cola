@@ -31,7 +31,7 @@ if (program.new) {
     shell.cd(`${projectPath}`);
     shell.exec('npm install');
     console.log(chalk.green('npm install done. '));
-    shell.exec('koa-cola');
+    // shell.exec('koa-cola');
   } else {
     templatePath = path.join(__dirname, '../', 'template');
     if (fs.existsSync(projectPath)) {
