@@ -11,7 +11,7 @@ program
   .option('n, new [name]', 'new koa-cola project')
   .option('c, cheer', 'build webpack bundle and launch app')
   .option('s, schema', 'create model schemas')
-  .option('m, mode [mode]', 'create new project mode')
+  .option('-m, --mode [mode]', 'create new project mode')
   .parse(process.argv);
 /**
  * 使用命令新建koa-cola项目，自动创建模版文件，并自动安装依赖，自动运行
