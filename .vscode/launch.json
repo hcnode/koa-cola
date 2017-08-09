@@ -33,7 +33,6 @@
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}/app_test",
-            // "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon",
             "runtimeArgs": [
                 "-r", "ts-node/register",
                 "${workspaceRoot}/app_test/app.ts"
