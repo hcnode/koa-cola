@@ -14,7 +14,6 @@ describe('#koa-cola cli', function() {
 		chdir();
 	});
 	after(function(done){
-		process.chdir('../');
 		delete global.app;
 		done();
 	})
