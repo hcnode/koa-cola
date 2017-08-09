@@ -7,13 +7,16 @@ import * as fs from 'fs'
 import { chdir, initDb } from './util';
 var shell = require('shelljs');
 var path = require('path');
+var App = require('../dist').RunApp
 describe('#koa-cola cli', function() {
     var server;
 	before(function() {
 		chdir();
 	});
 	after(function(done){
+		process.chdir('../');
 		delete global.app;
+		done();
 	})
 
 	describe('#cli', function() {
@@ -23,14 +26,24 @@ describe('#koa-cola cli', function() {
 			fs.existsSync(path.resolve('./', 'app', 'node_modules')).should.be.equal(true);
 			done();
 		});
-		// it('#launch project', async function(){
-		// 	shell.cd('app');
-		// 	shell.exec('nohup koa-cola &');
-		// 	var res = await request('http://localhost:3000')
-        //         .get("/")
-        //         .expect(200)
-        //         .toPromise();
-		// 	res.text.should.be.equal('Wow koa-cola!')	
-		// });
+		it('#launch project', async function(){
+			process.chdir('./app');
+			server = App();
+			var res = await request(server)
+                .get("/")
+                .expect(200)
+                .toPromise();
+			res.text.should.be.containEql('Wow koa-cola!');
+			server.close();
+			process.chdir('../');
+			shell.exec('rm -rf app');
+		});
+		it('#new project with api mode', function(done){
+			shell.exec(`node ${path.resolve('../', 'bin', 'koa-cola')} new app -m api`);
+			fs.existsSync(path.resolve('./', 'app', 'app.tsx')).should.be.equal(true);
+			fs.existsSync(path.resolve('./', 'app', 'node_modules')).should.be.equal(true);
+			shell.exec('rm -rf app');
+			done();
+		});
 	});
 });
