@@ -1,5 +1,5 @@
 import { testSchema } from './typings/schema';
-import { ApiBase, apiFetch } from '../'
+import { ApiBase, apiFetch } from '../dist/client'
 export interface ComposeBody{
     foo : string,
     bar? : number

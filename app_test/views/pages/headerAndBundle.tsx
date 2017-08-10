@@ -1,7 +1,7 @@
 import * as React from 'react';
 var {
   header, bundle, doNotUseLayout
-} = require('../../../dist').Decorators.view;
+} = require('../../../dist/client').Decorators.view;
 export interface Props{
     foo: string
 }

@@ -42,8 +42,6 @@ module.exports = {
 
 	plugins: [
 		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
-		new webpack.IgnorePlugin(/\.\/src\/app/),
-		new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
 		new webpack.IgnorePlugin(/koa$/),
 		new webpack.IgnorePlugin(/koa-body$/),
 		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)

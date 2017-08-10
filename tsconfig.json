@@ -16,7 +16,7 @@
     "suppressExcessPropertyErrors": true,
     "suppressImplicitAnyIndexErrors": true,
     "jsx": "react",
-    // "allowJs": true,
+    "allowJs": true,
     "outDir": "./dist"
     // "rootDirs": ["./src"]
   },

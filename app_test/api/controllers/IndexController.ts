@@ -11,7 +11,7 @@ var {
   View,
   Ctx,
   Response
-} = require('../../../client').Decorators.controller;
+} = require('../../../dist/client').Decorators.controller;
 import Ok from '../responses/ok';
 import isLogin from '../policies/isLogin';
 import setUser from '../middlewares/setUser';

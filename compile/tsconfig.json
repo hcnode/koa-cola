@@ -16,6 +16,7 @@
     "suppressExcessPropertyErrors": true,
     "suppressImplicitAnyIndexErrors": true,
     "jsx": "react",
+    "declaration": true,
     "outDir": "../dist"
   },
   "compileOnSave": false,
@@ -31,6 +32,7 @@
     "../src/**/*.js",
     "../src/**/*.ts",
     "../src/**/*.tsx",
-    "../index.ts"
+    "../index.ts",
+    "../client.ts"
   ]
 }

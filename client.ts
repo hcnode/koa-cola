@@ -3,11 +3,9 @@
  */
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
-const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout } = require('./dist/src/decorators/views');
-const { Base, fetch } = require('./dist/src/util/api');
-const { createProvider } = require('./dist/src/util/createRouter');
-exports.ApiBase = Base;
-exports.apiFetch = fetch;
+const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout } = require('./src/decorators/views');
+export { Base as ApiBase, fetch as apiFetch } from './src/util/api';
+const { createProvider } = require('./src/util/createRouter');
 exports.createProvider = createProvider;
 exports.Decorators = {
   controller: controllerDecorators,

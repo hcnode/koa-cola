@@ -14,7 +14,7 @@ var {
   reducer,
   store,
   colaReducer
-} = require('../../../client').Decorators.view;
+} = require('../../../dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props {
   pepsi?: string;

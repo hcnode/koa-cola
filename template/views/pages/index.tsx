@@ -1,5 +1,5 @@
 import * as React from 'react';
-var { asyncConnect, store } = require('koa-cola/client').Decorators.view;
+var { asyncConnect, store } = require('koa-cola/dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export default asyncConnect([
   {
