@@ -12,21 +12,16 @@ try {
   };
 } catch (e) {}
 
-/**
- * 以下export为webpack端使用
- */
+
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
 import { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout } from './src/decorators/views';
 export { Base as ApiBase, fetch as apiFetch } from './src/util/api';
 export { createProvider } from './src/util/createRouter';
-/* try {
-    var mongooseDecorators = require('mongoose-decorators');
-}
-catch (e) { } */
+var mongooseDecorators = require('mongoose-decorators');
 exports.Decorators = {
   controller: controllerDecorators,
-  // model: mongooseDecorators,
+  model: mongooseDecorators,
   view: { ...reduxConnect, 
     store: require('redux-connect/lib/store'),
     colaReducer: ColaReducer,

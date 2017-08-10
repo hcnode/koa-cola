@@ -1,114 +1,125 @@
-// import { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } from 'controller-decorators';
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../../../dist').Decorators.controller;
+var {
+  Controller,
+  Get,
+  Use,
+  Param,
+  Body,
+  Delete,
+  Put,
+  Post,
+  QueryParam,
+  View,
+  Ctx,
+  Response
+} = require('../../../client').Decorators.controller;
 import Ok from '../responses/ok';
 import isLogin from '../policies/isLogin';
 import setUser from '../middlewares/setUser';
-var Koa, koaBody = function(arg){}
+var Koa,
+  koaBody = function(arg) {};
 try {
-    Koa = require('koa');
-    koaBody = require('koa-body');
-} catch (err) {
-    
-}
+  Koa = require('koa');
+  koaBody = require('koa-body');
+} catch (err) {}
 
 @Controller('')
-export default class  {
-    @Get('/')
-    index ( ) {
-        return 'hello world'
-    }
+export default class {
+  @Get('/')
+  index() {
+    return 'hello world';
+  }
 
-    @Get('/simple')
-    @View('simple')
-    getView ( ) {}
+  @Get('/simple')
+  @View('simple')
+  getView() {}
 
+  @Get('/cola')
+  @View('cola')
+  getView2() {}
 
-    @Get('/cola')
-    @View('cola')
-    getView2 ( ) {}
+  @Get('/multiChildren')
+  @View('multiChildren')
+  multiChildren() {}
 
-    @Get('/multiChildren')
-    @View('multiChildren')
-    multiChildren ( ) {}
+  @Get('/injectCtx')
+  injectCtx(@Ctx() ctx) {
+    ctx.response.status = 201;
+    ctx.body = 'injectCtx';
+  }
 
-    @Get('/injectCtx')
-    injectCtx (@Ctx() ctx ) {
-        ctx.response.status = 201;
-        ctx.body = 'injectCtx';
-    }
+  @Post('/postBody')
+  @Use(koaBody({ multipart: true }))
+  postBody(@Body() body: any) {
+    return body;
+  }
 
-    @Post('/postBody')
-    @Use(koaBody({ multipart: true }))
-    postBody (@Body() body : any) {
-        return body;
-    }
+  @Post('/uploadFiles')
+  @Use(koaBody({ multipart: true }))
+  uploadFiles(@Body() body: any) {
+    return body;
+  }
 
-    @Post('/uploadFiles')
-    @Use(koaBody({ multipart: true }))
-    uploadFiles (@Body() body : any) {
-        return body;
-    }
+  @Get('/getQuery')
+  getQuery(@QueryParam() param: any) {
+    return param;
+  }
 
-    @Get('/getQuery')
-    getQuery (@QueryParam() param : any) {
-        return param;
-    }
+  @Get('/getOkResponse')
+  @Response(Ok)
+  getOkResponse() {
+    return {
+      value: 'test'
+    };
+  }
 
-    @Get('/getOkResponse')
-    @Response(Ok)
-    getOkResponse () {
-        return {
-            value : 'test'
-        };
-    }
+  @Get('/500')
+  get500(@Ctx() ctx) {
+    ctx.throw(500);
+  }
 
-    @Get('/500')
-    get500 (@Ctx() ctx ) {
-        ctx.throw(500);
-    }
+  @Get('/notLogin')
+  @Use(isLogin)
+  notLogin(@Ctx() ctx) {
+    return 'logined.';
+  }
 
-    @Get('/notLogin')
-    @Use(isLogin)
-    notLogin (@Ctx() ctx ) {
-        return 'logined.'
-    }
+  @Get('/isLogin')
+  @Use(setUser)
+  @Use(isLogin)
+  isLogin(@Ctx() ctx) {
+    return 'logined.';
+  }
 
-    @Get('/isLogin')
-    @Use(setUser)
-    @Use(isLogin)
-    isLogin (@Ctx() ctx ) {
-        return 'logined.'
-    }
+  @Get('/session')
+  session(@Ctx() ctx) {
+    return ctx.session.count;
+  }
 
-    @Get('/session')
-    session (@Ctx() ctx ) {
-        return ctx.session.count;
-    }
+  @Get('/testConfigOverride')
+  testConfigOverride(@Ctx() ctx) {
+    return ctx.session.disabledMiddleware
+      ? ctx.session.disabledMiddleware
+      : 'diabled';
+  }
+  @Post('/compose')
+  compose(@Body() body: any, @Ctx() ctx) {
+    return body;
+  }
 
-    @Get('/testConfigOverride')
-    testConfigOverride (@Ctx() ctx ) {
-        return ctx.session.disabledMiddleware ? ctx.session.disabledMiddleware : 'diabled';
-    }
-    @Post('/compose')
-    compose (@Body() body : any, @Ctx() ctx) {
-        return body;
-    }
+  @Get('/serverCallApi')
+  serverCallApi(@Ctx() ctx) {
+    return ctx.cookies.get('server_call_cookie') || 'hello';
+  }
 
+  @Get('/autoLoadFromPages1')
+  @View('autoLoadFromPages1')
+  async autoLoadFromPages1(@Ctx() ctx) {
+    return {
+      foo: ctx.query.foo
+    };
+  }
 
-    @Get('/serverCallApi')
-    serverCallApi (@Ctx() ctx ) {
-        return ctx.cookies.get('server_call_cookie') || 'hello';
-    }
-
-    @Get('/autoLoadFromPages1')
-    @View('autoLoadFromPages1')
-    async autoLoadFromPages1 (@Ctx() ctx ) {
-        return {
-            foo : ctx.query.foo
-        }
-    }
-
-    @Get('/headerAndBundle')
-    @View('headerAndBundle')
-    async headerAndBundle (@Ctx() ctx ) {}
+  @Get('/headerAndBundle')
+  @View('headerAndBundle')
+  async headerAndBundle(@Ctx() ctx) {}
 }

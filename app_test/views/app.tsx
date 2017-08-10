@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { render } from 'react-dom'
-var {createProvider} = require('../../dist');
+import { render } from 'react-dom';
+var { createProvider } = require('../../client');
 
-// 暂时没有想到办法可以不使用fs方式require controllers目录和views目录下面所有的文件
-var Provider = createProvider([
-    require('../api/controllers/IndexController').default
-],{
-    cola : require('./pages/cola').default,
-    simple : require('./pages/simple').default,
-    multiChildren : require('./pages/multiChildren').default,
-    autoLoadFromPages1 : require('./pages/autoLoadFromPages1').default,
-    headerAndBundle : require('./pages/headerAndBundle').default,
-});
+var Provider = createProvider(
+  [require('../api/controllers/IndexController').default],
+  {
+    cola: require('./pages/cola').default,
+    simple: require('./pages/simple').default,
+    multiChildren: require('./pages/multiChildren').default,
+    autoLoadFromPages1: require('./pages/autoLoadFromPages1').default,
+    headerAndBundle: require('./pages/headerAndBundle').default
+  }
+);
 
-render(<Provider />, document.getElementById('app'))
+render(<Provider />, document.getElementById('app'));
