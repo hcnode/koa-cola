@@ -26,7 +26,7 @@ export default  [
                     { flags: 'a' })
             });
         },
-        args : `${process.cwd()}/logs`
+        args : () => `${process.cwd()}/logs`
     },
     {
         name : 'koa-compress',
@@ -43,6 +43,6 @@ export default  [
     {
         name : 'koa-static',
         func : require('koa-static'),
-        args : `${process.cwd()}/public`
+        args : () => `${process.cwd()}/public`
     },
 ]
