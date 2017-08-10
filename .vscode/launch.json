@@ -16,8 +16,7 @@
                 "js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
                 "--timeout",
                 "999999",
-                "--colors",
-                "${workspaceRoot}/test/webpack.test.tsx"
+                "--colors"
             ],
             "env": {
                 "NODE_ENV":"test"

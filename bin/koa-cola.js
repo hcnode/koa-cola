@@ -1,16 +1,21 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 var program = require('commander');
 var path = require('path');
 var fs = require('fs-extra');
 var shell = require('shelljs');
 var chalk = require('chalk');
+var { reqDir } = require('../dist/src/util/require');
+var inject = require('../dist').injectGlobal;
 var createSchemaTypes = require('../dist/src/util/createSchemaTypes').default;
 
 program
   .option('n, new [name]', 'new koa-cola project')
   .option('c, cheer', 'build webpack bundle and launch app')
   .option('s, schema', 'create model schemas')
+  .option('b, build', 'build webpack bundle')
+  .option('-w, watch', 'build webpack bundle and watch')
+  .option('-p, production', 'build webpack production bundle')
   .option('-m, --mode [mode]', 'create new project mode')
   .parse(process.argv);
 /**
@@ -54,6 +59,28 @@ if (program.new) {
   shell.exec('koa-cola');
 } else if (program.schema) {
   createSchemaTypes();
+} else if (program.build) {
+  var appTsx = path.join(__dirname, 'app.tsx');
+  var projectAppTsxPath = path.join(process.cwd(), 'views', 'app.tsx');
+  if(!fs.existsSync(path.join(process.cwd(), 'views'))){
+    console.log(chalk.red(path.join(process.cwd(), 'views') + ' not found'));
+  }else{
+    shell.cp(appTsx, projectAppTsxPath);
+    var controllers = reqDir(path.join(process.cwd(), 'api', 'controllers'));
+    console.log(path.join(process.cwd(), 'api', 'controllers'))
+    var controllersStr = Object.keys(controllers).map(ctrl => {
+      return `require('${path.join(process.cwd(), 'api', 'controllers', ctrl)}').default,`;
+    });
+    inject();
+    var viewsStr = app.reactRouters.map(router => {
+      var page = router.component;
+      return `${page} : require('./pages/${page}').default,`;
+    }); 
+    var appStr = fs.readFileSync(projectAppTsxPath).toString().replace('// controllers', controllersStr.join('\n'));
+    appStr = appStr.replace('// views', viewsStr.join('\n'));
+    fs.writeFileSync(projectAppTsxPath, appStr);
+    shell.exec(`webpack ${program.watch ? '-w' : ''} ${program.production ? '-p' : ''}`);
+  }
 } else {
   if (fs.existsSync(`${process.cwd()}/app.ts`)) {
     shell.exec(

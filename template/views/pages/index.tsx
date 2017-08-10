@@ -1,16 +1,23 @@
 import * as React from 'react';
-export interface Props{}
-export interface States {}
-
-class Index extends React.Component<Props, States>   {
-  constructor(props: Props) {
-      super(props);
+var { asyncConnect, store } = require('koa-cola').Decorators.view;
+var loadSuccess = store.loadSuccess;
+export default asyncConnect([
+  {
+    key : 'hello',
+    promise : () => {
+      return Promise.resolve('Wow koa-cola!');
+    }
   }
-  static defaultProps = {
-      
-  };
-  render() {
-    return <h1>Wow koa-cola!</h1>
+], null, dispatch => {
+  return {
+    onClick : () => {
+      dispatch(loadSuccess('hello', 'Wow koa-cola again!'));
+    }
   }
-};
-export default Index
+})(Index)
+function Index({hello, onClick}){
+  return <div>
+    <h1>{ hello }</h1>
+    <button onClick={onClick}>click me</button>
+  </div>
+}

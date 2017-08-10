@@ -34,7 +34,7 @@ module.exports = {
 				use: {
 					loader: 'babel-loader'
 				},
-				exclude: /node_modules\/(?!(koa-cola)\/).*/,
+				exclude: /node_modules\/(?!(koa-cola)|(controller-decorators)\/).*/,
 			},
 
 			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
