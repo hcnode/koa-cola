@@ -55,7 +55,7 @@ if (program.new) {
     }
   }
 } else if (program.cheer) {
-  shell.exec('webpack');
+  shell.exec('koa-cola build');
   shell.exec('koa-cola');
 } else if (program.schema) {
   createSchemaTypes();
