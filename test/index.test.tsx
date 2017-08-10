@@ -13,6 +13,7 @@ describe('#koa-cola', function() {
     var server;
 	var mongoose;
 	before(function() {
+		console.log(process.cwd())
 		chdir();
 		server = App();
 		return initDb();

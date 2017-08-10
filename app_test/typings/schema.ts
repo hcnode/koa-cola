@@ -1,5 +1,4 @@
-import * as mongoose from 'mongoose'
-
+import * as mongoose from 'mongoose';
 
 export interface testSchema {
 
@@ -7,13 +6,17 @@ export interface testSchema {
      * 这是中文
      */
 
-    objectId: mongoose.Schema.Types.ObjectId
+    objectId:
+        mongoose.Schema.Types.ObjectId
+
 
     /**
      * this is text
      */
 
-    decimal128: mongoose.Schema.Types.Decimal128
+    decimal128:
+        mongoose.Schema.Types.Decimal128
+
 
     /**
      * suDoc1
@@ -27,11 +30,13 @@ export interface testSchema {
 
         subId: mongoose.Schema.Types.ObjectId
 
+
         /**
          * string
          */
 
         string: string
+
 
         /**
          * number
@@ -39,11 +44,13 @@ export interface testSchema {
 
         number: number
 
+
         /**
          * _id
          */
 
         _id: mongoose.Schema.Types.ObjectId
+
 
     }]
 
@@ -59,17 +66,18 @@ export interface testSchema {
 
         foo: string
 
+
     }]
 
     /**
      * suDoc3
      */
 
-    suDoc3: [string]
+    suDoc3: [
+        string
+    ]
 
 }
-
-
 
 export interface userSchema {
 
@@ -77,12 +85,16 @@ export interface userSchema {
      * name
      */
 
-    name: string
+    name:
+        string
+
 
     /**
      * email
      */
 
-    email: string
+    email:
+        string
+
 
 }
