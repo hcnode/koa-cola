@@ -1,4 +1,4 @@
-import { ApiBase, apiFetch } from 'koa-cola'
+import { ApiBase, apiFetch } from 'koa-cola/dist/client'
 
 
 
