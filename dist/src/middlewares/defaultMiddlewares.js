@@ -27,7 +27,7 @@ exports.default = [
                 stream: fs.createWriteStream(args + '/access.log', { flags: 'a' })
             });
         },
-        args: `${process.cwd()}/logs`
+        args: () => `${process.cwd()}/logs`
     },
     {
         name: 'koa-compress',
@@ -44,6 +44,6 @@ exports.default = [
     {
         name: 'koa-static',
         func: require('koa-static'),
-        args: `${process.cwd()}/public`
+        args: () => `${process.cwd()}/public`
     },
 ];
