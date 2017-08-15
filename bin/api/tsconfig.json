@@ -28,6 +28,6 @@
   "typeRoots": [],
   "include": [
     "typings",
-    "app.js"
+    "app.tsx"
   ]
 }

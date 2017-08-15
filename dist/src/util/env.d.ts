@@ -1,2 +1,2 @@
 export declare function getEnvironment(): any;
-export declare function getConfig(): {};
+export declare function getConfig(): any;

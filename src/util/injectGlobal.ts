@@ -68,6 +68,8 @@ export default function inject(colaApp?){
 			{ middlewares: reqDir(`${process.cwd()}/api/middlewares`) },
 			// load responses
 			{ responses: reqDir(`${process.cwd()}/api/responses`) },
+			// load schema
+			{ schemas: reqDir(`${process.cwd()}/api/schemas`) },
 			// load pages
 			{ pages: reqDir(`${process.cwd()}/views/pages`) });
 		if(colaApp){
