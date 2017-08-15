@@ -37,7 +37,6 @@ describe('#koa-cola middleware', function() {
 			should(res.text).be.equal(['checkMiddlewareOrder', 'requestTime'].join('-'))
 		});
 
-
 		it('#disabledMiddleware', async function(){
 			var res = await request(server)
                 .get('/disabledMiddleware')

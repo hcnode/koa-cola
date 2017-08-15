@@ -69,6 +69,8 @@ function inject(colaApp) {
         { middlewares: require_1.reqDir(`${process.cwd()}/api/middlewares`) }, 
         // load responses
         { responses: require_1.reqDir(`${process.cwd()}/api/responses`) }, 
+        // load schema
+        { schemas: require_1.reqDir(`${process.cwd()}/api/schemas`) }, 
         // load pages
         { pages: require_1.reqDir(`${process.cwd()}/views/pages`) });
         if (colaApp) {
