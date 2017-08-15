@@ -6,9 +6,12 @@ try {
   var injectGlobal = require('./src/util/injectGlobal').default;
   exports.injectGlobal = injectGlobal;
   exports.RunApp = run;
-  exports.reqInject = function(cb) {
+  exports.reqInject = function(path, cb) {
+    var currentPath = process.cwd();
+    process.chdir(path);
     if (!global.app) injectGlobal();
-    cb();
+    process.chdir(currentPath);
+    cb && cb();
   };
 } catch (e) {}
 
