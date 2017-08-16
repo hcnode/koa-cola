@@ -27,7 +27,7 @@ function createMiddleware(koaApp) {
         }
     });
     // 合并中间件
-    var combineMiddlewares = defaultMiddlewares.concat(customMiddlewares);
+    var combineMiddlewares = defaultMiddlewares.filter(item => !customMiddlewares.find(item2 => item2.name == item.name)).concat(customMiddlewares);
     var keys = combineMiddlewares.map(item => item.name);
     // 排序
     if (app.config.sort) {
