@@ -85,11 +85,11 @@ function bgLaunch(){
       }
     });
     launchProcess.stdout.on('data', (data) => {
+      if(data) console.log(`${data}`);
       if(data.indexOf('Listening') > -1){
         var port = /.+port (\d+)/.test(data) && RegExp.$1;
         resolve(port);
       }
-      if(data) console.log(`${data}`);
     });
     
     launchProcess.stderr.on('data', (data) => {
@@ -108,10 +108,10 @@ function bgBuild(){
       }
     });
     buildProcess.stdout.on('data', (data) => {
+      if(data) console.log(`${data}`);
       if(/Time: (\d+)ms/.test(data)){
         resolve();
       }
-      if(data) console.log(`${data}`);
     });
     
     buildProcess.stderr.on('data', (data) => {
