@@ -164,7 +164,7 @@ if (program.new) {
       shell.cp('-R', templatePath, projectPath);
       // fs.copySync(templatePath, projectPath);
       console.log(chalk.green(`project ${name} created with normal mode.`));
-      console.log(chalk.green('now npm installing... please wait a moment.'));
+      console.log(chalk.green('Installing packages. This might take a couple of minutes.'));
       shell.cd(`${projectPath}`);
       shell.exec('npm install');
       console.log(chalk.green('npm install done. '));
