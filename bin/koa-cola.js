@@ -148,7 +148,7 @@ if (program.new) {
     shell.cp('-R', templatePath, projectPath);
     var packageFile = path.join(projectPath, 'package.json');
     fs.writeFileSync(packageFile, fs.readFileSync(packageFile).toString().replace('#{name}', name));
-    console.log(chalk.green(`project ${name} created with api mode.`));
+    console.log(chalk.green(`Project ${name} created with api mode.`));
     console.log(chalk.green('Installing packages. This might take a couple of minutes.'));
     shell.cd(`${projectPath}`);
     shell.exec('npm install');
@@ -163,7 +163,7 @@ if (program.new) {
       // copy boilerplate project
       shell.cp('-R', templatePath, projectPath);
       // fs.copySync(templatePath, projectPath);
-      console.log(chalk.green(`project ${name} created with normal mode.`));
+      console.log(chalk.green(`Project ${name} created with normal mode.`));
       console.log(chalk.green('Installing packages. This might take a couple of minutes.'));
       shell.cd(`${projectPath}`);
       shell.exec('npm install');
