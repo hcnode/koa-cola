@@ -11,20 +11,10 @@ try {
     exports.reqInject = function (path, cb) {
         var currentPath = process.cwd();
         process.chdir(path);
-        if (global.app) {
-            var _app = global.app;
-            delete global.app;
+        if (!global.app)
             injectGlobal();
-            process.chdir(currentPath);
-            var koacolaApp = global.app;
-            cb && cb();
-            global.app = _app;
-        }
-        else {
-            injectGlobal();
-            process.chdir(currentPath);
-            cb && cb();
-        }
+        process.chdir(currentPath);
+        cb && cb();
     };
 }
 catch (e) { }
