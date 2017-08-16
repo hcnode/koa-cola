@@ -109,10 +109,7 @@ koa-cola不但可以支持component的数据初始化，还可以合并page和co
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
 * `npm i`
-* `webpack`
-* `koa-cola`
-* 访问[http://localhost:3000](http://localhost:3000)，选择官方demo或者是koa-cola风格的demo
-
+* `koa-cola dev`
 
 更多详情请查看[官方文档](http://koa-cola.com/doc/index.html)
 
