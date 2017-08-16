@@ -27,7 +27,7 @@ koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的
 
 视频演示：
 
-<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" style="width:500px" /></a>
+<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" width="500" /></a>
 
 
 ## 对比next.js
