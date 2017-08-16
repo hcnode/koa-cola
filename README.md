@@ -25,6 +25,13 @@ koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的
 * `cd app`
 * `koa-cola dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
 
+<video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
+  <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+  <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
+  <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
+  <p>Your user agent does not support the HTML5 Video element.</p>
+</video>
+
 ## 对比next.js
 
 [next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js支持component和react-router，并没有集成redux，在服务器端，也没有太多支持，比如controller层和express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
