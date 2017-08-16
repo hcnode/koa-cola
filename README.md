@@ -25,10 +25,8 @@ koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的
 * `cd app`
 * `koa-cola dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
 
-<video id="video" controls="" preload="none" poster="http://www.koa-cola.com/doc/video/poster.png">
-  <source id="mp4" src="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" type="video/mp4">
-  <p>Your user agent does not support the HTML5 Video element.</p>
-</video>
+<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" /></a>
+
 
 ## 对比next.js
 
