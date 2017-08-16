@@ -25,7 +25,7 @@ koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的
 * `cd app`
 * `koa-cola dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
 
-<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" /></a>
+<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" style="width:500px" /></a>
 
 
 ## 对比next.js
