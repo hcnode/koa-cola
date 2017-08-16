@@ -72,7 +72,7 @@ function inject(colaApp) {
         // load schema
         { schemas: require_1.reqDir(`${process.cwd()}/api/schemas`) }, 
         // load pages
-        { pages: require_1.reqDir(`${process.cwd()}/views/pages`) });
+        { pages: require_1.reqDir(require('path').resolve(process.cwd(), 'views', 'pages') )});
         if (colaApp) {
             Object.keys(colaApp).forEach(key => {
                 app[key] = app[key] || {};
