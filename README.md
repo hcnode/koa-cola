@@ -32,7 +32,7 @@ koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的
 
 ## 对比next.js
 
-[next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js支持component和react-router，并没有集成redux，在服务器端，也没有太多支持，比如controller层和express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
+[next.js](https://github.com/zeit/next.js)是一个比较流行的也是基于react的SSR的应用框架，不过在react技术栈，next.js只支持component和react-router，并没有支持redux，在服务器端，也没有太多支持，比如controller层和express/koa中间件，服务器端只是支持简单的路由、静态页面等，koa-cola则是提供前后端完整的解决方案的框架。
 
 在数据初始化，两者有点类似，next.js使用静态方法getInitialProps来初始化数据：
 ```javascript

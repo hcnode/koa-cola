@@ -11,8 +11,12 @@ const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
 const serialize = require("serialize-javascript");
 const require_1 = require("../util/require");
+const createRouter_1 = require("../util/createRouter");
 exports.default = async (ctx, next) => {
     // app.routers.router 是react-router, 在 src/util/createRouter.tsx定义
+    if (process.env.NODE_ENV != 'production') {
+        createRouter_1.default(app.reactRouters);
+    }
     var routes = app.routers.router;
     var layout = require_1.req(`${process.cwd()}/views/pages/layout`);
     if (!routes) {
@@ -105,7 +109,7 @@ exports.default = async (ctx, next) => {
                          * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
                          */
                         if (layout) {
-                            appHTML = layout(appHTML, store);
+                            appHTML = layout(appHTML, store, renderProps);
                         }
                         else {
                             console.log(`${process.cwd()}/views/pages/layout not found`);

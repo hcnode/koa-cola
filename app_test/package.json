@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/webpack-env": "^1.13.0"
+    "@types/webpack-env": "^1.13.0",
+    "supports-color": "^4.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

@@ -1,16 +1,15 @@
 import * as React from 'react';
-import { render } from 'react-dom';
-var { createProvider } = require('../../dist/client');
+import { render } from 'react-dom'
+var {createProvider} = require('../../dist/client');
 
-var Provider = createProvider(
-  [require('../api/controllers/IndexController').default],
-  {
-    cola: require('./pages/cola').default,
-    simple: require('./pages/simple').default,
-    multiChildren: require('./pages/multiChildren').default,
-    autoLoadFromPages1: require('./pages/autoLoadFromPages1').default,
-    headerAndBundle: require('./pages/headerAndBundle').default
-  }
-);
+var Provider = createProvider([
+    require('../api/controllers/IndexController').default,
+],{
+    simple : require('./pages/simple').default,
+cola : require('./pages/cola').default,
+multiChildren : require('./pages/multiChildren').default,
+autoLoadFromPages1 : require('./pages/autoLoadFromPages1').default,
+headerAndBundle : require('./pages/headerAndBundle').default,
+});
 
-render(<Provider />, document.getElementById('app'));
+render(<Provider />, document.getElementById('app'))

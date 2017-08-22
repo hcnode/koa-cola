@@ -18,10 +18,16 @@ export default function createRouter(routers) {
     //app.decorators.view defined in util.decorators.ts
     const { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
     app.routers = app.routers || {};
-    app.routers.router =
-        app.routers.router || <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
+    app.routers.router = <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
             {routers.map(router => {
                 let component = app.pages[router.component];
+                if(process.env.NODE_ENV != 'production'){
+                    var path = require('path').resolve(process.cwd(), 'views', 'pages', router.component);
+                    // if(require('fs').existsSync(path)){
+                        delete require.cache[require.resolve(path)];  
+                        component = require(require.resolve(path)).default;
+                    // }
+                }
                 if (component && component.name != "Connect") {
                     component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
                 }
