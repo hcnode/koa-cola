@@ -10,8 +10,12 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import * as serialize from 'serialize-javascript';
 import { req } from '../util/require';
+import createRouter from '../util/createRouter'
 export default async (ctx: Koa.Context, next) => {
     // app.routers.router 是react-router, 在 src/util/createRouter.tsx定义
+    if(process.env.NODE_ENV != 'production'){
+        createRouter(app.reactRouters);
+    }
     var routes = app.routers.router;
     var layout = req(`${process.cwd()}/views/pages/layout`);
     if (!routes) {
@@ -101,7 +105,7 @@ export default async (ctx: Koa.Context, next) => {
                          * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
                          */
                         if (layout) {
-                            appHTML = layout(appHTML, store);
+                            appHTML = layout(appHTML, store, renderProps);
                         } else {
                             console.log(`${process.cwd()}/views/pages/layout not found`)
                         }
