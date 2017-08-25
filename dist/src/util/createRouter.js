@@ -19,14 +19,17 @@ function createRouter(routers) {
     app.routers = app.routers || {};
     app.routers.router = React.createElement(react_router_1.Router, { render: props => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, routers.map(router => {
         let component = app.pages[router.component];
+        if (!component) {
+            return console.log(`component ${router.component} not found`);
+        }
         if (process.env.NODE_ENV != 'production') {
-            var path = require('path').resolve(process.cwd(), 'views', 'pages', router.component);
+            // var path = require('path').resolve(process.cwd(), 'views', 'pages', router.component);
             // if(require('fs').existsSync(path)){
-            delete require.cache[require.resolve(path)];
-            component = require(require.resolve(path)).default;
+            // delete require.cache[require.resolve(path)];  
+            // component = require(require.resolve(path)).default;
             // }
         }
-        if (component && component.name != "Connect") {
+        if (component.name != "Connect") {
             component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
         }
         if (component.childrenComponents) {

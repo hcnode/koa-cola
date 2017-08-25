@@ -21,14 +21,17 @@ export default function createRouter(routers) {
     app.routers.router = <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
             {routers.map(router => {
                 let component = app.pages[router.component];
+                if(!component){
+                    return console.log(`component ${router.component} not found`);
+                }
                 if(process.env.NODE_ENV != 'production'){
-                    var path = require('path').resolve(process.cwd(), 'views', 'pages', router.component);
+                    // var path = require('path').resolve(process.cwd(), 'views', 'pages', router.component);
                     // if(require('fs').existsSync(path)){
-                        delete require.cache[require.resolve(path)];  
-                        component = require(require.resolve(path)).default;
+                        // delete require.cache[require.resolve(path)];  
+                        // component = require(require.resolve(path)).default;
                     // }
                 }
-                if (component && component.name != "Connect") {
+                if (component.name != "Connect") {
                     component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
                 }
                 if (component.childrenComponents) {

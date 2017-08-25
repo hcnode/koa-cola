@@ -1,4 +1,16 @@
 var requireDir = require('require-dir');
+var _reqDir = (dir) => {
+    if(require.context){
+        var context = require.context(dir, false, /\.(j|t)s(x)?$/);
+        var obj = {};
+        context.keys().forEach(function (key) {
+            obj[key] = context(key);
+        });
+        return obj;
+    }else{
+        return requireDir(dir);
+    }
+}
 export function req(module){
     try {
         var module = require(module);
@@ -11,7 +23,7 @@ export function req(module){
 
 export function reqDir(dir){
     try {
-        const libs = requireDir(dir);
+        const libs = _reqDir(dir);
         return Object.keys(libs).reduce((host: {}, key: string) => {
             host[key] = libs[key].default || libs[key];
             return host;
