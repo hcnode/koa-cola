@@ -33,6 +33,7 @@ function reqDir(dir) {
         }, {});
     }
     catch (err) {
+        console.log(require('util').inspect(err));
         console.log(`dir ${dir} does not exist`);
         return {};
     }

@@ -10,7 +10,7 @@ var {
   reducer,
   store,
   colaReducer,
-  include
+  include, Cola
 } = require('../../../dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
 var Child1 = require('../components/child1').default;

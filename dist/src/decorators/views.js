@@ -28,3 +28,20 @@ function doNotUseLayout(target) {
     target._doNotUseLayout = true;
 }
 exports.doNotUseLayout = doNotUseLayout;
+var { asyncConnect } = require('redux-connect');
+function Cola() {
+    var args = Array.from(arguments);
+    return function (target) {
+        var map = args.shift() || {};
+        var reducer = args.pop();
+        var component = asyncConnect(Object.keys(map).map(item => {
+            return {
+                key: item,
+                promise: map[item]
+            };
+        }), ...args)(target);
+        component._reducer = reducer;
+        return component;
+    };
+}
+exports.Cola = Cola;

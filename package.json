@@ -15,7 +15,9 @@
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
     "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
-    "build": "rm -rf ./dist; tsc -p compile"
+    "build": "rm -rf ./dist && tsc -p compile",
+    "preversion": "rm package-lock.json && npm run build",
+    "postversion": "npm publish && git push"
   },
   "keywords": [
     "typescript",

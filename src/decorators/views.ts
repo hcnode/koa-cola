@@ -24,3 +24,20 @@ export function bundle(bundle) {
 export function doNotUseLayout(target: any) {
   target._doNotUseLayout = true;
 }
+var { asyncConnect } = require('redux-connect');
+
+export function Cola() {
+  var args = Array.from(arguments);
+  return function(target) {
+    var map = args.shift() || {};
+    var reducer = args.pop();
+    var component = asyncConnect(Object.keys(map).map(item => {
+      return {
+        key : item,
+        promise : map[item]
+      }
+    }), ...args)(target);
+    component._reducer = reducer;
+    return component;
+  };
+}
