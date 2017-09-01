@@ -109,7 +109,7 @@ exports.default = async (ctx, next) => {
                          * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
                          */
                         if (layout) {
-                            appHTML = layout(appHTML, store, renderProps, _pagePros);
+                            appHTML = layout(appHTML, store, renderProps, typeof _pagePros == 'function' ? await _pagePros(ctx) : _pagePros);
                         }
                         else {
                             console.log(`${process.cwd()}/views/pages/layout not found`);

@@ -119,7 +119,7 @@ describe('#koa-cola', function() {
 		});
 		it('#pageProps', async function(){
 			var res = await request(server)
-                .get('/pageProps')
+                .get('/pageProps?title=pageProps')
                 .expect(200)
                 .toPromise();
 			should(res.text).containEql('<title>pageProps</title>');
