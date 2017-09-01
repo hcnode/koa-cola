@@ -3,6 +3,9 @@
  */
 import App from './index'
 var server;
+process.on('unhandledRejection', error => {
+    console.error('unhandledRejection', require('util').inspect(error));
+});
 export function run(colaApp){
     if(server){
         server.close();
