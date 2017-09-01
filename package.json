@@ -16,7 +16,7 @@
     "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist && tsc -p compile",
-    "preversion": "rm package-lock.json && npm run build",
+    "preversion": "npm run build",
     "postversion": "npm publish && git push"
   },
   "keywords": [
