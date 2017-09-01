@@ -21,6 +21,12 @@ export function bundle(bundle) {
   };
 }
 
+export function pagePros(pageProps) {
+  return function(target) {
+    target._pagePros = pageProps;
+  };
+}
+
 export function doNotUseLayout(target: any) {
   target._doNotUseLayout = true;
 }
