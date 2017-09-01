@@ -5,6 +5,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const index_1 = require("./index");
 var server;
+process.on('unhandledRejection', error => {
+    console.error('unhandledRejection', require('util').inspect(error));
+});
 function run(colaApp) {
     if (server) {
         server.close();

@@ -29,18 +29,17 @@ function doNotUseLayout(target) {
 }
 exports.doNotUseLayout = doNotUseLayout;
 var { asyncConnect } = require('redux-connect');
-function Cola() {
-    var args = Array.from(arguments);
+function Cola({ initData = {}, mapStateToProps = null, mapDispatchToProps = null, reducer = null }) {
     return function (target) {
-        var map = args.shift() || {};
-        var reducer = args.pop();
-        var component = asyncConnect(Object.keys(map).map(item => {
+        var component = asyncConnect(Object.keys(initData).map(item => {
             return {
                 key: item,
-                promise: map[item]
+                promise: initData[item]
             };
-        }), ...args)(target);
-        component._reducer = reducer;
+        }), mapStateToProps, mapDispatchToProps)(target);
+        if (reducer) {
+            component._reducer = reducer;
+        }
         return component;
     };
 }

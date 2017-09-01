@@ -38,57 +38,57 @@ export const timeout = 500;
 
 @Cola(
   {
-    pepsi: ({ params, helpers }) => {
-      return Promise.resolve(pepsi);
-    },
-    coca: ({ params, helpers }) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(coca), timeout);
-      });
-    },
-    serverCallResult: async ({ params, helpers }) => {
-      var ctx = helpers.ctx;
-      var serverCallApi = new ServerCallApi({});
-      var data = await serverCallApi.fetch(ctx);
-      return data.result;
-    }
-  },
-  // mapStateToProps
-  ({ colaPepsi }) => {
-    return {
-      colaPepsi
-    };
-  },
-  // mapDispatchToProps
-  dispatch => {
-    return {
-      onClick: () => {
-        dispatch(loadSuccess("pepsi", pepsi2));
-        dispatch({
-          type: "GET_COLAPEPSI",
-          data: pepsi2
+    initData : {
+      pepsi: ({ params, helpers }) => {
+        return Promise.resolve(pepsi);
+      },
+      coca: ({ params, helpers }) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => resolve(coca), timeout);
         });
       },
-      onAsyncClick: async () => {
-        var data = await new Promise((resolve, reject) => {
-          setTimeout(() => resolve(coca2), timeout);
-        });
-        dispatch(loadSuccess("coca", data));
-      },
-      ajax: async () => {
-        var compose = new Compose({ foo: "bar" });
-        compose = await compose.fetch();
-        console.log(compose);
+      serverCallResult: async ({ params, helpers }) => {
+        var ctx = helpers.ctx;
+        var serverCallApi = new ServerCallApi({});
+        var data = await serverCallApi.fetch(ctx);
+        return data.result;
       }
-    };
-  },
-  {
-    colaPepsi: (state = [], action) => {
-      switch (action.type) {
-        case "GET_COLAPEPSI":
-          return action.data;
-        default:
-          return state;
+    },
+    mapStateToProps : ({ colaPepsi }) => {
+      return {
+        colaPepsi
+      };
+    },
+    mapDispatchToProps : dispatch => {
+      return {
+        onClick: () => {
+          dispatch(loadSuccess("pepsi", pepsi2));
+          dispatch({
+            type: "GET_COLAPEPSI",
+            data: pepsi2
+          });
+        },
+        onAsyncClick: async () => {
+          var data = await new Promise((resolve, reject) => {
+            setTimeout(() => resolve(coca2), timeout);
+          });
+          dispatch(loadSuccess("coca", data));
+        },
+        ajax: async () => {
+          var compose = new Compose({ foo: "bar" });
+          compose = await compose.fetch();
+          console.log(compose);
+        }
+      };
+    },
+    reducer : {
+      colaPepsi: (state = [], action) => {
+        switch (action.type) {
+          case "GET_COLAPEPSI":
+            return action.data;
+          default:
+            return state;
+        }
       }
     }
   }

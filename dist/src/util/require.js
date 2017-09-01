@@ -33,8 +33,12 @@ function reqDir(dir) {
         }, {});
     }
     catch (err) {
-        console.log(require('util').inspect(err));
-        console.log(`dir ${dir} does not exist`);
+        if (err.code == 'ENOENT') {
+            console.log(`dir ${dir} does not exist`);
+        }
+        else {
+            console.error(require('util').inspect(err));
+        }
         return {};
     }
 }
