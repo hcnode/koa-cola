@@ -75,14 +75,9 @@ export default function (colaApp?) {
                 ctx.throw(404);
             }
         } catch (err) {
-            ctx.status = err.status || 500;
             var env = process.env;
-            try{
-                if(env.NODE_ENV != 'test'){
-                    console.log(require('util').inspect(err));
-                }
-            }catch(e){}
             
+            ctx.status = err.status || 500;
             var message = err.message;
             if(err.status && !http.STATUS_CODES[err.status]){
                 message = require('statuses')[err.status] || 'unknow error'
@@ -142,7 +137,7 @@ export default function (colaApp?) {
     // error emit
     koaApp.on('error', function (err) {
         if (process.env.NODE_ENV != 'test') {
-            // TODO
+            console.log(require('util').inspect(err));
         }
     });
     // 调用config配置里面的boostrap
