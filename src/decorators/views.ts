@@ -21,7 +21,7 @@ export function bundle(bundle) {
   };
 }
 
-export function pagePros(pageProps) {
+export function pageProps(pageProps) {
   return function(target) {
     target._pagePros = pageProps;
   };

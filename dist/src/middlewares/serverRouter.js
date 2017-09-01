@@ -87,7 +87,7 @@ exports.default = async (ctx, next) => {
                         }
                         return resolve();
                     }
-                    var { _doNotUseLayout, Header, _bundle } = renderProps.components[1];
+                    var { _doNotUseLayout, Header, _bundle, _pagePros = {} } = renderProps.components[1];
                     if (_doNotUseLayout) {
                         appHTML = `
                             <!doctype html>
@@ -109,7 +109,7 @@ exports.default = async (ctx, next) => {
                          * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
                          */
                         if (layout) {
-                            appHTML = layout(appHTML, store, renderProps);
+                            appHTML = layout(appHTML, store, renderProps, _pagePros);
                         }
                         else {
                             console.log(`${process.cwd()}/views/pages/layout not found`);

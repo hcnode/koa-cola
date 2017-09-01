@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
-const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, Cola } = require('./src/decorators/views');
+const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, Cola, pageProps } = require('./src/decorators/views');
 var api_1 = require("./src/util/api");
 exports.ApiBase = api_1.Base;
 exports.apiFetch = api_1.fetch;
@@ -20,6 +20,6 @@ exports.Decorators = {
         header,
         bundle,
         doNotUseLayout,
-        Cola
+        Cola, pageProps
     })
 };

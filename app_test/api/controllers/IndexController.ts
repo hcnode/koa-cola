@@ -122,4 +122,8 @@ export default class {
   @Get('/headerAndBundle')
   @View('headerAndBundle')
   async headerAndBundle(@Ctx() ctx) {}
+
+  @Get('/pageProps')
+  @View('pageProps')
+  async pageProps(@Ctx() ctx) {}
 }

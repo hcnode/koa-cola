@@ -30,5 +30,5 @@ var mongooseDecorators = require('mongoose-decorators');
 exports.Decorators = {
     controller: controllerDecorators,
     model: mongooseDecorators,
-    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store'), colaReducer: views_1.ColaReducer, Cola: views_1.Cola, include: views_1.ChildrenComponents, header: views_1.header, bundle: views_1.bundle, doNotUseLayout: views_1.doNotUseLayout })
+    view: Object.assign({}, reduxConnect, { store: require('redux-connect/lib/store'), colaReducer: views_1.ColaReducer, Cola: views_1.Cola, include: views_1.ChildrenComponents, header: views_1.header, bundle: views_1.bundle, doNotUseLayout: views_1.doNotUseLayout, pageProps: views_1.pageProps })
 };

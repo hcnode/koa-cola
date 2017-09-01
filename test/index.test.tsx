@@ -117,6 +117,13 @@ describe('#koa-cola', function() {
 			should(res.text).containEql('<meta name="viewport" content="width=device-width"');
 			should(res.text).containEql('<script src=\'/test.js\'></script>');
 		});
+		it('#pageProps', async function(){
+			var res = await request(server)
+                .get('/pageProps')
+                .expect(200)
+                .toPromise();
+			should(res.text).containEql('<title>pageProps</title>');
+		});
 
 		/*it('#view with server call api', async function(){
 			var res = await request(server)

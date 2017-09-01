@@ -24,6 +24,12 @@ function bundle(bundle) {
     };
 }
 exports.bundle = bundle;
+function pageProps(pageProps) {
+    return function (target) {
+        target._pagePros = pageProps;
+    };
+}
+exports.pageProps = pageProps;
 function doNotUseLayout(target) {
     target._doNotUseLayout = true;
 }
