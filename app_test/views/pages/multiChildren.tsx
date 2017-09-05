@@ -5,11 +5,7 @@ import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
 
 var {
-  ReduxAsyncConnect,
-  asyncConnect,
-  reducer,
   store,
-  colaReducer,
   include, Cola
 } = require('../../../dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
@@ -25,26 +21,19 @@ export interface Props {
 }
 export interface States {}
 
-@asyncConnect([
-  {
-    key: 'prop1',
-    promise: ({ params, helpers }) => {
+@Cola({
+  initData : {
+    prop1 : ({ params, helpers }) => {
       return '';
-    }
-  },
-  {
-    key: 'prop2',
-    promise: ({ params, helpers }) => {
+    },
+    prop2 : ({ params, helpers }) => {
       return '';
-    }
-  },
-  {
-    key: 'propClick',
-    promise: ({ params, helpers }) => {
+    },
+    propClick : ({ params, helpers }) => {
       return '';
     }
   }
-])
+})
 @include({
   Child1,
   Child2

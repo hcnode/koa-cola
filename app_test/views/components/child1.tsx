@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { ReduxAsyncConnect, asyncConnect, reducer, store } = require('../../../dist/client').Decorators.view;
+var { Cola, store } = require('../../../dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props {
   prop1?: any
@@ -11,25 +11,21 @@ export interface Props {
 export interface States {
 }
 
-@asyncConnect([{
-  key: 'prop1',
-  promise: ({ params, helpers }) => {
-    return Promise.resolve('prop1');
-  }
-},{
-  key: 'propClick',
-  promise: ({ params, helpers }) => {
-    return '';
-  }
-}],
-// mapStateToProps
-null, 
-// mapDispatchToProps
-(dispatch) => {
-  return {
-    onClick: () => {
-      dispatch(loadSuccess('propClick', 'click.'));
-    } 
+@Cola({
+  initData : {
+    prop1 : ({ params, helpers }) => {
+      return Promise.resolve('prop1');
+    },
+    propClick : ({ params, helpers }) => {
+      return '';
+    }
+  },
+  mapDispatchToProps : (dispatch) => {
+    return {
+      onClick: () => {
+        dispatch(loadSuccess('propClick', 'click.'));
+      } 
+    }
   }
 })
 export default class Child1 extends React.Component<Props, States>   {

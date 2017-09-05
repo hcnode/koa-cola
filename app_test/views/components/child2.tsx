@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { ReduxAsyncConnect, asyncConnect, reducer, store } = require('../../../dist/client').Decorators.view;
+var { Cola, store } = require('../../../dist/client').Decorators.view;
 var loadSuccess = store.loadSuccess;
 export interface Props {
   prop1?: any
@@ -11,17 +11,16 @@ export interface Props {
 export interface States {
 }
 
-@asyncConnect([{
-  key: 'prop2',
-  promise: ({ params, helpers }) => {
-    return Promise.resolve('prop2');
+@Cola({
+  initData : {
+    prop2 : ({ params, helpers }) => {
+      return Promise.resolve('prop2');
+    },
+    propClick : ({ params, helpers }) => {
+      return '';
+    }
   }
-},{
-  key: 'propClick',
-  promise: ({ params, helpers }) => {
-    return '';
-  }
-}])
+})
 export default class Child2 extends React.Component<Props, States>   {
   constructor(props: Props) {
     super(props);
