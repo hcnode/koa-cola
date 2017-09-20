@@ -4,7 +4,7 @@ export default function(html, store, renderProps, {title}){
 <!doctype html>
 <html>
     <head>
-        <title>${title}</title>
+        <title>${title || ''}</title>
     </head>
     <body id="app">${html}</body>
 </html>
