@@ -43,10 +43,10 @@ export function initDb() {
     var Mockgoose = require('mockgoose').Mockgoose;
     var mockgoose = new Mockgoose(mongoose);
     if(require('os').platform() == 'linux') mockgoose.helper.setDbVersion('3.5.7');
-    // mockgoose.prepareStorage().then(function() {
+    mockgoose.prepareStorage().then(function() {
       app.mongoose.connect('mongodb://127.0.0.1:27017/koa-cola', function(err) {
         err ? reject(err) : resolve();
       });
-    // });
+    });
   });
 }
