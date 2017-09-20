@@ -12,7 +12,7 @@
   },
   "author": "Harry Chen <hcnode@gmail.com> (http://github.com/hcnode)",
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
+    "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register test/index.test.tsx",
     "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist && tsc -p compile",
