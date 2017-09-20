@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
-var { Cola, store } = require('../../../decorators')
+var { Cola, store } = require('../../../client')
 var loadSuccess = store.loadSuccess;
 export interface Props {
   prop1?: any

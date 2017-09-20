@@ -8,7 +8,7 @@
 
 import * as React from "react";
 import { Compose, ServerCallApi } from "../../api";
-var { store, Cola } = require("../../../decorators")
+var { store, Cola } = require("../../../client")
 var loadSuccess = store.loadSuccess;
 export interface Props {
   pepsi?: string;

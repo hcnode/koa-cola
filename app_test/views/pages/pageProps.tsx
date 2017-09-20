@@ -1,5 +1,5 @@
 import * as React from "react";
-var { pageProps } = require("../../../decorators");
+var { pageProps } = require("../../../client");
 export interface Props {}
 export interface States {}
 @pageProps(ctx => {

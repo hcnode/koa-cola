@@ -7,7 +7,7 @@ import { Compose, ServerCallApi } from '../../api';
 var {
   store,
   include, Cola
-} = require("../../../decorators");
+} = require("../../../client");
 var loadSuccess = store.loadSuccess;
 var Child1 = require('../components/child1').default;
 var Child2 = require('../components/child2').default;

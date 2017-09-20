@@ -1,7 +1,7 @@
 import * as React from 'react';
 var {
   header, bundle, doNotUseLayout
-} = require("../../../decorators")
+} = require("../../../client")
 export interface Props{
     foo: string
 }
