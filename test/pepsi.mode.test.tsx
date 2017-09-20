@@ -4,7 +4,7 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../dist').Decorators.controller;
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('../client');
 import { chdir, initDb } from './util';
 var App = require('../dist/src').default
 @Controller('') 

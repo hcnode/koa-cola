@@ -1,6 +1,6 @@
 import * as React from 'react'
 var {RunApp} = require('koa-cola')
-var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('koa-cola').Decorators.controller;
+var { Controller, Get, Use, Param, Body, Delete, Put, Post, QueryParam, View, Ctx, Response } = require('koa-cola/client');
 @Controller('') 
 class FooController {
     @Get('/')

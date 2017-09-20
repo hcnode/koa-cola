@@ -4,13 +4,16 @@
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
 const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, Cola, pageProps } = require('./src/decorators/views');
-import { Base as ApiBase, fetch as apiFetch } from './src/util/api';
 const { createProvider } = require('./src/util/createRouter');
+
+export { Base as ApiBase, fetch as apiFetch } from './src/util/api';
 module.exports = {
-  ApiBase,
-  apiFetch,
+  // ApiBase,
+  // apiFetch,
   createProvider,
+  ...reduxConnect,
   ...controllerDecorators,
+  ...exports,
   store: require('redux-connect/lib/store'),
   colaReducer: ColaReducer,
   include: ChildrenComponents,
