@@ -1,23 +1,19 @@
-import * as React from 'react';
-var {
-  pageProps
-} = require("../../../dist/client").Decorators.view;
-export interface Props{}
+import * as React from "react";
+var { pageProps } = require("../../../decorators");
+export interface Props {}
 export interface States {}
 @pageProps(ctx => {
   return Promise.resolve({
-    title : ctx.query.title
-  })
+    title: ctx.query.title
+  });
 })
-class Page extends React.Component<Props, States>   {
+class Page extends React.Component<Props, States> {
   constructor(props: Props) {
-      super(props);
+    super(props);
   }
-  static defaultProps = {
-  };
+  static defaultProps = {};
   render() {
-    return <div>
-    </div>
+    return <div />;
   }
-};
-export default Page
+}
+export default Page;

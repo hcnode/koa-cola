@@ -65,7 +65,7 @@ import * as React from 'react';
 var {
   Cola,
   include
-} = require('koa-cola').Decorators.view;
+} = require('koa-cola/decorators');
 // Child1, Child2 是Cola的组件，并且会进行数据初始化
 var Child1 = require('../components/child1').default;
 var Child2 = require('../components/child2').default;
