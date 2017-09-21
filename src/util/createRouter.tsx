@@ -101,7 +101,7 @@ export function createProvider(controllers, views) {
             }
         }
     }
-    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../client");
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.reduce((_reducer, router) => {
         _reducer.push(router.component._reducer || {});
