@@ -5,4 +5,4 @@ export default function createErrorPage({env, ctx, error, stack, status, code}: 
     stack: any;
     status?: number;
     code?: number;
-}): void;
+}): Promise<void>;
