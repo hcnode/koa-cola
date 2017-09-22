@@ -85,7 +85,7 @@ export default async (ctx: Koa.Context, next) => {
                         }
                         return resolve();
                     }
-                    appHTML = layoutWrapper(appHTML, renderProps.components[1], layout, store, renderProps, ctx)
+                    appHTML = await layoutWrapper(appHTML, renderProps.components[1], layout, store, renderProps, ctx)
                     // var {_doNotUseLayout, Header, _bundle, _pagePros = {}} = renderProps.components[1];
                     // if(_doNotUseLayout){
                     //     appHTML = `

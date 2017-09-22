@@ -7,6 +7,7 @@ const server_1 = require("react-dom/server");
 const require_1 = require("../util/require");
 const serialize = require("serialize-javascript");
 var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+const layoutWrapper_1 = require("../middlewares/layoutWrapper");
 async function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
     // some errors will have .status
     // however this is not a guarantee
@@ -26,6 +27,7 @@ async function createErrorPage({ env, ctx, error, stack, status = 500, code = 50
         var layout = require_1.req(`${process.cwd()}/views/pages/layout`);
         var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(ErrorPage, Object.assign({}, arguments[0]))));
+        appHTML = layoutWrapper_1.default(appHTML, components[1], layout, store, { components }, ctx);
         var { _doNotUseLayout, Header, _bundle, _pagePros = {} } = ErrorPage;
         if (_doNotUseLayout) {
             appHTML = `

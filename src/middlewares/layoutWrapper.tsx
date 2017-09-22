@@ -53,4 +53,5 @@ export default async (html, component, layout, store, renderProps, ctx) => {
       html += injectHtml;
     }
   }
+  return html;
 };
