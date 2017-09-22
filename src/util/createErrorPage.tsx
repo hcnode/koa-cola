@@ -5,6 +5,7 @@ import { renderToString } from 'react-dom/server'
 import { req } from '../util/require';
 import * as serialize from 'serialize-javascript';
 var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+import layoutWrapper from '../middlewares/layoutWrapper'
 export default async function createErrorPage({
     env,
     ctx,
@@ -32,6 +33,7 @@ export default async function createErrorPage({
         var appHTML = renderToString(<Provider store={store} key="provider">
             <ErrorPage {...arguments[0]} />
         </Provider>)
+        appHTML = layoutWrapper(appHTML, components[1], layout, store, {components}, ctx)
         var {_doNotUseLayout, Header, _bundle, _pagePros = {}} = ErrorPage;
         if(_doNotUseLayout){
             appHTML = `

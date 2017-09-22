@@ -18,6 +18,7 @@ async function createErrorPage({ env, ctx, error, stack, status = 500, code = 50
         const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer })));
         var childrenComponents = ErrorPage.childrenComponents || {};
         var components = [
+            '',
             ErrorPage,
             ...Object.keys(childrenComponents).map(key => childrenComponents[key])
         ];

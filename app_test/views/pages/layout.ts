@@ -1,5 +1,6 @@
 import * as serialize from 'serialize-javascript';
 export default function(html, store, renderProps, {title}){
+    var name = renderProps.components[1].name;
     return `
 <!doctype html>
 <html>
@@ -8,7 +9,7 @@ export default function(html, store, renderProps, {title}){
     </head>
     <body id="app">${html}</body>
 </html>
-<script src="/bundle.js"></script>
+${name == 'page404' ? '' : '<script src="/bundle.js"></script>'}
     `
 }
 
