@@ -23,6 +23,7 @@ export default async function createErrorPage({
         const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer })));
         var childrenComponents = ErrorPage.childrenComponents || {};
         var components = [
+            '',
             ErrorPage,
             ...Object.keys(childrenComponents).map(key => childrenComponents[key])
         ];
