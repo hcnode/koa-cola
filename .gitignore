@@ -36,3 +36,4 @@ bundle.*
 package-lock.json
 typescript
 .vs
+app_test/app
