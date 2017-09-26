@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server'
 export default async (html, component, layout, store, renderProps, ctx) => {
-  var __data = {}
+  var __data = '{}';
   try {
     __data = serialize(store.getState())
   } catch (error) {}
