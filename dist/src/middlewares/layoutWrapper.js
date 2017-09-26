@@ -4,6 +4,11 @@ const React = require("react");
 const serialize = require("serialize-javascript");
 const server_1 = require("react-dom/server");
 exports.default = async (html, component, layout, store, renderProps, ctx) => {
+    var __data = {};
+    try {
+        __data = store.getState();
+    }
+    catch (error) { }
     var { _doNotUseLayout, Header, _bundle, _pagePros = {} } = component;
     if (_doNotUseLayout) {
         html = `
@@ -12,7 +17,7 @@ exports.default = async (html, component, layout, store, renderProps, ctx) => {
                 ${Header ? server_1.renderToString(React.createElement(Header, null)) : ""}
                 <body><div>${html}</div></body>
                 <script>
-                    window.__data=${serialize(store.getState())};
+                    window.__data=${serialize(__data)};
                 </script>
                 ${_bundle
             ? _bundle.map(item => {
@@ -36,7 +41,7 @@ exports.default = async (html, component, layout, store, renderProps, ctx) => {
         var injectHtml = `
                 <!-- its a Redux initial data -->
                 <script>
-                    window.__data=${serialize(store.getState())};
+                    window.__data=${serialize(__data)};
                 </script>
                 </html>
             `;

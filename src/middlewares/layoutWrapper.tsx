@@ -4,7 +4,7 @@ import { renderToString } from 'react-dom/server'
 export default async (html, component, layout, store, renderProps, ctx) => {
   var __data = {}
   try {
-    __data = store.getState()
+    __data = serialize(store.getState())
   } catch (error) {}
   var {
     _doNotUseLayout,
@@ -19,7 +19,7 @@ export default async (html, component, layout, store, renderProps, ctx) => {
                 ${Header ? renderToString(<Header />) : ""}
                 <body><div>${html}</div></body>
                 <script>
-                    window.__data=${serialize(__data)};
+                    window.__data=${__data};
                 </script>
                 ${_bundle
                   ? _bundle.map(item => {
@@ -47,7 +47,7 @@ export default async (html, component, layout, store, renderProps, ctx) => {
     var injectHtml = `
                 <!-- its a Redux initial data -->
                 <script>
-                    window.__data=${serialize(__data)};
+                    window.__data=${__data};
                 </script>
                 </html>
             `;
