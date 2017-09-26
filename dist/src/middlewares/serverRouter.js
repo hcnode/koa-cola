@@ -87,7 +87,7 @@ exports.default = async (ctx, next) => {
                         }
                         return resolve();
                     }
-                    appHTML = layoutWrapper_1.default(appHTML, renderProps.components[1], layout, store, renderProps, ctx);
+                    appHTML = await layoutWrapper_1.default(appHTML, renderProps.components[1], layout, store, renderProps, ctx);
                     // var {_doNotUseLayout, Header, _bundle, _pagePros = {}} = renderProps.components[1];
                     // if(_doNotUseLayout){
                     //     appHTML = `

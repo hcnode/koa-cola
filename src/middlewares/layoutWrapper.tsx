@@ -2,6 +2,10 @@ import * as React from 'react'
 import * as serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server'
 export default async (html, component, layout, store, renderProps, ctx) => {
+  var __data = {}
+  try {
+    __data = store.getState()
+  } catch (error) {}
   var {
     _doNotUseLayout,
     Header,
@@ -15,7 +19,7 @@ export default async (html, component, layout, store, renderProps, ctx) => {
                 ${Header ? renderToString(<Header />) : ""}
                 <body><div>${html}</div></body>
                 <script>
-                    window.__data=${serialize(store.getState())};
+                    window.__data=${serialize(__data)};
                 </script>
                 ${_bundle
                   ? _bundle.map(item => {
@@ -43,7 +47,7 @@ export default async (html, component, layout, store, renderProps, ctx) => {
     var injectHtml = `
                 <!-- its a Redux initial data -->
                 <script>
-                    window.__data=${serialize(store.getState())};
+                    window.__data=${serialize(__data)};
                 </script>
                 </html>
             `;
