@@ -24,6 +24,7 @@ try {
 
 @Controller('')
 export default class {
+
   @Get('/')
   index() {
     return 'hello world';

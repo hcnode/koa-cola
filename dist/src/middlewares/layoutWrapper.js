@@ -4,7 +4,7 @@ const React = require("react");
 const serialize = require("serialize-javascript");
 const server_1 = require("react-dom/server");
 exports.default = async (html, component, layout, store, renderProps, ctx) => {
-    var __data = {};
+    var __data = '{}';
     try {
         __data = serialize(store.getState());
     }

@@ -11,7 +11,7 @@ export default Cola({
   mapDispatchToProps : dispatch => {
     return {
       onClick : () => {
-        dispatch(loadSuccess('hello', 'Wow koa-cola again!'));
+        dispatch(loadSuccess('hello', 'Wow koa-cola and bundle work!'));
       }
     }
   }
@@ -20,6 +20,6 @@ export default Cola({
 function Index({hello, onClick}){
   return <div>
     <h1>{ hello }</h1>
-    <button onClick={onClick}>click me</button>
+    <button onClick={onClick}>check bundle if work</button>
   </div>
 }

@@ -9,6 +9,7 @@ const controller_decorators_1 = require("controller-decorators");
 const decorators_1 = require("./decorators");
 const Router = require("koa-router");
 const createRouter_1 = require("./createRouter");
+const fs = require("fs");
 function inject(colaApp) {
     global.app = {};
     /**
@@ -54,25 +55,50 @@ function inject(colaApp) {
         Object.assign(global.app, colaApp);
     }
     else {
+        var cwd = process.cwd();
+        var modulesMap = {
+            controllers: '/api/controllers',
+            models: '/api/models',
+            policies: '/api/policies',
+            services: '/api/services',
+            managers: '/api/managers',
+            middlewares: '/api/middlewares',
+            responses: '/api/responses',
+            schemas: '/api/schemas',
+            pages: '/views/pages',
+        };
+        var modules = Object.keys(modulesMap).reduce((_modules, key) => {
+            var reqPath = `${cwd}${modulesMap[key]}`;
+            if (env_1.getEnvironment() != 'production') {
+                fs.watch(reqPath, {}, (eventType, filename) => {
+                    if (eventType == 'change') {
+                        modules[key] = require_1.reqDir(reqPath);
+                    }
+                });
+            }
+            _modules[key] = require_1.reqDir(reqPath);
+            return _modules;
+        }, {});
         global.app = Object.assign(global.app, 
-        // load controllers
-        { controllers: require_1.reqDir(`${process.cwd()}/api/controllers`) }, 
-        // load models
-        { models: require_1.reqDir(`${process.cwd()}/api/models`) }, 
-        // load policies
-        { policies: require_1.reqDir(`${process.cwd()}/api/policies`) }, 
-        // load services
-        { services: require_1.reqDir(`${process.cwd()}/api/services`) }, 
-        // load managers
-        { managers: require_1.reqDir(`${process.cwd()}/api/managers`) }, 
-        // load middlewares
-        { middlewares: require_1.reqDir(`${process.cwd()}/api/middlewares`) }, 
-        // load responses
-        { responses: require_1.reqDir(`${process.cwd()}/api/responses`) }, 
-        // load schema
-        { schemas: require_1.reqDir(`${process.cwd()}/api/schemas`) }, 
-        // load pages
-        { pages: require_1.reqDir(`${process.cwd()}/views/pages`) });
+        // // load controllers
+        // { controllers: reqDir(`${cwd}/api/controllers`) },
+        // // load models
+        // { models: reqDir(`${cwd}/api/models`) },
+        // // load policies
+        // { policies: reqDir(`${cwd}/api/policies`) },
+        // // load services
+        // { services: reqDir(`${cwd}/api/services`) },
+        // // load managers
+        // { managers: reqDir(`${cwd}/api/managers`) },
+        // // load middlewares
+        // { middlewares: reqDir(`${cwd}/api/middlewares`) },
+        // // load responses
+        // { responses: reqDir(`${cwd}/api/responses`) },
+        // // load schema
+        // { schemas: reqDir(`${cwd}/api/schemas`) },
+        // // load pages
+        // { pages: reqDir(`${cwd}/views/pages`) }
+        modules);
         if (colaApp) {
             Object.keys(colaApp).forEach(key => {
                 app[key] = app[key] || {};

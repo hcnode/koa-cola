@@ -53,25 +53,51 @@ export default function inject(colaApp?){
 	if(colaApp && colaApp.mode == 'pepsi'){
 		Object.assign(global.app, colaApp);
 	}else{
+		var cwd = process.cwd();
+		var modulesMap = {
+			controllers : '/api/controllers',
+			models : '/api/models',
+			policies : '/api/policies',
+			services : '/api/services',
+			managers : '/api/managers',
+			middlewares : '/api/middlewares',
+			responses : '/api/responses',
+			schemas : '/api/schemas',
+			pages : '/views/pages',
+		}
+		var modules = Object.keys(modulesMap).reduce((_modules, key) => {
+			var reqPath = `${cwd}${modulesMap[key]}`;
+			if(getEnvironment() != 'production'){
+				fs.watch(reqPath, {}, (eventType, filename) => {
+					if(eventType == 'change'){
+						modules[key] = reqDir(reqPath);
+					}
+				});
+			}
+			_modules[key] = reqDir(reqPath)
+			return _modules;
+		}, {});
 		global.app = Object.assign(global.app,
-			// load controllers
-			{ controllers: reqDir(`${process.cwd()}/api/controllers`) },
-			// load models
-			{ models: reqDir(`${process.cwd()}/api/models`) },
-			// load policies
-			{ policies: reqDir(`${process.cwd()}/api/policies`) },
-			// load services
-			{ services: reqDir(`${process.cwd()}/api/services`) },
-			// load managers
-			{ managers: reqDir(`${process.cwd()}/api/managers`) },
-			// load middlewares
-			{ middlewares: reqDir(`${process.cwd()}/api/middlewares`) },
-			// load responses
-			{ responses: reqDir(`${process.cwd()}/api/responses`) },
-			// load schema
-			{ schemas: reqDir(`${process.cwd()}/api/schemas`) },
-			// load pages
-			{ pages: reqDir(`${process.cwd()}/views/pages`) });
+			// // load controllers
+			// { controllers: reqDir(`${cwd}/api/controllers`) },
+			// // load models
+			// { models: reqDir(`${cwd}/api/models`) },
+			// // load policies
+			// { policies: reqDir(`${cwd}/api/policies`) },
+			// // load services
+			// { services: reqDir(`${cwd}/api/services`) },
+			// // load managers
+			// { managers: reqDir(`${cwd}/api/managers`) },
+			// // load middlewares
+			// { middlewares: reqDir(`${cwd}/api/middlewares`) },
+			// // load responses
+			// { responses: reqDir(`${cwd}/api/responses`) },
+			// // load schema
+			// { schemas: reqDir(`${cwd}/api/schemas`) },
+			// // load pages
+			// { pages: reqDir(`${cwd}/views/pages`) }
+			modules
+		);
 		if(colaApp){
 			Object.keys(colaApp).forEach(key => {
 				app[key] = app[key] || {};
