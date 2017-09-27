@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/webpack-env": "^1.13.0",
-    "koa-cola": "^0.5.12",
+    "koa-cola": "latest",
     "supports-color": "^4.2.1"
   },
   "devDependencies": {
