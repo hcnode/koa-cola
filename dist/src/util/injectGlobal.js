@@ -69,7 +69,7 @@ function inject(colaApp) {
         };
         var modules = Object.keys(modulesMap).reduce((_modules, key) => {
             var reqPath = `${cwd}${modulesMap[key]}`;
-            if (env_1.getEnvironment() != 'production') {
+            if (env_1.getEnvironment() != 'production' && fs.existsSync(reqPath)) {
                 fs.watch(reqPath, {}, (eventType, filename) => {
                     if (eventType == 'change') {
                         modules[key] = require_1.reqDir(reqPath);

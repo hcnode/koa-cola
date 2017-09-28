@@ -67,14 +67,18 @@ export default function inject(colaApp?){
 		}
 		var modules = Object.keys(modulesMap).reduce((_modules, key) => {
 			var reqPath = `${cwd}${modulesMap[key]}`;
-			if(getEnvironment() != 'production'){
+			if(getEnvironment() != 'production' && fs.existsSync(reqPath)){
 				fs.watch(reqPath, {}, (eventType, filename) => {
 					if(eventType == 'change'){
 						modules[key] = reqDir(reqPath);
 					}
 				});
 			}
-			_modules[key] = reqDir(reqPath)
+			try {
+				_modules[key] = reqDir(reqPath)
+			} catch (e) {
+				console.log(`refresh module '${key}' error`);
+			}
 			return _modules;
 		}, {});
 		global.app = Object.assign(global.app,

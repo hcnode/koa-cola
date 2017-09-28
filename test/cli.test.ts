@@ -42,32 +42,39 @@ describe('#koa-cola cli', function() {
     });
 
     it('#bundle work ok', async function() {
-      const { JSDOM } = require('jsdom');
-      const virtualConsole = new (require('jsdom')).VirtualConsole();
-      var dom = await JSDOM.fromURL(
-        `http://127.0.0.1:${app.config.port}/`,
-        {
-          virtualConsole: virtualConsole.sendTo(console),
-          runScripts: 'dangerously',
-          features: {
-            FetchExternalResources: ['script'],
-            ProcessExternalResources: ['script']
-          },
-          resources: 'usable'
-        }
-      );
-      const { window } = dom;
-      const document = window.document;
-      return new Promise((resolve, reject) => {
-        window.onload = () => {
-          setTimeout(() => {
-            document.getElementsByTagName('BUTTON')[0].click();
-            should(document.getElementsByTagName('H1')[0].innerHTML).be.equal('Wow koa-cola again!');
-            resolve();
-          }, 1000);
-        };
-      });
+      if(require('os').platform() != 'win32'){
+        const { JSDOM } = require('jsdom');
+        const virtualConsole = new (require('jsdom')).VirtualConsole();
+        var dom = await JSDOM.fromURL(
+          `http://127.0.0.1:${app.config.port}/`,
+          {
+            virtualConsole: virtualConsole.sendTo(console),
+            runScripts: 'dangerously',
+            features: {
+              FetchExternalResources: ['script'],
+              ProcessExternalResources: ['script']
+            },
+            resources: 'usable'
+          }
+        );
+        const { window } = dom;
+        const document = window.document;
+        return new Promise((resolve, reject) => {
+          window.onload = () => {
+            setTimeout(() => {
+              document.getElementsByTagName('BUTTON')[0].click();
+              should(document.getElementsByTagName('H1')[0].innerHTML).be.equal('Wow koa-cola again!');
+              resolve();
+            }, 1000);
+          };
+        });
+      }
     });
+    it('#cli dev', async function(){
+      server.close();
+      shell.exec(`ts-node ${path.resolve('../../', 'bin', 'koa-cola')} dev`);
+
+    })
     it('#new project with api mode', function(done) {
       server.close();
       process.chdir('../');
