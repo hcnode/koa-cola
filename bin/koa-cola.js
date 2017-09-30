@@ -57,7 +57,9 @@ function build({watch, production} = {}){
     var appStr = fs.readFileSync(projectAppTsxPath).toString().replace('// controllers', controllersStr.join('\n'));
     appStr = appStr.replace('// views', viewsStr.join('\n'));
     fs.writeFileSync(projectAppTsxPath, appStr);
+    console.log(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
     shell.exec(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
+    if(!watch) shell.exit();
   }
 }
 
