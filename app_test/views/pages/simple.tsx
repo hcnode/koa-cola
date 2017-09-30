@@ -11,10 +11,10 @@ class Page extends React.Component<Props, States>   {
   }
   static defaultProps = {
       foo: foo
-  };
+  }
   render() {
     return <div>
-      <div><h2>koa-cola11</h2></div>
+      <div><h2>koa-cola</h2></div>
       <div id="foo">foo:{this.props.foo}</div>
     </div>
   }
