@@ -7,7 +7,7 @@ export default function(html, store, renderProps, {title}){
     <head>
         <title>${title || ''}</title>
     </head>
-    <body id="app">${html}</body>
+    <body><div id="app">${html}</div></body>
 </html>
 ${name == 'page404' ? '' : '<script src="/bundle.js"></script>'}
     `
