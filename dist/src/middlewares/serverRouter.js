@@ -9,9 +9,9 @@ var loadSuccess = require('redux-connect/lib/store').loadSuccess;
 var createHistory = require('history').createMemoryHistory;
 const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
-const serialize = require("serialize-javascript");
 const require_1 = require("../util/require");
 const createRouter_1 = require("../util/createRouter");
+const layoutWrapper_1 = require("./layoutWrapper");
 exports.default = async (ctx, next) => {
     // app.routers.router 是react-router, 在 src/util/createRouter.tsx定义
     if (process.env.NODE_ENV != 'production') {
@@ -87,47 +87,45 @@ exports.default = async (ctx, next) => {
                         }
                         return resolve();
                     }
-                    var { _doNotUseLayout, Header, _bundle, _pagePros = {} } = renderProps.components[1];
-                    if (_doNotUseLayout) {
-                        appHTML = `
-                            <!doctype html>
-                            <html>
-                                ${Header ? server_1.renderToString(React.createElement(Header, null)) : ''}
-                                <body><div>${appHTML}</div></body>
-                                <script>
-                                    window.__data=${serialize(store.getState())};
-                                </script>
-                                ${_bundle ? _bundle.map(item => {
-                            return `<script src='${item}'></script>`;
-                        }) : ''}
-                            </html>
-                                `;
-                    }
-                    else {
-                        /**
-                         * 必须配置layout，并且必须在layout引用bundle文件
-                         * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
-                         */
-                        if (layout) {
-                            appHTML = layout(appHTML, store, renderProps, typeof _pagePros == 'function' ? await _pagePros(ctx) : _pagePros);
-                        }
-                        else {
-                            console.log(`${process.cwd()}/views/pages/layout not found`);
-                        }
-                        var injectHtml = `
-                                <!-- its a Redux initial data -->
-                                <script>
-                                    window.__data=${serialize(store.getState())};
-                                </script>
-                                </html>
-                            `;
-                        if (/<\/html\>/ig.test(appHTML)) {
-                            appHTML = appHTML.replace(/<\/html\>/ig, injectHtml);
-                        }
-                        else {
-                            appHTML += injectHtml;
-                        }
-                    }
+                    appHTML = await layoutWrapper_1.default(appHTML, renderProps.components[1], layout, store, renderProps, ctx);
+                    // var {_doNotUseLayout, Header, _bundle, _pagePros = {}} = renderProps.components[1];
+                    // if(_doNotUseLayout){
+                    //     appHTML = `
+                    //         <!doctype html>
+                    //         <html>
+                    //             ${Header ? renderToString(<Header />) : ''}
+                    //             <body><div>${appHTML}</div></body>
+                    //             <script>
+                    //                 window.__data=${serialize(store.getState())};
+                    //             </script>
+                    //             ${_bundle ? _bundle.map(item => {
+                    //                 return `<script src='${item}'></script>`
+                    //             }) : ''}
+                    //         </html>
+                    //             `
+                    // }else{
+                    //     /**
+                    //      * 必须配置layout，并且必须在layout引用bundle文件
+                    //      * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
+                    //      */
+                    //     if (layout) {
+                    //         appHTML = layout(appHTML, store, renderProps, typeof _pagePros == 'function' ? await _pagePros(ctx) : _pagePros);
+                    //     } else {
+                    //         console.log(`${process.cwd()}/views/pages/layout not found`)
+                    //     }
+                    //     var injectHtml = `
+                    //             <!-- its a Redux initial data -->
+                    //             <script>
+                    //                 window.__data=${serialize(store.getState())};
+                    //             </script>
+                    //             </html>
+                    //         `;
+                    //     if (/<\/html\>/ig.test(appHTML)) {
+                    //         appHTML = appHTML.replace(/<\/html\>/ig, injectHtml)
+                    //     } else {
+                    //         appHTML += injectHtml
+                    //     }
+                    // }
                     ctx.body = appHTML;
                     resolve();
                 });

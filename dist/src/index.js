@@ -86,7 +86,7 @@ function default_1(colaApp) {
                     }
                     break;
                 case 'html':
-                    createErrorPage_1.default({
+                    await createErrorPage_1.default({
                         env: env,
                         ctx: ctx,
                         error: message,

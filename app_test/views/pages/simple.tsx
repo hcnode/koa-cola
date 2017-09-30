@@ -11,7 +11,7 @@ class Page extends React.Component<Props, States>   {
   }
   static defaultProps = {
       foo: foo
-  };
+  }
   render() {
     return <div>
       <div><h2>koa-cola</h2></div>

@@ -15,7 +15,7 @@ function getConfig() {
         // config目录下的配置，可视为通用的配置
         // config/env/环境/ 下的配置，将覆盖通用的配置
         var configPath = `${process.cwd()}/config`;
-        var envPath = `${process.cwd()}/config/env/${getEnvironment()}.js`;
+        var envPath = `${process.cwd()}/config/env/${getEnvironment()}`;
         if (!fs.existsSync(configPath)) {
             return {};
         }
@@ -24,16 +24,16 @@ function getConfig() {
             return Object.assign(config, configs[key]);
         }, {});
         var env = {};
-        if (fs.existsSync(envPath)) {
-            env = require(envPath);
-            Object.keys(env).forEach(key => {
-                var isFunc = typeof env[key] == 'function';
-                // 如果有key是function
-                if (isFunc) {
-                    env[key] = env[key](defConfig[key]);
-                }
-            });
-        }
+        // if (fs.existsSync(envPath)) {
+        env = require_1.req(envPath);
+        Object.keys(env).forEach(key => {
+            var isFunc = typeof env[key] == 'function';
+            // 如果有key是function, 执行并返回
+            if (isFunc) {
+                env[key] = env[key](defConfig[key]);
+            }
+        });
+        // }
         return Object.assign({}, defConfig, env);
     }
     catch (err) {

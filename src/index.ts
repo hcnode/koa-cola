@@ -94,7 +94,7 @@ export default function (colaApp?) {
                     }
                     break;
                 case 'html':
-                    createErrorPage({
+                    await createErrorPage({
                         env: env,
                         ctx: ctx,
                         error: message,

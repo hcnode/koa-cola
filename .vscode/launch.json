@@ -33,8 +33,8 @@
             "args": [],
             "cwd": "${workspaceRoot}/app_test",
             "runtimeArgs": [
-                "-r", "ts-node/register",
-                "${workspaceRoot}/app_test/app.ts"
+                "-r", "ts-node/register", 
+                "${workspaceRoot}/app_test/app.ts", "--no-cache"
             ],
             "sourceMaps": true,
             "console": "internalConsole",
