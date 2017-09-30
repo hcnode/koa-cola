@@ -70,14 +70,18 @@ export default function inject(colaApp?){
 			if(getEnvironment() != 'production' && fs.existsSync(reqPath)){
 				fs.watch(reqPath, {}, (eventType, filename) => {
 					if(eventType == 'change'){
-						modules[key] = reqDir(reqPath);
+						try {
+							global.app[key] = reqDir(reqPath);
+						} catch (e) {
+							console.log(`refresh module '${key}' error`);
+						}
 					}
 				});
 			}
 			try {
 				_modules[key] = reqDir(reqPath)
 			} catch (e) {
-				console.log(`refresh module '${key}' error`);
+				console.log(`load module '${key}' error`);
 			}
 			return _modules;
 		}, {});

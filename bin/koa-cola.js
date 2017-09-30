@@ -75,10 +75,10 @@ function launch(){
     process.exit(1);
   }
 }
-function bgLaunch(){
+function bgLaunch(noCache){
   return new Promise((resolve, reject) => {
     const { exec } = require('child_process');
-    launchProcess = exec('ts-node --no-cache app.ts ', (error) => {
+    launchProcess = exec(`ts-node ${noCache ? '--no-cache ' : ''}app.ts `, (error) => {
       if (error) {
         console.error(`exec error: ${error}`);
         return;
@@ -176,11 +176,12 @@ if (program.new) {
   build();
   launch();
 } else if (program.dev) {
-  bgLaunch().then(port => {
-    bgBuild({watch : true}).then(() => {
+  bgBuild({watch : true}).then(() => {
+    bgLaunch(true).then(port => {
       openBrowser('http://localhost:' + port);
     });
   });
+ 
   // 
 }else if (program.schema) {
   createSchemaTypes();
