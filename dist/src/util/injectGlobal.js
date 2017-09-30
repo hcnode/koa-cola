@@ -72,11 +72,21 @@ function inject(colaApp) {
             if (env_1.getEnvironment() != 'production' && fs.existsSync(reqPath)) {
                 fs.watch(reqPath, {}, (eventType, filename) => {
                     if (eventType == 'change') {
-                        modules[key] = require_1.reqDir(reqPath);
+                        try {
+                            global.app[key] = require_1.reqDir(reqPath);
+                        }
+                        catch (e) {
+                            console.log(`refresh module '${key}' error`);
+                        }
                     }
                 });
             }
-            _modules[key] = require_1.reqDir(reqPath);
+            try {
+                _modules[key] = require_1.reqDir(reqPath);
+            }
+            catch (e) {
+                console.log(`load module '${key}' error`);
+            }
             return _modules;
         }, {});
         global.app = Object.assign(global.app, 

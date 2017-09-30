@@ -3,7 +3,7 @@ node_js:
   - "8"
   - "7.6"
 before_install:
-  - npm i -g webpack
+  - npm i -g webpack koa-cola
   - cd app_test
   - npm i
   - cd ../
