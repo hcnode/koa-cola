@@ -60,14 +60,14 @@ describe("#koa-cola cli", function() {
       var str = fs.readFileSync(pagePath).toString();
       fs.writeFileSync(
         pagePath,
-        str.replace("<h1>koa-cola</h1>", "<h1>koa-colaaaa</h1>")
+        str.replace("check bundle if work", "check bundle whether work")
       );
       await timeout(3000);
       var res = await request(server)
         .get("/")
         .expect(200)
         .toPromise();
-      res.text.should.be.containEql("koa-colaaaa");
+      res.text.should.be.containEql("check bundle whether work");
     });
 
     it("#bundle work ok", async function() {
@@ -90,7 +90,7 @@ describe("#koa-cola cli", function() {
             setTimeout(() => {
               document.getElementsByTagName("BUTTON")[0].click();
               should(document.getElementsByTagName("H1")[0].innerHTML).be.equal(
-                "Wow koa-cola again!"
+                "Wow koa-cola and bundle work!"
               );
               resolve();
             }, 1000);
