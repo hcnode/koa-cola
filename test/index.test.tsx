@@ -5,6 +5,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir, initDb } from './util';
+
 var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
   console.log('unhandledRejection', require('util').inspect(error));
@@ -160,7 +161,7 @@ describe('#koa-cola', function() {
 		});
 
 		it('#Manual validate', async function(){
-			var User = global.app.models.user
+			var User = global.app.mongoose.model('User')
 			var exceptionHappened = false;
 			try{
 				var result = await User.create({name : 'harry'});
@@ -171,7 +172,7 @@ describe('#koa-cola', function() {
 			exceptionHappened.should.be.ok;
 		});
 		it('#query', async function(){
-			var User = global.app.models.user
+			var User = global.app.mongoose.model('User')
 			var [result] = await User.find({name : 'harry'}).exec();
 			result.name.should.be.equal('harry');
 		});
