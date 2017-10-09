@@ -7,3 +7,4 @@ before_install:
   - cd app_test
   - npm i
   - cd ../
+after_success: npm run coverage

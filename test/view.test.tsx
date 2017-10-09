@@ -6,7 +6,7 @@ import * as React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var inject = require('../dist').injectGlobal;
-import { chdir, initBrowser, loadScript, initDb } from './util';
+import { chdir, resetdir, initBrowser, loadScript, initDb } from './util';
 import * as webpack from 'webpack';
 import * as fs from 'fs';
 var App = require('../dist').RunApp;
@@ -21,6 +21,7 @@ describe('#koa-cola view', function() {
 
   after(function(done) {
     delete global.app;
+    resetdir()
     done();
   });
   describe('#', function() {

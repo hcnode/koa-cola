@@ -4,7 +4,7 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-import { chdir, initDb } from './util';
+import { chdir, resetdir, initBrowser, initDb } from './util';
 
 var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
@@ -23,6 +23,7 @@ describe('#koa-cola', function() {
 		server.close();
 		app.mongoose.disconnect(done)
 		delete global.app;
+		resetdir();
 	})
 	describe('#koa', function() {
 		it('#hello world', async function(){

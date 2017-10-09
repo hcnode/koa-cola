@@ -3,6 +3,11 @@ export function chdir() {
     process.chdir('./app_test');
   }
 }
+export function resetdir() {
+  if (process.cwd().indexOf('app_test') > -1) {
+    process.chdir('../');
+  }
+}
 export function initBrowser() {
   const { JSDOM } = require('jsdom');
   const jsdom = new JSDOM(

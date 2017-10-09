@@ -4,7 +4,7 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
-import { chdir, initDb } from './util';
+import { chdir, resetdir, initBrowser, initDb } from './util';
 var App = require('../dist').RunApp
 describe('#koa-cola middleware', function() {
     var server, mongoose;
@@ -18,6 +18,7 @@ describe('#koa-cola middleware', function() {
 		app.mongoose.disconnect(done)
 		delete global.app;
 		server.close();
+		resetdir();
 	})
 
 	describe('#middleware', function() {

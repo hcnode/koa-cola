@@ -4,7 +4,7 @@ import * as Koa from "koa";
 import * as request from "supertest-as-promised";
 import * as React from "react";
 import * as fs from "fs";
-import { chdir, initDb } from "./util";
+import { chdir, resetdir, initBrowser, initDb } from './util';
 // import * as shell from 'shelljs'
 var shell = require("shelljs");
 var path = require("path");
@@ -21,6 +21,7 @@ describe("#koa-cola cli", function() {
   after(function(done) {
     process.chdir(`${path.resolve(__dirname, "../")}`);
     delete global.app;
+    resetdir();
     done();
   });
 
