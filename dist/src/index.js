@@ -140,3 +140,4 @@ function default_1(colaApp) {
     return koaApp.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
 }
 exports.default = default_1;
+//# sourceMappingURL=index.js.map

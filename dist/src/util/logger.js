@@ -22,3 +22,4 @@ var logger = new (winston.Logger)({
     ]
 });
 exports.default = logger;
+//# sourceMappingURL=logger.js.map

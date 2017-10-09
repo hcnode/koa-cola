@@ -47,3 +47,4 @@ exports.default = [
         args: () => `${process.cwd()}/public`
     },
 ];
+//# sourceMappingURL=defaultMiddlewares.js.map

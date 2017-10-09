@@ -81,3 +81,4 @@ async function createErrorPage({ env, ctx, error, stack, status = 500, code = 50
     }
 }
 exports.default = createErrorPage;
+//# sourceMappingURL=createErrorPage.js.map

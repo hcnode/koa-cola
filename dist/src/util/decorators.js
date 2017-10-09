@@ -20,3 +20,4 @@ exports.default = {
         include: views_1.ChildrenComponents
     })
 };
+//# sourceMappingURL=decorators.js.map

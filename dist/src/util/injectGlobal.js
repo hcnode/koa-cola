@@ -133,3 +133,4 @@ function inject(colaApp) {
     return routerRoutes;
 }
 exports.default = inject;
+//# sourceMappingURL=injectGlobal.js.map

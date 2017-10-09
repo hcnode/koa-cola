@@ -42,3 +42,4 @@ function createMiddleware(koaApp) {
     });
 }
 exports.default = createMiddleware;
+//# sourceMappingURL=mountMiddleware.js.map

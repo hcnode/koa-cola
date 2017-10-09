@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom'
-var {createProvider} = require('koa-cola/client');
+var {createProvider} = require('../../client');
 
 var Provider = createProvider([
     require('../api/controllers/IndexController').default,

@@ -54,3 +54,4 @@ exports.default = async (html, component, layout, store, renderProps, ctx) => {
     }
     return html;
 };
+//# sourceMappingURL=layoutWrapper.js.map

@@ -20,3 +20,4 @@ function setDom(html) {
     return jsdom;
 }
 exports.default = setDom;
+//# sourceMappingURL=render-cola.js.map

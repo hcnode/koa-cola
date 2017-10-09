@@ -131,3 +131,4 @@ function createProvider(controllers, views) {
     };
 }
 exports.createProvider = createProvider;
+//# sourceMappingURL=createRouter.js.map

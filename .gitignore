@@ -37,3 +37,4 @@ package-lock.json
 typescript
 .vs
 app_test/app
+.nyc_output

@@ -50,3 +50,4 @@ function Cola({ initData = {}, mapStateToProps = null, mapDispatchToProps = null
     };
 }
 exports.Cola = Cola;
+//# sourceMappingURL=views.js.map
