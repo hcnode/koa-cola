@@ -13,6 +13,7 @@
   "author": "Harry Chen <hcnode@gmail.com> (http://github.com/hcnode)",
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:ts-node/register,ts:ts-node/register,tsx:ts-node/register",
+    "cover": "NODE_ENV=test nyc mocha",
     "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
     "build": "rm -rf ./dist && tsc -p compile",
@@ -47,7 +48,6 @@
     "fs-extra": "^4.0.0",
     "history": "^3.0.0",
     "js-beautify": "^1.6.14",
-    "jsdom": "11.1.0",
     "koa": "^2.2.0",
     "koa-adapter": "0.0.3",
     "koa-body": "^2.1.0",
@@ -96,6 +96,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.8.2",
     "eslint-plugin-react": "^7.0.1",
+    "jsdom": "^11.1.0",
     "mocha": "^2.5.3",
     "mockgoose": "^7.3.3",
     "prop-types": "^15.5.10",
@@ -103,12 +104,32 @@
     "react-router-test-context": "^0.1.0",
     "should": "^11.2.1",
     "source-map-loader": "^0.2.1",
-    "source-map-support": "^0.4.15",
+    "source-map-support": "^0.4.18",
     "superagent": "^3.5.2",
     "supertest": "^3.0.0",
     "supertest-as-promised": "^4.0.2",
     "tslint": "^3.15.1",
     "typescript": "^2.3.4",
     "webpack": "^3.0.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx",
+      ".js"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "exclude": [
+      "**/*.d.ts",
+      "dist/src/util/render-cola.js"
+    ],
+    "include": [
+      "dist/**/*"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
   }
 }
