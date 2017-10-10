@@ -127,4 +127,33 @@ export default class {
   @Get('/pageProps')
   @View('pageProps')
   async pageProps(@Ctx() ctx) {}
+
+  @Get('/customHttpCode')
+  customHttpCode(@Ctx() ctx){
+    ctx.response.status = 450;
+  }
+
+  @Get('/renderCustomHttpCode')
+  renderCustomHttpCode(@Ctx() ctx){
+    ctx.response.status = 452;
+  }
+
+  @Get('/neitherStandardCodeNorCustomCode')
+  neitherStandardCodeNorCustomCode(@Ctx() ctx){
+    ctx.response.status = 453;
+  }
+
+  @Get('/fooapi1')
+  fooapi1(@Ctx() ctx){
+    return {
+      koa : ctx.query.foo
+    }
+  }
+
+  @Post('/fooapi2')
+  fooapi2(@Body() body){
+    return {
+      koa : body.foo
+    }
+  }
 }

@@ -19,6 +19,7 @@ exports.default = async (ctx, next) => {
     }
     var routes = app.routers.router;
     var layout = require_1.req(`${process.cwd()}/views/pages/layout`);
+    /* istanbul ignore if */
     if (!routes) {
         // 没有定义react-router的话next()
         console.log('${process.cwd()}/views/routers not found');
@@ -71,7 +72,8 @@ exports.default = async (ctx, next) => {
                         }
                     }
                     catch (error) {
-                        console.log(error);
+                        /* istanbul ignore next */
+                        console.error(error);
                     }
                     var { location } = renderProps;
                     try {
@@ -79,6 +81,8 @@ exports.default = async (ctx, next) => {
                             React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
                     }
                     catch (error) {
+                        /* istanbul ignore if */
+                        /* istanbul ignore else */
                         if (process.env.NODE_ENV != 'production') {
                             ctx.body = require('util').inspect(error);
                         }

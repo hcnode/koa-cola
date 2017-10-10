@@ -43,10 +43,10 @@ exports.default = async (html, component, layout, store, renderProps, ctx) => {
                 <script>
                     window.__data=${__data};
                 </script>
-                </html>
+                
             `;
         if (/<\/html\>/gi.test(html)) {
-            html = html.replace(/<\/html\>/gi, injectHtml);
+            html = html.replace(/<\/html\>/gi, injectHtml + '</html>');
         }
         else {
             html += injectHtml;

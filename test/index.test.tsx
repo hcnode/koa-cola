@@ -5,6 +5,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { chdir, resetdir, initBrowser, initDb } from './util';
+import { FooApi1, FooApi2 } from "../app_test/api";
 
 var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
@@ -16,7 +17,11 @@ describe('#koa-cola', function() {
 	before(function() {
 		console.log(process.cwd())
 		chdir();
-		server = App();
+		server = App({
+			config : {
+				override_config : 'override'
+			}
+		});
 		return initDb();
 	});
 	after(function(done){
@@ -226,6 +231,17 @@ describe('#koa-cola', function() {
                 .toPromise();
 			should(res.text).match(/Internal Server Error/);
 		});
+
+		it('#response 500 json', async function(){
+			var res = await request(server)
+                .get('/500')
+				.set('Accept', 'application/json')
+                .expect(500)
+				.toPromise();
+			res.body.error.should.be.equal('Internal Server Error');
+			res.body.stack.should.be.ok;
+			// should(res.text).match(/Internal Server Error/);
+		});
 	});
 
 	describe('#policies', function() {
@@ -258,6 +274,10 @@ describe('#koa-cola', function() {
                 .toPromise();
 			res.text.should.be.equal('diabled');
 		});
+
+		it('#override by launch config', async function(){
+			app.config.override_config.should.be.equal('override');
+		});
 		// it('#test bootstrap config', async function(){
 		// 	app.koaApp.proxy.should.be.equal(true);
 		// });
@@ -284,5 +304,47 @@ describe('#koa-cola', function() {
 			count2.should.be.equal(2)
 		});
 	});
+	describe('#test custom http code', () => {
+		it('#without view', async () => {
+			var res = await request(server)
+				.get('/customHttpCode')
+				.set('Accept', 'text/html')
+				.expect(450)
+				.toPromise();
+			should(res.text).containEql('this is custom http status code');
+		});
 
+		it('#with view', async () => {
+			var res = await request(server)
+				.get('/renderCustomHttpCode')
+				.set('Accept', 'text/html')
+				.expect(452)
+				.toPromise();
+			should(res.text).containEql('rendered 452 error');
+		});
+
+
+		it('#neither standard code nor custom code', async () => {
+			var res = await request(server)
+				.get('/neitherStandardCodeNorCustomCode')
+				.set('Accept', 'text/html')
+				.expect(500)
+				.toPromise();
+			should(res.text).containEql('unknow error');
+			should(res.text).containEql('invalid status code: 453');
+		});
+	});
+
+	describe('#test api', () => {
+		it('#get', async () => {
+			var fooApi1 = new FooApi1({foo : 'cola1'});
+			var data = await fooApi1.fetch({});
+			data.result.koa.should.be.equal('cola1');
+		});
+		it('#post', async () => {
+			var fooApi2 = new FooApi2({foo : 'cola2'});
+			var data = await fooApi2.fetch({});
+			data.result.koa.should.be.equal('cola2');
+		});
+	});
 });

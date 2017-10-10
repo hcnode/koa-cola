@@ -18,7 +18,7 @@ try {
 
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
-import { Cola, ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, pageProps } from './src/decorators/views';
+import { Cola, ChildrenComponents, header, bundle, doNotUseLayout, pageProps } from './src/decorators/views';
 export { Base as ApiBase, fetch as apiFetch } from './src/util/api';
 export { createProvider } from './src/util/createRouter';
 var mongooseDecorators = require('mongoose-decorators');
@@ -27,6 +27,6 @@ exports.Decorators = {
   model: mongooseDecorators,
   view: { ...reduxConnect, 
     store: require('redux-connect/lib/store'),
-    colaReducer: ColaReducer, Cola, 
+    Cola, 
     include: ChildrenComponents, header, bundle, doNotUseLayout, pageProps }
 };

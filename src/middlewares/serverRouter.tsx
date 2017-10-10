@@ -19,6 +19,7 @@ export default async (ctx: Koa.Context, next) => {
     }
     var routes = app.routers.router;
     var layout = req(`${process.cwd()}/views/pages/layout`);
+    /* istanbul ignore if */
     if (!routes) {
         // 没有定义react-router的话next()
         console.log('${process.cwd()}/views/routers not found');
@@ -70,7 +71,8 @@ export default async (ctx: Koa.Context, next) => {
                             }
                         }
                     } catch (error) { 
-                        console.log(error)
+                        /* istanbul ignore next */
+                        console.error(error)
                     }
                     var { location } = renderProps;
                     try {
@@ -78,8 +80,10 @@ export default async (ctx: Koa.Context, next) => {
                             <ReduxAsyncConnect {...renderProps} />
                         </Provider>)
                     } catch (error) {
+                        /* istanbul ignore if */
                         if (process.env.NODE_ENV != 'production') {
                             ctx.body = require('util').inspect(error);
+                        /* istanbul ignore else */
                         } else {
                             ctx.body = 'unexpected error.'
                         }

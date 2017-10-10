@@ -42,10 +42,12 @@ export async function fetch<B, R, E, A extends Base<B, R, E>>(api: A, ctx?): Pro
         // 本地调用，并透穿cookie
         // 尝试使用request库并pipe完整的request，但是出现问题
         req.url = `http://127.0.0.1:${app.config.port}${req.url}`;
-        var cookie = ctx.req.headers.cookie;
-        if(cookie){
-            req.headers = {
-                Cookie : cookie
+        if(ctx.req){
+            var cookie = ctx.req.headers.cookie;
+            if(cookie){
+                req.headers = {
+                    Cookie : cookie
+                }
             }
         }
     }

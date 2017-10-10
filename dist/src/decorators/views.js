@@ -1,11 +1,10 @@
 "use strict";
+/* export function ColaReducer(reducers) {
+  return function(target) {
+    target._reducer = reducers;
+  };
+} */
 Object.defineProperty(exports, "__esModule", { value: true });
-function ColaReducer(reducers) {
-    return function (target) {
-        target._reducer = reducers;
-    };
-}
-exports.ColaReducer = ColaReducer;
 function ChildrenComponents(components) {
     return function (target) {
         target.childrenComponents = components;

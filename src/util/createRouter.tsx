@@ -61,6 +61,7 @@ export default function createRouter(routers) {
  * @param controllers controller数组
  * @param views react page页面数组
  */
+/* istanbul ignore next */
 export function createProvider(controllers, views) {
     var reactRouters = [];
     const ROUTE_PREFIX = '$routes'

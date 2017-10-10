@@ -16,7 +16,6 @@ exports.default = {
     model: mongooseDecorators,
     view: Object.assign(reduxConnect, {
         store: require('redux-connect/lib/store'),
-        colaReducer: views_1.ColaReducer,
         include: views_1.ChildrenComponents
     })
 };

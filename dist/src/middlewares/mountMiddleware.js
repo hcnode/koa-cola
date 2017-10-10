@@ -19,6 +19,7 @@ function createMiddleware(koaApp) {
                 });
             }
             catch (e) {
+                /* istanbul ignore next */
                 console.log(`middleware ${key} not found.`);
             }
         }

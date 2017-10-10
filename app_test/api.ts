@@ -20,4 +20,19 @@ export class ServerCallApi extends ApiBase<{}, {}, {}>{
     method : string = 'get'
 }
 
+export class FooApi1 extends ApiBase<{bar : string}, {koa : string}, {}>{
+    constructor(body){
+        super(body)
+    }
+    url : string = '/fooapi1'
+    method : string = 'get'
+}
+
+export class FooApi2 extends ApiBase<{bar : string}, {koa : string}, {}>{
+    constructor(body){
+        super(body)
+    }
+    url : string = '/fooapi2'
+    method : string = 'post'
+}
 

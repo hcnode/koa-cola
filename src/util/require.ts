@@ -2,14 +2,14 @@ var requireDir = require('require-dir');
 var {getEnvironment} = require('./env');
 var dirCache = {};
 var _reqDir = (dir) => {
-    if(require.context){
-        var context = require.context(dir, false, /\.(j|t)s(x)?$/);
-        var obj = {};
-        context.keys().forEach(function (key) {
-            obj[key] = context(key);
-        });
-        return obj;
-    }else{
+    // if(require.context){
+    //     var context = require.context(dir, false, /\.(j|t)s(x)?$/);
+    //     var obj = {};
+    //     context.keys().forEach(function (key) {
+    //         obj[key] = context(key);
+    //     });
+    //     return obj;
+    // }else{
         var env = getEnvironment();
         if(dirCache[dir]){
             if(env == 'production'){
@@ -23,7 +23,7 @@ var _reqDir = (dir) => {
         var {map, modulePathMap} = requireDir(dir);
         if(map) dirCache[dir] = {map, modulePathMap};
         return map;
-    }
+    // }
 }
 export function req(module){
     try {

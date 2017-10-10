@@ -63,16 +63,33 @@ function default_1(colaApp) {
     koaApp.use(async function (ctx, next) {
         try {
             await next();
-            if (!ctx.status || ctx.status == 404) {
-                ctx.throw(404);
+            if (!ctx.status || ctx.status > 399) {
+                ctx.throw(ctx.status);
             }
         }
         catch (err) {
             var env = process.env;
-            ctx.status = err.status || 500;
+            var status = err.status;
+            if (!status && err.message) {
+                status = /invalid status code: (\d+)/.test(err.message) && (RegExp.$1);
+                if (status) {
+                    status -= 0;
+                }
+            }
+            if (app.config.httpCodes) {
+                var statuses = require('statuses');
+                Object.assign(statuses, app.config.httpCodes);
+                // statuses['450'] = 'this is custom http status code';
+            }
+            try {
+                ctx.status = status;
+            }
+            catch (e) {
+                ctx.status = 500;
+            }
             var message = err.message;
-            if (err.status && !http.STATUS_CODES[err.status]) {
-                message = require('statuses')[err.status] || 'unknow error';
+            if (status && !http.STATUS_CODES[status]) {
+                message = require('statuses')[status] || 'unknow error';
             }
             // accepted types
             switch (ctx.accepts('text', 'json', 'html')) {
@@ -127,6 +144,7 @@ function default_1(colaApp) {
     createSchemaTypes_1.default();
     // error emit
     koaApp.on('error', function (err) {
+        /* istanbul ignore if */
         if (process.env.NODE_ENV != 'test') {
             console.log(require('util').inspect(err));
         }

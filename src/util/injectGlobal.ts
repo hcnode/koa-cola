@@ -47,6 +47,7 @@ export default function inject(colaApp?){
 		mongoose.Promise = global.Promise;
 		global.app.mongoose = mongoose;
 	} catch (error) {
+		/* istanbul ignore next */
 		console.log(`mongoose not found`)
 	}
 	// 百事模式，只使用传进来的colaApp作为app配置
@@ -73,6 +74,7 @@ export default function inject(colaApp?){
 						try {
 							global.app[key] = reqDir(reqPath);
 						} catch (e) {
+							/* istanbul ignore next */
 							console.log(`refresh module '${key}' error`);
 						}
 					}
@@ -81,6 +83,7 @@ export default function inject(colaApp?){
 			try {
 				_modules[key] = reqDir(reqPath)
 			} catch (e) {
+				/* istanbul ignore next */
 				console.log(`load module '${key}' error`);
 			}
 			return _modules;

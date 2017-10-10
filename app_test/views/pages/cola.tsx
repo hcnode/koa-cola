@@ -8,6 +8,7 @@
 
 import * as React from "react";
 import { Compose, ServerCallApi } from "../../api";
+require('../../res/test.css')
 var { store, Cola } = require("../../../client")
 var loadSuccess = store.loadSuccess;
 export interface Props {

@@ -19,6 +19,7 @@ export default function createMiddleware(koaApp : Koa){
                     func : middleware
                 })
             }catch(e){
+                /* istanbul ignore next */
                 console.log(`middleware ${key} not found.`)
             }
         }else{

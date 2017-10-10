@@ -48,6 +48,7 @@ function inject(colaApp) {
         global.app.mongoose = mongoose;
     }
     catch (error) {
+        /* istanbul ignore next */
         console.log(`mongoose not found`);
     }
     // 百事模式，只使用传进来的colaApp作为app配置
@@ -76,6 +77,7 @@ function inject(colaApp) {
                             global.app[key] = require_1.reqDir(reqPath);
                         }
                         catch (e) {
+                            /* istanbul ignore next */
                             console.log(`refresh module '${key}' error`);
                         }
                     }
@@ -85,6 +87,7 @@ function inject(colaApp) {
                 _modules[key] = require_1.reqDir(reqPath);
             }
             catch (e) {
+                /* istanbul ignore next */
                 console.log(`load module '${key}' error`);
             }
             return _modules;

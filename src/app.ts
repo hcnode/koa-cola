@@ -4,6 +4,7 @@
 import App from './index'
 var server;
 process.on('unhandledRejection', error => {
+    /* istanbul ignore next */
     console.error('unhandledRejection', require('util').inspect(error));
 });
 export function run(colaApp){

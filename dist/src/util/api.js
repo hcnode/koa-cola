@@ -42,11 +42,13 @@ async function fetch(api, ctx) {
         // 本地调用，并透穿cookie
         // 尝试使用request库并pipe完整的request，但是出现问题
         req.url = `http://127.0.0.1:${app.config.port}${req.url}`;
-        var cookie = ctx.req.headers.cookie;
-        if (cookie) {
-            req.headers = {
-                Cookie: cookie
-            };
+        if (ctx.req) {
+            var cookie = ctx.req.headers.cookie;
+            if (cookie) {
+                req.headers = {
+                    Cookie: cookie
+                };
+            }
         }
     }
     var result = await axios_1.default(req);
