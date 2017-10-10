@@ -82,9 +82,9 @@ exports.default = async (ctx, next) => {
                     }
                     catch (error) {
                         /* istanbul ignore if */
-                        /* istanbul ignore else */
                         if (process.env.NODE_ENV != 'production') {
                             ctx.body = require('util').inspect(error);
+                            /* istanbul ignore else */
                         }
                         else {
                             ctx.body = 'unexpected error.';
