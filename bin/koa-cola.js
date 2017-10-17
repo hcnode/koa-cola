@@ -9,6 +9,7 @@ var { reqDir } = require('../dist/src/util/require');
 var inject = require('../dist').injectGlobal;
 var createSchemaTypes = require('../dist/src/util/createSchemaTypes').default;
 const openBrowser = require('react-dev-utils/openBrowser');
+var os = require('os').platform();
 var currentNodeVersion = process.versions.node;
 var semver = currentNodeVersion.split('.');
 var major = semver[0];
@@ -26,7 +27,6 @@ if (major < 7) {
 }
 program
   .option('n, new [name]', 'new koa-cola project')
-  .option('c, cheer', 'build webpack bundle and launch app')
   .option('s, schema', 'create model schemas')
   .option('b, build', 'build webpack bundle')
   .option('d, dev', 'launch development')
@@ -80,7 +80,7 @@ function launch(){
 function bgLaunch(noCache){
   return new Promise((resolve, reject) => {
     const { exec } = require('child_process');
-    launchProcess = exec(`ts-node ${noCache ? '--no-cache ' : ''}app.ts `, (error) => {
+    launchProcess = exec(`${noCache ? (os == 'win32' ? 'set KOA_COLA_CACHE=no && ' : 'KOA_COLA_CACHE=no ') : ''} ts-node ${noCache ? '--no-cache ' : ''}app.ts `, (error) => {
       if (error) {
         console.error(`exec error: ${error}`);
         return;
@@ -122,20 +122,6 @@ function bgBuild(){
   });
 }
 var launchProcess;
-// function exitHandler() {
-//   if(launchProcess)
-//     launchProcess.kill('SIGHUP');
-// }
-
-// //do something when app is closing
-// process.on('exit', exitHandler);
-
-// //catches ctrl+c event
-// process.on('SIGINT', exitHandler);
-
-// //catches uncaught exceptions
-// process.on('uncaughtException', exitHandler);
-
 
 /**
  * 使用命令新建koa-cola项目，自动创建模版文件，并自动安装依赖，自动运行
@@ -174,9 +160,6 @@ if (program.new) {
       // shell.exec('npm run open');
     }
   }
-} else if (program.cheer) {
-  build();
-  launch();
 } else if (program.dev) {
   bgBuild({watch : true}).then(() => {
     bgLaunch(true).then(port => {
