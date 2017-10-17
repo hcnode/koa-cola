@@ -68,7 +68,7 @@ export default function inject(colaApp?){
 		}
 		var modules = Object.keys(modulesMap).reduce((_modules, key) => {
 			var reqPath = `${cwd}${modulesMap[key]}`;
-			if(getEnvironment() != 'production' && fs.existsSync(reqPath)){
+			if(getEnvironment() != 'production' && fs.existsSync(reqPath) && process.env.KOA_COLA_CACHE == 'no'){
 				fs.watch(reqPath, {}, (eventType, filename) => {
 					if(eventType == 'change'){
 						try {
