@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hcnode/koa-cola/badge.svg?branch=master)](https://coveralls.io/github/hcnode/koa-cola?branch=master)
 [![npm](https://img.shields.io/npm/v/koa-cola.svg)](https://www.npmjs.com/package/koa-cola)
 
-[koa-cola](http://www.koa-cola.com)是一个基于koa和react的服务器端SSR(server side render)和浏览器端的SPA(single page application)的web前后端全栈应用框架。
+[koa-cola](https://koa-cola.github.io/)是一个基于koa和react的服务器端SSR(server side render)和浏览器端的SPA(single page application)的web前后端全栈应用框架。
 
 koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
 
@@ -111,5 +111,5 @@ koa-cola不但可以支持component的数据初始化，还可以合并page和co
 * `npm i`
 * `koa-cola dev`
 
-更多详情请查看[官方文档](http://koa-cola.com/doc/index.html)
+更多详情请查看[官方文档](https://koa-cola.github.io/)
 
