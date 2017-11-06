@@ -5,6 +5,7 @@ import * as request from "supertest-as-promised";
 import * as React from "react";
 import * as fs from "fs";
 import { chdir, resetdir, initBrowser, initDb } from './util';
+import { exec } from 'child_process';
 // import * as shell from 'shelljs'
 var shell = require("shelljs");
 var path = require("path");
@@ -13,6 +14,7 @@ var App = require("../dist").RunApp;
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 describe("#koa-cola cli", function() {
   var server;
   before(function() {
@@ -25,6 +27,27 @@ describe("#koa-cola cli", function() {
     done();
   });
 
+  async function watch(){
+    var pagePath = path.resolve(
+      __dirname,
+      "../app_test/app/views/pages/index.tsx"
+    );
+    var str = fs.readFileSync(pagePath).toString();
+    fs.writeFileSync(
+      pagePath,
+      str.replace("check bundle if work", "check bundle whether work")
+    );
+    await timeout(3000);
+    var res = await request(server)
+      .get("/")
+      .expect(200)
+      .toPromise();
+    fs.writeFileSync(
+      pagePath,
+      str.replace("check bundle whether work", "check bundle if work")
+    );
+    return res;
+  }
   describe("#cli", function() {
     it("#new project", function(done) {
       shell.exec(`node ${path.resolve("../", "bin", "koa-cola")} new app`);
@@ -52,23 +75,9 @@ describe("#koa-cola cli", function() {
         .toPromise();
       res.text.should.be.containEql("Wow koa-cola!");
     });
-
-    it("#watch", async function() {
-      var pagePath = path.resolve(
-        __dirname,
-        "../app_test/app/views/pages/index.tsx"
-      );
-      var str = fs.readFileSync(pagePath).toString();
-      fs.writeFileSync(
-        pagePath,
-        str.replace("check bundle if work", "check bundle whether work")
-      );
-      await timeout(3000);
-      var res = await request(server)
-        .get("/")
-        .expect(200)
-        .toPromise();
-      res.text.should.be.containEql("check bundle whether work");
+    it("#watch not work", async function() {
+      var res = await watch();
+      res.text.should.be.containEql("check bundle if work");
     });
 
     it("#bundle work ok", async function() {
@@ -101,8 +110,27 @@ describe("#koa-cola cli", function() {
     });
     // it('#cli dev', async function(){
     //   server.close();
-    //   shell.exec(`ts-node ${path.resolve('../../', 'bin', 'koa-cola')} dev`);
-
+    //   // process.chdir("./app");
+    //   // shell.exec(
+    //   //   `ts-node ${path.resolve("../../", "bin", "koa-cola")} dev`
+    //   // );
+    //   var launchProcess = exec(`ts-node ${path.resolve("../../", "bin", "koa-cola")} dev`, (error) => {
+    //     if (error) {
+    //       console.error(`exec error: ${error}`);
+    //       return;
+    //     }
+    //   });
+    //   await new Promise((resolve, reject) => {
+    //     launchProcess.stdout.on('data', (data : string) => {
+    //       if(data) console.log(data);
+    //       if(data.indexOf('Listening') > -1){
+    //         resolve();
+    //       }
+    //     });
+    //   });
+    //   var res = await watch();
+    //   res.text.should.be.containEql("check bundle whether work");
+    //   launchProcess.kill();
     // })
     it("#new project with api mode", function(done) {
       server.close();

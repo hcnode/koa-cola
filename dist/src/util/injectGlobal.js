@@ -70,7 +70,7 @@ function inject(colaApp) {
         };
         var modules = Object.keys(modulesMap).reduce((_modules, key) => {
             var reqPath = `${cwd}${modulesMap[key]}`;
-            if (env_1.getEnvironment() != 'production' && fs.existsSync(reqPath)) {
+            if (env_1.getEnvironment() != 'production' && fs.existsSync(reqPath) && process.env.KOA_COLA_CACHE == 'no') {
                 fs.watch(reqPath, {}, (eventType, filename) => {
                     if (eventType == 'change') {
                         try {

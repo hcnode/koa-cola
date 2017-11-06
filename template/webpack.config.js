@@ -44,8 +44,8 @@ module.exports = {
 	plugins: [
 		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
 		// 以下两个是给服务器端使用，不能打包到webpack
-		new webpack.IgnorePlugin(/\.\/src\/app/),
-		new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
+		// new webpack.IgnorePlugin(/\.\/src\/app/),
+		// new webpack.IgnorePlugin(/\.\/src\/util\/injectGlobal/),
 		// 以下两个是controller引用的，也是服务器端使用，也不能打包到webpack，如果你的controller也有服务器端使用的库，也必须要加IgnorePlugin插件
 		new webpack.IgnorePlugin(/koa$/),
 		new webpack.IgnorePlugin(/koa-body$/),
