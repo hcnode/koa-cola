@@ -6,7 +6,7 @@
 
 [中文版readme](https://github.com/hcnode/koa-cola/blob/master/README_zh.md)
 
-[koa-cola](https://koa-cola.github.io/) is SSR(server side render)/SPA(singe page application) framework with koa/react/react-router/redux/typescript. Use reactjs stack(react component/react-router/react-redux) and "isomorphic" codes (used in both browser and server side).
+[koa-cola](https://koa-cola.github.io/) is SSR(server side render)/SPA(singe page application) framework with koa/react/react-router/redux/typescript, and using reactjs stack(react component/react-router/react-redux) and "isomorphic" codes (used in both browser and server side).
 
 Actually this framework is my experimental work to explore the advanced area of javascript and node.js, like "isomorphic" in reactjs stack(react component/react-router/react-redux), async/await, typescript, es7 decorator, etc.
 
