@@ -19,6 +19,8 @@ export interface Props {
   ajax?: any;
   serverCallResult?: string;
   colaPepsi?: any;
+  reduxMiddlewareData : any
+  reduxMiddleware : any
 }
 export interface States {
   cola?: string;
@@ -47,9 +49,9 @@ export const timeout = 500;
       return data.result;
     }
   },
-  mapStateToProps: ({ colaPepsi }) => {
+  mapStateToProps: ({ colaPepsi, reduxMiddlewareData }) => {
     return {
-      colaPepsi
+      colaPepsi, reduxMiddlewareData
     };
   },
   mapDispatchToProps: dispatch => {
@@ -71,6 +73,18 @@ export const timeout = 500;
         var compose = new Compose({ foo: "bar" });
         compose = await compose.fetch();
         console.log(compose);
+      },
+      reduxMiddleware : () => {
+        return dispatch(() => {
+          return new Promise((resolve, reject) => {
+            setTimeout(resolve, 1000)
+          }).then(() => {
+            dispatch({
+              type: "TEST_REDUX_MIDDLEWARE",
+              data: 'this is from reduxMiddleware'
+            });
+          })
+        });
       }
     };
   },
@@ -78,6 +92,14 @@ export const timeout = 500;
     colaPepsi: (state = [], action) => {
       switch (action.type) {
         case "GET_COLAPEPSI":
+          return action.data;
+        default:
+          return state;
+      }
+    },
+    reduxMiddlewareData :  (state = '', action) => {
+      switch (action.type) {
+        case "TEST_REDUX_MIDDLEWARE":
           return action.data;
         default:
           return state;
@@ -94,6 +116,7 @@ class App extends React.Component<Props, States> {
   }
   componentDidMount() {}
   render() {
+    
     var result = (
       <div>
         <div>
@@ -134,8 +157,17 @@ class App extends React.Component<Props, States> {
         >
           serverCall
         </button>
+        <button
+          id="btn5"
+          onClick={() => {
+            this.props.reduxMiddleware();
+          }}
+        >
+          test redux middleware
+        </button>
         <div id="dataFromServer">{this.props.serverCallResult}</div>
         <div>{this.props.colaPepsi}</div>
+        <div id="reduxMiddlewareData">{this.props.reduxMiddlewareData}</div>
       </div>
     );
     return result;

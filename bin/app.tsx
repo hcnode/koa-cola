@@ -6,6 +6,8 @@ var Provider = createProvider([
     // controllers
 ],{
     // views
-});
+} 
+    // redux-middleware
+);
 
 render(<Provider />, document.getElementById('app'))

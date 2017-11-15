@@ -46,15 +46,20 @@ function build({watch, production} = {}){
   }else{
     shell.cp(appTsx, projectAppTsxPath);
     var controllers = reqDir(path.join(process.cwd(), 'api', 'controllers'));
+    var configs = reqDir(path.join(process.cwd(), 'config'));
     var controllersStr = Object.keys(controllers).map(ctrl => {
       return `require('../api/controllers/${ctrl}').default,`;
     });
+    var reduxMiddleware = Object.keys(configs).find(key => configs[key].reduxMiddlewares);
+    var reduxMiddlewareStr = reduxMiddleware ? `, require('../config/${reduxMiddleware}').reduxMiddlewares` : '';
     inject();
     var viewsStr = app.reactRouters.map(router => {
       var page = router.component;
       return `${page} : require('./pages/${page}').default,`;
     }); 
-    var appStr = fs.readFileSync(projectAppTsxPath).toString().replace('// controllers', controllersStr.join('\n'));
+    var appStr = fs.readFileSync(projectAppTsxPath).toString()
+      .replace('// controllers', controllersStr.join('\n'))
+      .replace('// redux-middleware', reduxMiddlewareStr);
     appStr = appStr.replace('// views', viewsStr.join('\n'));
     fs.writeFileSync(projectAppTsxPath, appStr);
     console.log(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
