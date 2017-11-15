@@ -6,6 +6,6 @@ before_install:
   - npm i -g webpack koa-cola
   - cd app_test
   - npm i
-  - npm i mongodb-download@2.2.3
   - cd ../
+  - npm i mongodb-download@2.2.3
 after_success: npm run coverage
