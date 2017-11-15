@@ -40,20 +40,6 @@ const injectGlobal_1 = require("./util/injectGlobal");
  * @param colaApp
  */
 function default_1(colaApp) {
-    // add require css hook 否则使用ts-node启动有import css的ts文件会出错
-    // 预处理的方式是直接删除，因为node里面正常情况下不需要使用import的css，而是由webpack处理
-    const hook = require('css-modules-require-hook');
-    hook({
-        /**
-         * @param  {string} css
-         * @param  {string} filepath Absolute path to the file
-         * @return {string}
-         */
-        preprocessCss: function (css, filepath) {
-            return '';
-        },
-        extensions: ['.css', '.less', '.scss']
-    });
     // 注入全局变量
     var routerRoutes = injectGlobal_1.default(colaApp);
     var koaApp = new Koa();

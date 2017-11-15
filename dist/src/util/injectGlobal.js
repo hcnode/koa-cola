@@ -11,6 +11,20 @@ const Router = require("koa-router");
 const createRouter_1 = require("./createRouter");
 const fs = require("fs");
 function inject(colaApp) {
+    // add require css hook 否则使用ts-node启动有import css的ts文件会出错
+    // 预处理的方式是直接删除，因为node里面正常情况下不需要使用import的css，而是由webpack处理
+    const hook = require('css-modules-require-hook');
+    hook({
+        /**
+         * @param  {string} css
+         * @param  {string} filepath Absolute path to the file
+         * @return {string}
+         */
+        preprocessCss: function (css, filepath) {
+            return '';
+        },
+        extensions: ['.css', '.less', '.scss']
+    });
     global.app = {};
     /**
      * 配置目录结构依赖的格式

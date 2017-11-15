@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const server_1 = require("react-dom/server");
 const react_router_1 = require("react-router");
-var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
-var loadSuccess = require('redux-connect/lib/store').loadSuccess;
-var createHistory = require('history').createMemoryHistory;
+var { ReduxAsyncConnect, loadOnServer, reducer } = require("redux-connect");
+var loadSuccess = require("redux-connect/lib/store").loadSuccess;
+var createHistory = require("history").createMemoryHistory;
 const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
 const require_1 = require("../util/require");
@@ -14,7 +14,7 @@ const createRouter_1 = require("../util/createRouter");
 const layoutWrapper_1 = require("./layoutWrapper");
 exports.default = async (ctx, next) => {
     // app.routers.router 是react-router, 在 src/util/createRouter.tsx定义
-    if (process.env.NODE_ENV != 'production') {
+    if (process.env.NODE_ENV != "production") {
         createRouter_1.default(app.reactRouters);
     }
     var routes = app.routers.router;
@@ -22,7 +22,7 @@ exports.default = async (ctx, next) => {
     /* istanbul ignore if */
     if (!routes) {
         // 没有定义react-router的话next()
-        console.log('${process.cwd()}/views/routers not found');
+        console.log("${process.cwd()}/views/routers not found");
         return await next();
     }
     // router.component._reducer为react-redux的自定义reducer
@@ -30,7 +30,8 @@ exports.default = async (ctx, next) => {
         var component = app.pages[router.component];
         return component._reducer || {};
     });
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)));
+    var middleware = redux_1.applyMiddleware.apply(null, Object.keys(app.config.reduxMiddlewares).map(item => app.config.reduxMiddlewares[item]));
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), middleware);
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
@@ -38,35 +39,36 @@ exports.default = async (ctx, next) => {
                 if (!renderProps)
                     return reject();
                 /** load data, 并传入ctx到helpers，可以在async redux里面获取
-                 * 参考app_test的cola.tsx :
-                 * {
-                        key: 'serverCallResult',
-                        promise: async ({ params, helpers }) => {
-                            var ctx = helpers.ctx;
-                            var serverCallApi = new ServerCallApi({});
-                            var data = await serverCallApi.fetch(ctx);
-                            return data.result;
-                        }
-                    }
-                 */
+                       * 参考app_test的cola.tsx :
+                       * {
+                              key: 'serverCallResult',
+                              promise: async ({ params, helpers }) => {
+                                  var ctx = helpers.ctx;
+                                  var serverCallApi = new ServerCallApi({});
+                                  var data = await serverCallApi.fetch(ctx);
+                                  return data.result;
+                              }
+                          }
+                       */
                 /* var components = [];
-                renderProps.components.forEach(element => {
-                    components.push(element);
-                });
-                if(components[1] && components[1].childrenComponents){
-                    components = components.concat(components[1].childrenComponents);
-                }  */
+                      renderProps.components.forEach(element => {
+                          components.push(element);
+                      });
+                      if(components[1] && components[1].childrenComponents){
+                          components = components.concat(components[1].childrenComponents);
+                      }  */
                 loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(async () => {
                     try {
                         var reactRouter = app.reactRouters.find(item => item.path == ctx.path);
                         if (reactRouter) {
                             var { func, args } = reactRouter;
                             if (renderProps.components[1]) {
-                                renderProps.components[1].reduxAsyncConnect = renderProps.components[1].reduxAsyncConnect || [];
-                                var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(item => item.key == 'ctrl');
+                                renderProps.components[1].reduxAsyncConnect =
+                                    renderProps.components[1].reduxAsyncConnect || [];
+                                var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(item => item.key == "ctrl");
                                 if (ctrlItem) {
                                     var result = await func(...args(ctx, next));
-                                    store.dispatch(loadSuccess('ctrl', result));
+                                    store.dispatch(loadSuccess("ctrl", result));
                                 }
                             }
                         }
@@ -82,12 +84,12 @@ exports.default = async (ctx, next) => {
                     }
                     catch (error) {
                         /* istanbul ignore if */
-                        if (process.env.NODE_ENV != 'production') {
-                            ctx.body = require('util').inspect(error);
+                        if (process.env.NODE_ENV != "production") {
+                            ctx.body = require("util").inspect(error);
                             /* istanbul ignore else */
                         }
                         else {
-                            ctx.body = 'unexpected error.';
+                            ctx.body = "unexpected error.";
                         }
                         return resolve();
                     }

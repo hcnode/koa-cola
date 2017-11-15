@@ -19,4 +19,4 @@ export default function createRouter(routers: any): void;
  * @param controllers controller数组
  * @param views react page页面数组
  */
-export declare function createProvider(controllers: any, views: any): () => JSX.Element;
+export declare function createProvider(controllers: any, views: any, reduxMiddlewares: any): () => JSX.Element;
