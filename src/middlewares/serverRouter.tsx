@@ -32,7 +32,7 @@ export default async (ctx: Koa.Context, next) => {
   });
   var middleware = applyMiddleware.apply(
     null,
-    Object.keys(app.config.reduxMiddlewares).map(
+    Object.keys(app.config.reduxMiddlewares || {}).map(
       item => app.config.reduxMiddlewares[item]
     )
   );
