@@ -58,7 +58,7 @@ export default function inject(colaApp?){
 	
 	try {
 		var mongoose = require(`mongoose`);
-		mongoose.Promise = global.Promise;
+		// mongoose.Promise = global.Promise;
 		global.app.mongoose = mongoose;
 	} catch (error) {
 		/* istanbul ignore next */
