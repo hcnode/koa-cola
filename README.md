@@ -138,4 +138,4 @@ export default class Page extends React.Component{
 
 [online demo](http://koa-cola.com:3000/)
 
-more detail to visit [koa-cola website](https://koa-cola.github.io/) (Chinese version so far)
+visit [koa-cola website](https://koa-cola.github.io/) for more detail
