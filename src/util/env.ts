@@ -22,7 +22,7 @@ export function getConfig() {
 		}, {});
 		var env = {};
 		// if (fs.existsSync(envPath)) {
-			env = req(envPath);
+			env = req(envPath) || {};
 			Object.keys(env).forEach(key => {
 				var isFunc = typeof env[key] == 'function';
 				// 如果有key是function, 执行并返回

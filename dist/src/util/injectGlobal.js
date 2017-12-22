@@ -58,7 +58,7 @@ function inject(colaApp) {
     global.app.decorators = decorators_1.default;
     try {
         var mongoose = require(`mongoose`);
-        mongoose.Promise = global.Promise;
+        // mongoose.Promise = global.Promise;
         global.app.mongoose = mongoose;
     }
     catch (error) {
