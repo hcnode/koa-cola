@@ -55,7 +55,7 @@ describe("#koa-cola view", function() {
       var config = require(`${process.cwd()}/webpack.config`);
       webpack(config, (err, stats) => {
         if (err || stats.hasErrors()) {
-          throw new Error("webpack build error");
+          throw err;
         }
         done();
       });
