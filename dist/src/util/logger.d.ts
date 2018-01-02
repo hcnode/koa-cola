@@ -1,4 +1,2 @@
-/// <reference types="winston" />
-import * as winston from 'winston';
-declare var logger: winston.LoggerInstance;
+declare var logger: any;
 export default logger;
