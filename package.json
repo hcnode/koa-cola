@@ -103,7 +103,7 @@
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.6.0",
     "react-router-test-context": "^0.1.0",
-    "should": "^11.2.1",
+    "should": "^13.2.0",
     "source-map-loader": "^0.2.1",
     "source-map-support": "^0.4.18",
     "superagent": "^3.5.2",
