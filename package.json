@@ -35,7 +35,6 @@
     "@types/mongoose": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
-    "@types/should": "latest",
     "@types/webpack-env": "latest",
     "@types/winston": "latest",
     "axios": "^0.16.2",
