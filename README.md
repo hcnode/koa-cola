@@ -13,9 +13,7 @@ Actually this framework is my experimental work to explore the advanced area of 
 ### Features
 * completely and seamlessly SSR/SPA solution.
 * "isomorphic" mode which can write reusable codes running in both browser and server.
-* require latest koa as web server base.
 * es7 decorator style coding
-* use typescript
 
 ## Usage
 
