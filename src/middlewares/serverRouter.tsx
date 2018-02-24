@@ -28,7 +28,7 @@ export default async (ctx: Koa.Context, next) => {
   // router.component._reducer为react-redux的自定义reducer
   var reducers = app.reactRouters.map(router => {
     var component = app.pages[router.component];
-    return component._reducer || {};
+    return (component && component._reducer) || {};
   });
   var middleware = applyMiddleware.apply(
     null,
