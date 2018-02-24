@@ -84,6 +84,9 @@ export default function (colaApp?) {
             if (status && !http.STATUS_CODES[status]) {
                 message = require('statuses')[status] || 'unknow error';
             }
+            if(typeof message == 'object'){
+                message = JSON.stringify(message);
+            }
             // accepted types
             switch (ctx.accepts('text', 'json', 'html')) {
                 case 'text':
