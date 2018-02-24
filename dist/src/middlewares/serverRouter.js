@@ -28,7 +28,7 @@ exports.default = async (ctx, next) => {
     // router.component._reducer为react-redux的自定义reducer
     var reducers = app.reactRouters.map(router => {
         var component = app.pages[router.component];
-        return component._reducer || {};
+        return (component && component._reducer) || {};
     });
     var middleware = redux_1.applyMiddleware.apply(null, Object.keys(app.config.reduxMiddlewares || {}).map(item => app.config.reduxMiddlewares[item]));
     const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), middleware);

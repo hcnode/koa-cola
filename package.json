@@ -16,7 +16,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "pretest": "tsc -p compile",
     "watch": "mocha-typescript-watch",
-    "build": "rm -rf ./dist && rm package-lock.json && tsc -p compile",
+    "build": "rm -rf ./dist && tsc -p compile",
     "preversion": "npm run build",
     "postversion": "npm publish && git push"
   },
@@ -27,7 +27,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@types/chalk": "latest",
     "@types/form-data": "latest",
     "@types/koa": "latest",
     "@types/koa-bodyparser": "latest",

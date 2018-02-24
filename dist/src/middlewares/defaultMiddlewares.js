@@ -27,7 +27,11 @@ exports.default = [
                 stream: fs.createWriteStream(args + '/access.log', { flags: 'a' })
             });
         },
-        args: () => `${process.cwd()}/logs`
+        args: () => {
+            var logPath = app.config.accessLogPath || process.cwd();
+            !fs.existsSync(logPath) && fs.mkdirSync(logPath);
+            return `${logPath}/logs`;
+        }
     },
     {
         name: 'koa-compress',
