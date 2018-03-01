@@ -46,3 +46,7 @@ export function Cola({initData = {}, mapStateToProps = null, mapDispatchToProps 
     return component;
   };
 }
+
+export function autoRouter(target : any) {
+  target._autoRouter = true;
+}

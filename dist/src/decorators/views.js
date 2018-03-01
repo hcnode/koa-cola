@@ -49,4 +49,8 @@ function Cola({ initData = {}, mapStateToProps = null, mapDispatchToProps = null
     };
 }
 exports.Cola = Cola;
+function autoRouter(target) {
+    target._autoRouter = true;
+}
+exports.autoRouter = autoRouter;
 //# sourceMappingURL=views.js.map

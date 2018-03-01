@@ -9,3 +9,4 @@ export declare function Cola({initData, mapStateToProps, mapDispatchToProps, red
     mapDispatchToProps?: null;
     reducer?: null;
 }): (target: any) => any;
+export declare function autoRouter(target: any): void;

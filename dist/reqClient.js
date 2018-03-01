@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const controllerDecorators = require('controller-decorators');
 const reduxConnect = require('redux-connect');
-const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, Cola, pageProps } = require('./src/decorators/views');
+const { ColaReducer, ChildrenComponents, header, bundle, doNotUseLayout, Cola, pageProps, autoRouter } = require('./src/decorators/views');
 const { createProvider } = require('./src/util/createRouter');
 var api_1 = require("./src/util/api");
 exports.ApiBase = api_1.Base;
@@ -16,5 +16,5 @@ module.exports = Object.assign({
     createProvider }, reduxConnect, controllerDecorators, exports, { store: require('redux-connect/lib/store'), colaReducer: ColaReducer, include: ChildrenComponents, header,
     bundle,
     doNotUseLayout,
-    Cola, pageProps });
+    Cola, pageProps, autoRouter });
 //# sourceMappingURL=reqClient.js.map

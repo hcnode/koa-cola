@@ -55,7 +55,7 @@ function build({watch, production} = {}){
     inject();
     var viewsStr = app.reactRouters.map(router => {
       var page = router.component;
-      return `${page} : require('./pages/${page}').default,`;
+      return `'${page}' : require('./pages/${page}').default,`;
     }); 
     var appStr = fs.readFileSync(projectAppTsxPath).toString()
       .replace('// controllers', controllersStr.join('\n'))

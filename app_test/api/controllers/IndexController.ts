@@ -128,6 +128,10 @@ export default class {
   @View('pageProps')
   async pageProps(@Ctx() ctx) {}
 
+  @Get('/subPage')
+  @View('subPages/subPage')
+  async subPage(@Ctx() ctx) {}
+
   @Get('/customHttpCode')
   customHttpCode(@Ctx() ctx){
     ctx.response.status = 450;

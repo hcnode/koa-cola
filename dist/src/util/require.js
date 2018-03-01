@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var requireDir = require('require-dir');
-var { getEnvironment } = require('./env');
+var requireDir = require("require-dir");
+var { getEnvironment } = require("./env");
+const path = require("path");
 var dirCache = {};
-var _reqDir = (dir) => {
+var _reqDir = dir => {
     // if(require.context){
     //     var context = require.context(dir, false, /\.(j|t)s(x)?$/);
     //     var obj = {};
@@ -14,7 +15,7 @@ var _reqDir = (dir) => {
     // }else{
     var env = getEnvironment();
     if (dirCache[dir]) {
-        if (env == 'production') {
+        if (env == "production") {
             return dirCache[dir].map;
         }
         else {
@@ -23,16 +24,30 @@ var _reqDir = (dir) => {
             });
         }
     }
-    var { map, modulePathMap } = requireDir(dir);
+    var { map, modulePathMap } = requireDir(dir, { recurse: true });
     if (map)
         dirCache[dir] = { map, modulePathMap };
-    return map;
+    return flattenMap(map);
     // }
 };
+function flattenMap(map) {
+    var entries = Object.entries(map);
+    return entries.reduce((newMap, [key, value]) => {
+        if (value.map && value.modulePathMap) {
+            var subMap = flattenMap(value.map);
+            var keys = Object.keys(subMap);
+            newMap = Object.assign({}, newMap, keys.reduce((newSubMap, subKey) => {
+                newSubMap[[key, subKey].join('/')] = subMap[subKey];
+                return newSubMap;
+            }, {}));
+        }
+        return newMap;
+    }, map);
+}
 function req(module) {
     try {
         var env = getEnvironment();
-        if (env != 'production') {
+        if (env != "production") {
             delete require.cache[module];
         }
         var module = require(module);
@@ -45,6 +60,7 @@ function req(module) {
 exports.req = req;
 function reqDir(dir) {
     try {
+        dir = path.resolve(dir);
         const libs = _reqDir(dir);
         return Object.keys(libs).reduce((host, key) => {
             host[key] = libs[key].default || libs[key];
@@ -52,11 +68,11 @@ function reqDir(dir) {
         }, {});
     }
     catch (err) {
-        if (err.code == 'ENOENT') {
+        if (err.code == "ENOENT") {
             console.log(`dir ${dir} does not exist`);
         }
         else {
-            console.error(require('util').inspect(err));
+            console.error(require("util").inspect(err));
         }
         return {};
     }
