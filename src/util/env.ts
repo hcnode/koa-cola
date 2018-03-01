@@ -16,7 +16,7 @@ export function getConfig() {
 		if (!fs.existsSync(configPath)) {
 			return {};
 		}
-		var configs = reqDir(configPath);
+		var configs = reqDir(configPath, false);
 		var defConfig = Object.keys(configs).reduce((config, key) => {
 			return Object.assign(config, configs[key]);
 		}, {});
