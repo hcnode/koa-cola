@@ -53,7 +53,7 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
-"@types/form-data@latest":
+"@types/form-data@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@types/form-data/-/form-data-2.2.1.tgz#ee2b3b8eaa11c0938289953606b745b738c54b1e"
   dependencies:
@@ -67,23 +67,17 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.1.tgz#ff540462d2fb4d0a88441ceaf27d287b01c3d878"
 
-"@types/koa-bodyparser@latest":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-4.2.0.tgz#04febc567f3d3dd40e3d1a0e095cdf7b07c4d7ce"
-  dependencies:
-    "@types/koa" "*"
-
 "@types/koa-compose@*":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@types/koa-compose/-/koa-compose-3.2.2.tgz#dc106e000bbf92a3ac900f756df47344887ee847"
 
-"@types/koa-router@latest":
+"@types/koa-router@^7.0.27":
   version "7.0.27"
   resolved "https://registry.yarnpkg.com/@types/koa-router/-/koa-router-7.0.27.tgz#4993d50cb9efdfcfb11f16c726a4b34f8fb3e0d4"
   dependencies:
     "@types/koa" "*"
 
-"@types/koa@*", "@types/koa@latest":
+"@types/koa@*", "@types/koa@^2.0.44":
   version "2.0.44"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.0.44.tgz#4d972a3dec4d6eb89bd3c16775de26305d1c51a6"
   dependencies:
@@ -103,13 +97,17 @@
   version "2.2.48"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
 
-"@types/node@*", "@types/node@latest":
+"@types/node@*":
   version "9.4.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
-"@types/react@latest":
-  version "16.0.39"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.39.tgz#6aef052209521cd76f62cd7286abdc8fd787e39d"
+"@types/node@^8.9.4":
+  version "8.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.4.tgz#dfd327582a06c114eb6e0441fa3d6fab35edad48"
+
+"@types/react@15":
+  version "15.6.14"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.14.tgz#fe176209b9de3514f9782fa41a239bffd26a3b56"
 
 "@types/serve-static@*":
   version "1.13.1"
@@ -138,11 +136,11 @@
   dependencies:
     "@types/superagent" "*"
 
-"@types/webpack-env@latest":
+"@types/webpack-env@^1.13.5":
   version "1.13.5"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.5.tgz#ca854e9fbdbcdf45d7376882875f28e2c60593f8"
 
-"@types/winston@latest":
+"@types/winston@^2.3.8":
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/@types/winston/-/winston-2.3.8.tgz#88964f45ecb5ed1feb4bfb38a24316bee8bf8768"
   dependencies:
@@ -1773,7 +1771,7 @@ content-type@^1.0.0:
 
 "controller-decorators@github:hcnode/controller-decorators":
   version "0.0.1"
-  resolved "https://codeload.github.com/hcnode/controller-decorators/tar.gz/11ac18c62f176c38cd265769feb1dc78bfa2d200"
+  resolved "https://codeload.github.com/hcnode/controller-decorators/tar.gz/c792852623ca0d725f2c74617fb2ae7d35c8590b"
   dependencies:
     babel-cli "^6.24.1"
     reflect-metadata "^0.1.10"
