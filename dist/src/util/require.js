@@ -4,7 +4,7 @@ var requireDir = require("require-dir");
 var { getEnvironment } = require("./env");
 const path = require("path");
 var dirCache = {};
-var _reqDir = dir => {
+var _reqDir = (dir, recurse) => {
     // if(require.context){
     //     var context = require.context(dir, false, /\.(j|t)s(x)?$/);
     //     var obj = {};
@@ -24,7 +24,7 @@ var _reqDir = dir => {
             });
         }
     }
-    var { map, modulePathMap } = requireDir(dir, { recurse: true });
+    var { map, modulePathMap } = requireDir(dir, { recurse });
     if (map)
         dirCache[dir] = { map, modulePathMap };
     return flattenMap(map);
@@ -58,10 +58,10 @@ function req(module) {
     }
 }
 exports.req = req;
-function reqDir(dir) {
+function reqDir(dir, recurse = true) {
     try {
         dir = path.resolve(dir);
-        const libs = _reqDir(dir);
+        const libs = _reqDir(dir, recurse);
         return Object.keys(libs).reduce((host, key) => {
             host[key] = libs[key].default || libs[key];
             return host;
