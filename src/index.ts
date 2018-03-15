@@ -93,7 +93,7 @@ export default function (colaApp?) {
                     ctx.body = message;
                     break;
                 case 'json':
-                    ctx.body = { error: message };
+                    ctx.body = { error: message, code : ctx.status };
                     if(process.env.NODE_ENV != 'production'){
                         ctx.body.stack = err.stack;
                     }
