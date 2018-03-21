@@ -5,6 +5,7 @@ export declare class Base<B, R, E> {
     body: B;
     result: R;
     exception: E;
+    headers: any;
     fetch(ctx?: any): Promise<this>;
 }
 /**
