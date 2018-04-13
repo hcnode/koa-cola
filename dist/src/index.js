@@ -139,12 +139,13 @@ function default_1(colaApp) {
         }
     });
     // 调用config配置里面的boostrap
+    var server = http.createServer(koaApp.callback());
     try {
-        require(`${process.cwd()}/config/bootstrap`)(koaApp);
+        require(`${process.cwd()}/config/bootstrap`)(koaApp, server);
     }
     catch (error) { }
     const port = process.env.PORT || app.config.port || 3000;
-    return koaApp.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
+    return server.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
 }
 exports.default = default_1;
 //# sourceMappingURL=index.js.map
