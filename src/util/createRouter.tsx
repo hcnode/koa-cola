@@ -123,16 +123,18 @@ export function createProvider(controllers, views, reduxMiddlewares) {
   var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
   // router.component._reducer为react-redux的自定义reducer
   var reducers = reactRouters.reduce((_reducer, router) => {
-    _reducer.push(router.component._reducer || {});
+    if(router.component._reducer){
+      _reducer = {..._reducer, ...router.component._reducer}
+    }
     if (router.component.childrenComponents) {
       Object.keys(router.component.childrenComponents).forEach(child => {
-        _reducer.push(
-          router.component.childrenComponents[child]._reducer || {}
-        );
+        if(router.component.childrenComponents[child]._reducer){
+          _reducer = {..._reducer, ...router.component.childrenComponents[child]._reducer}
+        }
       });
     }
     return _reducer;
-  }, []);
+  }, {});
   // 合并reducer，并使用页面的__data作为初始化数据
   var enhancer = composeEnhancers(applyMiddleware.apply(
     null,
