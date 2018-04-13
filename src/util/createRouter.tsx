@@ -10,8 +10,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 
-
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers 
@@ -72,6 +70,7 @@ export default function createRouter(routers) {
  */
 /* istanbul ignore next */
 export function createProvider(controllers, views, reduxMiddlewares) {
+  const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   var reactRouters = [];
   const ROUTE_PREFIX = "$routes";
   for (const ctrl of controllers) {
