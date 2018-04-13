@@ -143,7 +143,7 @@ export function createProvider(controllers, views, reduxMiddlewares) {
     )
   ));
   const store = createStore(
-    combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)),
+    combineReducers({ reduxAsyncConnect: reducer,  ...reducers}),
     (window as any).__data,
     enhancer
   );
