@@ -9,6 +9,7 @@ const React = require("react");
 const react_router_1 = require("react-router");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -114,8 +115,8 @@ function createProvider(controllers, views, reduxMiddlewares) {
         return _reducer;
     }, []);
     // 合并reducer，并使用页面的__data作为初始化数据
-    var middleware = redux_1.applyMiddleware.apply(null, Object.keys(reduxMiddlewares || {}).map(item => reduxMiddlewares[item]));
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data, middleware);
+    var enhancer = composeEnhancers(redux_1.applyMiddleware.apply(null, Object.keys(reduxMiddlewares || {}).map(item => reduxMiddlewares[item])));
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data, enhancer);
     return function () {
         return (React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(react_router_1.Router, { render: props => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {
