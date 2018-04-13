@@ -1,6 +1,6 @@
 {
   "name": "koa-cola",
-  "version": "0.5.34",
+  "version": "0.5.35",
   "description": "",
   "main": "dist/index.js",
   "bin": {
