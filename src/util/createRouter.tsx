@@ -6,10 +6,12 @@
 import * as React from "react";
 import { IndexRoute, Router, Route, browserHistory } from "react-router";
 
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 
+
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers 
@@ -132,16 +134,16 @@ export function createProvider(controllers, views, reduxMiddlewares) {
     return _reducer;
   }, []);
   // 合并reducer，并使用页面的__data作为初始化数据
-  var middleware = applyMiddleware.apply(
+  var enhancer = composeEnhancers(applyMiddleware.apply(
     null,
     Object.keys(reduxMiddlewares || {}).map(
       item => reduxMiddlewares[item]
     )
-  );
+  ));
   const store = createStore(
     combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)),
     (window as any).__data,
-    middleware
+    enhancer
   );
   return function() {
     return (
