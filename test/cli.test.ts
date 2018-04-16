@@ -61,7 +61,7 @@ describe("#koa-cola cli", function() {
       process.chdir("./app");
       shell.cd(`${path.resolve(__dirname,"../app_test/app")}`);
       shell.exec(
-        `ts-node ${path.resolve("../../", "bin", "koa-cola")} build -p`
+        `node ${path.resolve("../../", "bin", "koa-cola")} build -p`
       );
       var stat = fs.statSync(path.join(process.cwd(), "public", "bundle.js"));
       stat.size.should.be.lessThan(500 * 1024);

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 require("ts-node/register");
 var program = require('commander');
 var path = require('path');
