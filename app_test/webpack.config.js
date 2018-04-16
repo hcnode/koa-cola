@@ -47,10 +47,7 @@ module.exports = {
 	},
 
 	plugins: [
-		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
-		new webpack.IgnorePlugin(/koa$/),
-		new webpack.IgnorePlugin(/koa-body$/),
-		// new webpack.IgnorePlugin(/^mongoose-class-wrapper$/)
+		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
 	],
 	// When importing a module whose path matches one of the following, just
 	// assume a corresponding global variable exists and use that instead.

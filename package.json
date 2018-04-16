@@ -2,7 +2,7 @@
   "name": "koa-cola",
   "version": "0.5.35",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/",
   "bin": {
     "koa-cola": "./bin/koa-cola.js"
   },

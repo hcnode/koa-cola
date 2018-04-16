@@ -12,17 +12,14 @@ import { Provider } from "react-redux";
 
 /**
  * 创建node端react路由并保存在全局app.routers.router
- * @param routers 
+ * @param routers
  */
 export default function createRouter(routers) {
   //app.decorators.view defined in util.decorators.ts
   const { ReduxAsyncConnect, asyncConnect, reducer } = app.decorators.view;
   app.routers = app.routers || {};
   app.routers.router = (
-    <Router
-      render={props => <ReduxAsyncConnect {...props} />}
-      history={browserHistory}
-    >
+    <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
       {routers.map(router => {
         let component = app.pages[router.component];
         if (!component) {
@@ -36,9 +33,7 @@ export default function createRouter(routers) {
           // }
         }
         if (component.name != "Connect") {
-          component = asyncConnect([{ key: "ctrl", promise: () => null }])(
-            component
-          );
+          component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
         }
         if (component.childrenComponents) {
           return (
@@ -69,96 +64,67 @@ export default function createRouter(routers) {
  * @param views react page页面数组
  */
 /* istanbul ignore next */
-export function createProvider(controllers, views, reduxMiddlewares) {
+export function createProvider(routers, views, reduxMiddlewares) {
   const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   var reactRouters = [];
-  const ROUTE_PREFIX = "$routes";
-  for (const ctrl of controllers) {
-    /* try { // 不知道什么原因，有时候Reflect.getMetadata会出错
-            require('reflect-metadata');
-            var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
-        } catch (error) {}
-        if (routes) {
-            ctrl[ROUTE_PREFIX] = routes;
-        }else { */
-    var routes = ctrl[ROUTE_PREFIX];
-    // }
-    // 保存react-router所需要的component和path
-    for (const {
-      method,
-      url,
-      middleware,
-      name,
-      params,
-      view,
-      response
-    } of routes) {
-      if (view) {
-        if (typeof view == "string") {
-          var viewComponent = views && views[view];
-          if (!viewComponent) {
-            try {
-              viewComponent = require(`${process.cwd()}/view/pages/${view}`)
-                .default;
-            } catch (error) {}
-          }
-          if (viewComponent) {
-            reactRouters.push({
-              component: viewComponent,
-              path: url
-            });
-          } else {
-            console.log(`view ${view} not found`);
-          }
-        } else {
-          reactRouters.push({
-            component: view,
-            path: url
-          });
+  for (const { component, path } of routers) {
+    if (component) {
+      if (typeof component == "string") {
+        var viewComponent = views && views[component];
+        if (!viewComponent) {
+          try {
+            viewComponent = require(`${process.cwd()}/view/pages/${component}`).default;
+          } catch (error) {}
         }
+        if (viewComponent) {
+          reactRouters.push({
+            component: viewComponent,
+            path
+          });
+        } else {
+          console.log(`view ${component} not found`);
+        }
+      } else {
+        reactRouters.push({
+          component: component,
+          path
+        });
       }
     }
   }
-  var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
+  var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../client");
   // router.component._reducer为react-redux的自定义reducer
+
   var reducers = reactRouters.reduce((_reducer, router) => {
-    if(router.component._reducer){
-      _reducer = {..._reducer, ...router.component._reducer}
+    if (router.component._reducer) {
+      _reducer = { ..._reducer, ...router.component._reducer };
     }
     if (router.component.childrenComponents) {
       Object.keys(router.component.childrenComponents).forEach(child => {
-        if(router.component.childrenComponents[child]._reducer){
-          _reducer = {..._reducer, ...router.component.childrenComponents[child]._reducer}
+        if (router.component.childrenComponents[child]._reducer) {
+          _reducer = { ..._reducer, ...router.component.childrenComponents[child]._reducer };
         }
       });
     }
     return _reducer;
   }, {});
   // 合并reducer，并使用页面的__data作为初始化数据
-  var enhancer = composeEnhancers(applyMiddleware.apply(
-    null,
-    Object.keys(reduxMiddlewares || {}).map(
-      item => reduxMiddlewares[item]
-    )
-  ));
+  var enhancer = composeEnhancers(
+    applyMiddleware.apply(null, Object.keys(reduxMiddlewares || {}).map(item => reduxMiddlewares[item]))
+  );
   const store = createStore(
-    combineReducers({ reduxAsyncConnect: reducer,  ...reducers}),
+    combineReducers({ reduxAsyncConnect: reducer, ...reducers }),
     (window as any).__data,
     enhancer
   );
   return function() {
     return (
       <Provider store={store} key="provider">
-        <Router
-          render={props => <ReduxAsyncConnect {...props} />}
-          history={browserHistory}
-        >
+        <Router render={props => <ReduxAsyncConnect {...props} />} history={browserHistory}>
           {reactRouters.map(router => {
             var component = router.component;
             if (component && component.name != "Connect") {
-              component = asyncConnect([{ key: "ctrl", promise: () => null }])(
-                component
-              );
+              component = asyncConnect([{ key: "ctrl", promise: () => null }])(component);
             }
             if (component.childrenComponents) {
               return (
@@ -167,9 +133,7 @@ export function createProvider(controllers, views, reduxMiddlewares) {
                 </Route>
               );
             } else {
-              return (
-                <Route key="route" path={router.path} component={component} />
-              );
+              return <Route key="route" path={router.path} component={component} />;
             }
           })}
         </Router>

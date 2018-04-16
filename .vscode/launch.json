@@ -17,6 +17,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "DebugCli",
+            "cwd": "${workspaceRoot}/app_test/",
+            "args": [
+                "build"
+            ],
+            "program": "${workspaceRoot}/bin/koa-cola.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [

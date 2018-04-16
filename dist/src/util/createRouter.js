@@ -9,7 +9,6 @@ const React = require("react");
 const react_router_1 = require("react-router");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -59,51 +58,38 @@ exports.default = createRouter;
  * @param views react page页面数组
  */
 /* istanbul ignore next */
-function createProvider(controllers, views, reduxMiddlewares) {
+function createProvider(routers, views, reduxMiddlewares) {
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
     var reactRouters = [];
-    const ROUTE_PREFIX = "$routes";
-    for (const ctrl of controllers) {
-        /* try { // 不知道什么原因，有时候Reflect.getMetadata会出错
-                require('reflect-metadata');
-                var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
-            } catch (error) {}
-            if (routes) {
-                ctrl[ROUTE_PREFIX] = routes;
-            }else { */
-        var routes = ctrl[ROUTE_PREFIX];
-        // }
-        // 保存react-router所需要的component和path
-        for (const { method, url, middleware, name, params, view, response } of routes) {
-            if (view) {
-                if (typeof view == "string") {
-                    var viewComponent = views && views[view];
-                    if (!viewComponent) {
-                        try {
-                            viewComponent = require(`${process.cwd()}/view/pages/${view}`)
-                                .default;
-                        }
-                        catch (error) { }
+    for (const { component, path } of routers) {
+        if (component) {
+            if (typeof component == "string") {
+                var viewComponent = views && views[component];
+                if (!viewComponent) {
+                    try {
+                        viewComponent = require(`${process.cwd()}/view/pages/${component}`).default;
                     }
-                    if (viewComponent) {
-                        reactRouters.push({
-                            component: viewComponent,
-                            path: url
-                        });
-                    }
-                    else {
-                        console.log(`view ${view} not found`);
-                    }
+                    catch (error) { }
                 }
-                else {
+                if (viewComponent) {
                     reactRouters.push({
-                        component: view,
-                        path: url
+                        component: viewComponent,
+                        path
                     });
                 }
+                else {
+                    console.log(`view ${component} not found`);
+                }
+            }
+            else {
+                reactRouters.push({
+                    component: component,
+                    path
+                });
             }
         }
     }
-    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../client");
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.reduce((_reducer, router) => {
         if (router.component._reducer) {
@@ -133,7 +119,7 @@ function createProvider(controllers, views, reduxMiddlewares) {
                         React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents })));
                 }
                 else {
-                    return (React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component }));
+                    return React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component });
                 }
             }))));
     };

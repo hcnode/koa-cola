@@ -1,5 +1,5 @@
 #!/usr/bin/env ts-node
-
+require("ts-node/register");
 var program = require('commander');
 var path = require('path');
 var fs = require('fs-extra');
@@ -38,29 +38,28 @@ program
 function build({watch, production} = {}){
   watch = watch || program.watch;
   production = production || program.production;
-  var appTsx = path.join(__dirname, 'app.tsx');
+  var appTsx = path.join(__dirname, 'app.tsx.tmp');
   var projectAppTsxPath = path.join(process.cwd(), 'views', 'app.tsx');
   if(!fs.existsSync(path.join(process.cwd(), 'views'))){
     console.log(chalk.red(path.join(process.cwd(), 'views') + ' not found'));
     process.exit(1);
   }else{
     shell.cp(appTsx, projectAppTsxPath);
-    var controllers = reqDir(path.join(process.cwd(), 'api', 'controllers'));
     var configs = reqDir(path.join(process.cwd(), 'config'));
-    var controllersStr = Object.keys(controllers).map(ctrl => {
-      return `require('../api/controllers/${ctrl}').default,`;
-    });
     var reduxMiddleware = Object.keys(configs).find(key => configs[key].reduxMiddlewares);
     var reduxMiddlewareStr = reduxMiddleware ? `, require('../config/${reduxMiddleware}').reduxMiddlewares` : '';
     inject();
-    var viewsStr = app.reactRouters.map(router => {
+    var routers = app.reactRouters.map(({component, path}) => ({
+      component, path
+    }));
+    var viewsStr = routers.map(router => {
       var page = router.component;
       return `'${page}' : require('./pages/${page}').default,`;
     }); 
     var appStr = fs.readFileSync(projectAppTsxPath).toString()
-      .replace('// controllers', controllersStr.join('\n'))
-      .replace('// redux-middleware', reduxMiddlewareStr);
-    appStr = appStr.replace('// views', viewsStr.join('\n'));
+      .replace('// routers', JSON.stringify(routers, null, '\t'))
+      .replace('// redux-middleware', reduxMiddlewareStr)
+      .replace('// views', viewsStr.join('\n'));
     fs.writeFileSync(projectAppTsxPath, appStr);
     console.log(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
     shell.exec(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
