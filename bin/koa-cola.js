@@ -1,5 +1,5 @@
-#!/usr/bin/env node
-require("ts-node/register");
+#!/usr/bin/env ts-node
+// require("ts-node/register");
 var program = require('commander');
 var path = require('path');
 var fs = require('fs-extra');
