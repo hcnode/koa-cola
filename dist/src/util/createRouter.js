@@ -89,7 +89,7 @@ function createProvider(routers, views, reduxMiddlewares) {
             }
         }
     }
-    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../client");
+    var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.reduce((_reducer, router) => {
         if (router.component._reducer) {
