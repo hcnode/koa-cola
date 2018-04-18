@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Koa from "koa";
 import { renderToString } from "react-dom/server";
 import { match, RoutingContext } from "react-router";
-var { ReduxAsyncConnect, loadOnServer, reducer } = require("redux-connect");
+import { ReduxAsyncConnect, loadOnServer, reducer } from "redux-connect"
 var loadSuccess = require("redux-connect/lib/store").loadSuccess;
 var createHistory = require("history").createMemoryHistory;
 import { Provider } from "react-redux";

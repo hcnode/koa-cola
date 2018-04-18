@@ -4,9 +4,9 @@ export declare function bundle(bundle: any): (target: any) => void;
 export declare function pageProps(pageProps: any): (target: any) => void;
 export declare function doNotUseLayout(target: any): void;
 export declare function Cola({initData, mapStateToProps, mapDispatchToProps, reducer}: {
-    initData?: {};
-    mapStateToProps?: null;
-    mapDispatchToProps?: null;
-    reducer?: null;
+    initData?: any;
+    mapStateToProps?: any;
+    mapDispatchToProps?: any;
+    reducer?: any;
 }): (target: any) => any;
 export declare function autoRouter(target: any): void;

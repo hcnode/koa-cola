@@ -8,9 +8,7 @@ import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
 import * as http from 'http';
-// import sessionRedis = require('koa-generic-session');
-// import redisStore = require('koa-redis');
-import session = require('koa-session');
+import * as session from 'koa-session';
 import createRouter from './util/createRouter'
 import createSchemaTypes from './util/createSchemaTypes'
 import mountMiddleware from './middlewares/mountMiddleware'

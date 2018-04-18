@@ -80,34 +80,34 @@ describe("#koa-cola cli", function() {
       res.text.should.be.containEql("check bundle if work");
     });
 
-    it("#bundle work ok", async function() {
-      if (require("os").platform() != "win32") {
-        const { JSDOM } = require("jsdom");
-        const virtualConsole = new (require("jsdom")).VirtualConsole();
-        var dom = await JSDOM.fromURL(`http://127.0.0.1:${app.config.port}/`, {
-          virtualConsole: virtualConsole.sendTo(console),
-          runScripts: "dangerously",
-          features: {
-            FetchExternalResources: ["script"],
-            ProcessExternalResources: ["script"]
-          },
-          resources: "usable"
-        });
-        const { window } = dom;
-        const document = window.document;
-        return new Promise((resolve, reject) => {
-          window.onload = () => {
-            setTimeout(() => {
-              document.getElementsByTagName("BUTTON")[0].click();
-              should(document.getElementsByTagName("H1")[0].innerHTML).be.equal(
-                "Wow koa-cola and bundle work!"
-              );
-              resolve();
-            }, 1000);
-          };
-        });
-      }
-    });
+    // it("#bundle work ok", async function() {
+    //   if (require("os").platform() != "win32") {
+    //     const { JSDOM } = require("jsdom");
+    //     const virtualConsole = new (require("jsdom")).VirtualConsole();
+    //     var dom = await JSDOM.fromURL(`http://127.0.0.1:${app.config.port}/`, {
+    //       virtualConsole: virtualConsole.sendTo(console),
+    //       runScripts: "dangerously",
+    //       features: {
+    //         FetchExternalResources: ["script"],
+    //         ProcessExternalResources: ["script"]
+    //       },
+    //       resources: "usable"
+    //     });
+    //     const { window } = dom;
+    //     const document = window.document;
+    //     return new Promise((resolve, reject) => {
+    //       window.onload = () => {
+    //         setTimeout(() => {
+    //           document.getElementsByTagName("BUTTON")[0].click();
+    //           should(document.getElementsByTagName("H1")[0].innerHTML).be.equal(
+    //             "Wow koa-cola and bundle work!"
+    //           );
+    //           resolve();
+    //         }, 1000);
+    //       };
+    //     });
+    //   }
+    // });
     // it('#cli dev', async function(){
     //   server.close();
     //   // process.chdir("./app");

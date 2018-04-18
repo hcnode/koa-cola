@@ -1,7 +1,7 @@
 import * as React from 'react';
-var {
+import {
   header, bundle, doNotUseLayout
-} = require("../../../client")
+} from "../../../client"
 export interface Props{
     foo: string
 }

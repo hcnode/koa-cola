@@ -30,23 +30,37 @@ export function pageProps(pageProps) {
 export function doNotUseLayout(target: any) {
   target._doNotUseLayout = true;
 }
-var { asyncConnect } = require('redux-connect');
+import { asyncConnect } from "redux-connect";
 
-export function Cola({initData = {}, mapStateToProps = null, mapDispatchToProps = null, reducer = null}) {
+export function Cola({
+  initData = {},
+  mapStateToProps = null,
+  mapDispatchToProps = null,
+  reducer = null
+}: {
+  initData?: any;
+  mapStateToProps?: any;
+  mapDispatchToProps?: any;
+  reducer?: any;
+}) {
   return function(target) {
-    var component = asyncConnect(Object.keys(initData).map(item => {
-      return {
-        key : item,
-        promise : initData[item]
-      }
-    }), mapStateToProps, mapDispatchToProps)(target);
-    if(reducer) {
+    var component = asyncConnect(
+      Object.keys(initData).map(item => {
+        return {
+          key: item,
+          promise: initData[item]
+        };
+      }),
+      mapStateToProps,
+      mapDispatchToProps
+    )(target);
+    if (reducer) {
       component._reducer = reducer;
     }
     return component;
   };
 }
 
-export function autoRouter(target : any) {
+export function autoRouter(target: any) {
   target._autoRouter = true;
 }

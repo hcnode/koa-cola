@@ -1,5 +1,9 @@
+/**
+ * 定义mvc的decorators
+ */
+import * as controllerDecorators from 'controller-decorators';
 declare const _default: {
-    controller: any;
+    controller: typeof controllerDecorators;
     model: any;
     view: any;
 };

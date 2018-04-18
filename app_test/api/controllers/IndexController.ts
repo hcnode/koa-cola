@@ -1,4 +1,4 @@
-var {
+import {
   Controller,
   Get,
   Use,
@@ -11,17 +11,12 @@ var {
   View,
   Ctx,
   Response
-} = require('../../../client');
+} from '../../../client';
 import Ok from '../responses/ok';
 import isLogin from '../policies/isLogin';
 import setUser from '../middlewares/setUser';
-var Koa,
-  koaBody = function(arg) {};
-try {
-  Koa = require('koa');
-  koaBody = require('koa-body');
-} catch (err) {}
-
+import * as Koa from 'koa'
+import * as koaBody from 'koa-body'
 @Controller('')
 export default class {
 
