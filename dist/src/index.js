@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
 const chalk = require("chalk");
 const http = require("http");
-// import sessionRedis = require('koa-generic-session');
-// import redisStore = require('koa-redis');
 const session = require("koa-session");
 const createSchemaTypes_1 = require("./util/createSchemaTypes");
 const mountMiddleware_1 = require("./middlewares/mountMiddleware");

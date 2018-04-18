@@ -33,10 +33,10 @@ function doNotUseLayout(target) {
     target._doNotUseLayout = true;
 }
 exports.doNotUseLayout = doNotUseLayout;
-var { asyncConnect } = require("redux-connect");
+const redux_connect_1 = require("redux-connect");
 function Cola({ initData = {}, mapStateToProps = null, mapDispatchToProps = null, reducer = null }) {
     return function (target) {
-        var component = asyncConnect(Object.keys(initData).map(item => {
+        var component = redux_connect_1.asyncConnect(Object.keys(initData).map(item => {
             return {
                 key: item,
                 promise: initData[item]

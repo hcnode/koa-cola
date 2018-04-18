@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const server_1 = require("react-dom/server");
 const react_router_1 = require("react-router");
-var { ReduxAsyncConnect, loadOnServer, reducer } = require("redux-connect");
+const redux_connect_1 = require("redux-connect");
 var loadSuccess = require("redux-connect/lib/store").loadSuccess;
 var createHistory = require("history").createMemoryHistory;
 const react_redux_1 = require("react-redux");
@@ -31,7 +31,7 @@ exports.default = async (ctx, next) => {
         return (component && component._reducer) || {};
     });
     var middleware = redux_1.applyMiddleware.apply(null, Object.keys(app.config.reduxMiddlewares || {}).map(item => app.config.reduxMiddlewares[item]));
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), middleware);
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_1.reducer }, ...reducers)), middleware);
     // const store = createStore(combineReducers({ reduxAsyncConnect: reducer }));
     try {
         await new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ exports.default = async (ctx, next) => {
                       if(components[1] && components[1].childrenComponents){
                           components = components.concat(components[1].childrenComponents);
                       }  */
-                loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(async () => {
+                redux_connect_1.loadOnServer(Object.assign({}, renderProps, { store, helpers: { ctx } })).then(async () => {
                     try {
                         var reactRouter = app.reactRouters.find(item => item.path == ctx.path);
                         if (reactRouter) {
@@ -80,7 +80,7 @@ exports.default = async (ctx, next) => {
                     var { location } = renderProps;
                     try {
                         var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
-                            React.createElement(ReduxAsyncConnect, Object.assign({}, renderProps))));
+                            React.createElement(redux_connect_1.ReduxAsyncConnect, Object.assign({}, renderProps))));
                     }
                     catch (error) {
                         /* istanbul ignore if */
