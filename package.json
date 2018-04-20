@@ -1,6 +1,6 @@
 {
   "name": "koa-cola",
-  "version": "0.5.42",
+  "version": "0.5.43",
   "description": "",
   "main": "dist/",
   "bin": {
