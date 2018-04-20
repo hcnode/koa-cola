@@ -64,7 +64,7 @@ export default function createRouter(routers) {
  * @param views react page页面数组
  */
 /* istanbul ignore next */
-export function createProvider(routers, views, reduxMiddlewares) {
+export function createProvider(routers, views?, reduxMiddlewares?) {
   const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   var reactRouters = [];
   for (const { component, path } of routers) {
