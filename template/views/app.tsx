@@ -1,13 +1,17 @@
-import * as React from 'react';
-import { render } from 'react-dom';
-import IndexController from '../api/controllers/IndexController'
-import index from './pages/index';
-import {createProvider} from 'koa-cola/client';
+import * as React from "react";
+import { render } from "react-dom";
+import { createProvider } from "koa-cola/client";
 
-var Provider = createProvider([
-    IndexController
-], {
-    index
-});
+var Provider = createProvider(
+  [
+    {
+      component: "index",
+      path: "/"
+    }
+  ],
+  {
+    index: require("./pages/index").default
+  }
+);
 
-render(<Provider />, document.getElementById('app'));
+render(<Provider />, document.getElementById("app"));
