@@ -1,6 +1,6 @@
 import * as winston from 'winston'
 import winston_daily_rotate_file = require('winston-daily-rotate-file')
-const logPath = process.cwd() + '/logs/';
+const logPath = (app.config.logPath || (process.cwd() + '/logs'));
 const path = require('path');
 require('fs-extra').ensureDirSync(logPath);
 var logger = new (winston.Logger)({

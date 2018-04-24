@@ -29,6 +29,10 @@ async function fetch(api, ctx) {
         url,
         method
     };
+    req.headers = {};
+    if (api.headers) {
+        req.headers = api.headers;
+    }
     if (api.method.toLowerCase() == 'post') {
         req.data = body;
     }
@@ -45,9 +49,7 @@ async function fetch(api, ctx) {
         if (ctx.req) {
             var cookie = ctx.req.headers.cookie;
             if (cookie) {
-                req.headers = {
-                    Cookie: cookie
-                };
+                req.headers.Cookie = cookie;
             }
         }
     }

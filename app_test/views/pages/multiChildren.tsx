@@ -4,13 +4,13 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
 
-var {
+import {
   store,
   include, Cola
-} = require("../../../client");
+} from "../../../client";
 var loadSuccess = store.loadSuccess;
-var Child1 = require('../components/child1').default;
-var Child2 = require('../components/child2').default;
+import Child1 from '../components/child1'
+import Child2 from '../components/child2'
 
 export interface Props {
   prop1?: any;

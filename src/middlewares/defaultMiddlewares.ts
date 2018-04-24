@@ -26,7 +26,11 @@ export default  [
                     { flags: 'a' })
             });
         },
-        args : () => `${process.cwd()}/logs`
+        args : () => {
+            var logPath = app.config.accessLogPath || process.cwd();
+            !fs.existsSync(logPath) && fs.mkdirSync(logPath);
+            return `${logPath}/logs`
+        }
     },
     {
         name : 'koa-compress',
@@ -43,6 +47,10 @@ export default  [
     {
         name : 'koa-static',
         func : require('koa-static'),
-        args : () => `${process.cwd()}/public`
+        args : () => {
+            var publicPath = app.config.publicPath || (process.cwd() + '/public');
+            !fs.existsSync(publicPath) && fs.mkdirSync(publicPath);
+            return publicPath
+        }
     },
 ]

@@ -4,7 +4,7 @@ import { createStore, combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server'
 import { req } from '../util/require';
 import * as serialize from 'serialize-javascript';
-var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+import { ReduxAsyncConnect, loadOnServer, reducer } from 'redux-connect'
 import layoutWrapper from '../middlewares/layoutWrapper'
 export default async function createErrorPage({
     env,

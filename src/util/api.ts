@@ -14,6 +14,7 @@ export class Base<B, R, E> {
     body : B
     result : R
     exception : E
+    headers : any
     fetch (ctx?){
         return fetch(this, ctx)
     }
@@ -30,6 +31,10 @@ export async function fetch<B, R, E, A extends Base<B, R, E>>(api: A, ctx?): Pro
         url,
         method
     };
+    req.headers = {}
+    if(api.headers){
+        req.headers = api.headers;
+    }
     if(api.method.toLowerCase() == 'post'){
         req.data = body;
     }else{
@@ -45,9 +50,7 @@ export async function fetch<B, R, E, A extends Base<B, R, E>>(api: A, ctx?): Pro
         if(ctx.req){
             var cookie = ctx.req.headers.cookie;
             if(cookie){
-                req.headers = {
-                    Cookie : cookie
-                }
+                req.headers.Cookie = cookie
             }
         }
     }

@@ -8,9 +8,7 @@ import * as fs from 'fs';
 import * as Router from 'koa-router';
 import * as koaBody from 'koa-body';
 import * as http from 'http';
-// import sessionRedis = require('koa-generic-session');
-// import redisStore = require('koa-redis');
-import session = require('koa-session');
+import * as session from 'koa-session';
 import createRouter from './util/createRouter'
 import createSchemaTypes from './util/createSchemaTypes'
 import mountMiddleware from './middlewares/mountMiddleware'
@@ -84,13 +82,16 @@ export default function (colaApp?) {
             if (status && !http.STATUS_CODES[status]) {
                 message = require('statuses')[status] || 'unknow error';
             }
+            if(typeof message == 'object'){
+                message = JSON.stringify(message);
+            }
             // accepted types
             switch (ctx.accepts('text', 'json', 'html')) {
                 case 'text':
                     ctx.body = message;
                     break;
                 case 'json':
-                    ctx.body = { error: message };
+                    ctx.body = { error: message, code : ctx.status };
                     if(process.env.NODE_ENV != 'production'){
                         ctx.body.stack = err.stack;
                     }
@@ -144,10 +145,11 @@ export default function (colaApp?) {
         }
     });
     // 调用config配置里面的boostrap
+    var server = http.createServer(koaApp.callback())
     try {
-        require(`${process.cwd()}/config/bootstrap`)(koaApp);
+        require(`${process.cwd()}/config/bootstrap`)(koaApp, server);
     } catch (error) { }
     const port = process.env.PORT || app.config.port || 3000;
-    return koaApp.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
+    return server.listen(port, () => console.log(chalk.green(`Listening on port ${port}`)));
 }
 

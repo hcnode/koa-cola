@@ -33,7 +33,6 @@
     "../src/**/*.js",
     "../src/**/*.ts",
     "../src/**/*.tsx",
-    "../index.ts",
-    "../reqClient.ts"
+    "../index.ts"
   ]
 }

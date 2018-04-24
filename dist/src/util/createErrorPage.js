@@ -5,7 +5,7 @@ const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
 const server_1 = require("react-dom/server");
 const require_1 = require("../util/require");
-var { ReduxAsyncConnect, loadOnServer, reducer } = require('redux-connect');
+const redux_connect_1 = require("redux-connect");
 const layoutWrapper_1 = require("../middlewares/layoutWrapper");
 async function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
     // some errors will have .status
@@ -15,14 +15,14 @@ async function createErrorPage({ env, ctx, error, stack, status = 500, code = 50
     // 如果定义了错误对应的page，则使用page来渲染
     var ErrorPage = app.pages[status];
     if (ErrorPage) {
-        const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer })));
+        const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_1.reducer })));
         var childrenComponents = ErrorPage.childrenComponents || {};
         var components = [
             '',
             ErrorPage,
             ...Object.keys(childrenComponents).map(key => childrenComponents[key])
         ];
-        await loadOnServer({ components, store, helpers: { ctx } });
+        await redux_connect_1.loadOnServer({ components, store, helpers: { ctx } });
         var layout = require_1.req(`${process.cwd()}/views/pages/layout`);
         var appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(ErrorPage, Object.assign({}, arguments[0]))));

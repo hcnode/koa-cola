@@ -37,4 +37,5 @@ package-lock.json
 typescript
 .vs
 app_test/app
+app_test/yarn.lock
 .nyc_output

@@ -60,47 +60,47 @@ describe("#koa-cola view", function() {
         done();
       });
     });
-    it("#load view and test client side react component", async function() {
-      const { JSDOM } = require("jsdom");
-      const virtualConsole = new (require("jsdom")).VirtualConsole();
-      var dom = await JSDOM.fromURL(
-        `http://127.0.0.1:${app.config.port}/cola`,
-        {
-          virtualConsole: virtualConsole.sendTo(console),
-          runScripts: "dangerously",
-          features: {
-            FetchExternalResources: ["script"],
-            ProcessExternalResources: ["script"]
-          },
-          resources: "usable"
-        }
-      );
-      const { window } = dom;
-      const document = window.document;
-      var pepsi2 = require(`${process.cwd()}/views/pages/cola`).pepsi2;
-      return new Promise((resolve, reject) => {
-        window.onload = () => {
-          setTimeout(() => {
-            document
-              .getElementById("dataFromServer")
-              .innerHTML.should.be.equal("hello");
-            document.getElementById("btn2").click();
-            should(document.getElementById("pepsi").innerHTML).be.equal(pepsi2);
-            document.getElementById("btn3").click();
-            should(document.getElementById("cola").innerHTML).be.equal("wow");
-            should(
-              document.getElementById("reduxMiddlewareData").innerHTML
-            ).be.equal("");
-            document.getElementById("btn5").click();
-            setTimeout(() => {
-              should(
-                document.getElementById("reduxMiddlewareData").innerHTML
-              ).be.equal("this is from reduxMiddleware");
-              resolve();
-            }, 1500);
-          }, 1000);
-        };
-      });
-    });
+    // it("#load view and test client side react component", async function() {
+    //   const { JSDOM } = require("jsdom");
+    //   const virtualConsole = new (require("jsdom")).VirtualConsole();
+    //   var dom = await JSDOM.fromURL(
+    //     `http://127.0.0.1:${app.config.port}/cola`,
+    //     {
+    //       virtualConsole: virtualConsole.sendTo(console),
+    //       runScripts: "dangerously",
+    //       features: {
+    //         FetchExternalResources: ["script"],
+    //         ProcessExternalResources: ["script"]
+    //       },
+    //       resources: "usable"
+    //     }
+    //   );
+    //   const { window } = dom;
+    //   const document = window.document;
+    //   var pepsi2 = require(`${process.cwd()}/views/pages/cola`).pepsi2;
+    //   return new Promise((resolve, reject) => {
+    //     window.onload = () => {
+    //       setTimeout(() => {
+    //         document
+    //           .getElementById("dataFromServer")
+    //           .innerHTML.should.be.equal("hello");
+    //         document.getElementById("btn2").click();
+    //         should(document.getElementById("pepsi").innerHTML).be.equal(pepsi2);
+    //         document.getElementById("btn3").click();
+    //         should(document.getElementById("cola").innerHTML).be.equal("wow");
+    //         should(
+    //           document.getElementById("reduxMiddlewareData").innerHTML
+    //         ).be.equal("");
+    //         document.getElementById("btn5").click();
+    //         setTimeout(() => {
+    //           should(
+    //             document.getElementById("reduxMiddlewareData").innerHTML
+    //           ).be.equal("this is from reduxMiddleware");
+    //           resolve();
+    //         }, 1500);
+    //       }, 1000);
+    //     };
+    //   });
+    // });
   });
 });

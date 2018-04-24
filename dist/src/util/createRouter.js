@@ -58,64 +58,55 @@ exports.default = createRouter;
  * @param views react page页面数组
  */
 /* istanbul ignore next */
-function createProvider(controllers, views, reduxMiddlewares) {
+function createProvider(routers, views, reduxMiddlewares) {
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
     var reactRouters = [];
-    const ROUTE_PREFIX = "$routes";
-    for (const ctrl of controllers) {
-        /* try { // 不知道什么原因，有时候Reflect.getMetadata会出错
-                require('reflect-metadata');
-                var routes = Reflect.getMetadata(ROUTE_PREFIX, ctrl);
-            } catch (error) {}
-            if (routes) {
-                ctrl[ROUTE_PREFIX] = routes;
-            }else { */
-        var routes = ctrl[ROUTE_PREFIX];
-        // }
-        // 保存react-router所需要的component和path
-        for (const { method, url, middleware, name, params, view, response } of routes) {
-            if (view) {
-                if (typeof view == "string") {
-                    var viewComponent = views && views[view];
-                    if (!viewComponent) {
-                        try {
-                            viewComponent = require(`${process.cwd()}/view/pages/${view}`)
-                                .default;
-                        }
-                        catch (error) { }
+    for (const { component, path } of routers) {
+        if (component) {
+            if (typeof component == "string") {
+                var viewComponent = views && views[component];
+                if (!viewComponent) {
+                    try {
+                        viewComponent = require(`${process.cwd()}/view/pages/${component}`).default;
                     }
-                    if (viewComponent) {
-                        reactRouters.push({
-                            component: viewComponent,
-                            path: url
-                        });
-                    }
-                    else {
-                        console.log(`view ${view} not found`);
-                    }
+                    catch (error) { }
                 }
-                else {
+                if (viewComponent) {
                     reactRouters.push({
-                        component: view,
-                        path: url
+                        component: viewComponent,
+                        path
                     });
                 }
+                else {
+                    console.log(`view ${component} not found`);
+                }
+            }
+            else {
+                reactRouters.push({
+                    component: component,
+                    path
+                });
             }
         }
     }
     var { ReduxAsyncConnect, asyncConnect, reducer } = require("../../../client");
     // router.component._reducer为react-redux的自定义reducer
     var reducers = reactRouters.reduce((_reducer, router) => {
-        _reducer.push(router.component._reducer || {});
+        if (router.component._reducer) {
+            _reducer = Object.assign({}, _reducer, router.component._reducer);
+        }
         if (router.component.childrenComponents) {
             Object.keys(router.component.childrenComponents).forEach(child => {
-                _reducer.push(router.component.childrenComponents[child]._reducer || {});
+                if (router.component.childrenComponents[child]._reducer) {
+                    _reducer = Object.assign({}, _reducer, router.component.childrenComponents[child]._reducer);
+                }
             });
         }
         return _reducer;
-    }, []);
+    }, {});
     // 合并reducer，并使用页面的__data作为初始化数据
-    var middleware = redux_1.applyMiddleware.apply(null, Object.keys(reduxMiddlewares || {}).map(item => reduxMiddlewares[item]));
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), window.__data, middleware);
+    var enhancer = composeEnhancers(redux_1.applyMiddleware.apply(null, Object.keys(reduxMiddlewares || {}).map(item => reduxMiddlewares[item])));
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: reducer }, reducers)), window.__data, enhancer);
     return function () {
         return (React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(react_router_1.Router, { render: props => React.createElement(ReduxAsyncConnect, Object.assign({}, props)), history: react_router_1.browserHistory }, reactRouters.map(router => {
@@ -128,7 +119,7 @@ function createProvider(controllers, views, reduxMiddlewares) {
                         React.createElement(react_router_1.IndexRoute, { components: component.childrenComponents })));
                 }
                 else {
-                    return (React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component }));
+                    return React.createElement(react_router_1.Route, { key: "route", path: router.path, component: component });
                 }
             }))));
     };

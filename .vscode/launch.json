@@ -7,6 +7,26 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "DebugApp",
+            "env": {
+                "NODE_ENV":"local"
+            },
+            "cwd": "${workspaceRoot}/app_test/",
+            "program": "${workspaceRoot}/app_test/app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "DebugCli",
+            "cwd": "${workspaceRoot}/app_test/",
+            "args": [
+                "build"
+            ],
+            "program": "${workspaceRoot}/bin/koa-cola.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
@@ -22,22 +42,6 @@
                 "NODE_ENV":"test"
             },
             "cwd": "${workspaceRoot}",
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "name": "DebugApp",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceRoot}/node_modules/ts-node/dist/_bin.js",
-            "stopOnEntry": false,
-            "args": [],
-            "cwd": "${workspaceRoot}/app_test",
-            "runtimeArgs": [
-                "-r", "ts-node/register", 
-                "${workspaceRoot}/app_test/app.ts", "--no-cache"
-            ],
-            "sourceMaps": true,
-            "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart"
         }
 

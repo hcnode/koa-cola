@@ -19,7 +19,7 @@ function getConfig() {
         if (!fs.existsSync(configPath)) {
             return {};
         }
-        var configs = require_1.reqDir(configPath);
+        var configs = require_1.reqDir(configPath, false);
         var defConfig = Object.keys(configs).reduce((config, key) => {
             return Object.assign(config, configs[key]);
         }, {});

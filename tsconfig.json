@@ -42,6 +42,7 @@
     "src/**/*.js",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "index.ts"
+    "index.ts",
+    "client.ts"
   ]
 }

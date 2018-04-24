@@ -1,5 +1,5 @@
 import * as React from 'react';
-var { header, bundle, doNotUseLayout } = require('../../../client');
+import { header, bundle, doNotUseLayout } from '../../../client';
 
 @doNotUseLayout
 export default class page452 extends React.Component<any, any> {
