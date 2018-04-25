@@ -4,7 +4,6 @@ import * as Koa from 'koa'
 import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { shallow, mount, render } from 'enzyme';
-import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 var reqInject = require('../dist').reqInject;
 import { chdir, resetdir, initBrowser, initDb } from './util';
 describe('#koa-cola inject global', function () {

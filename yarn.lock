@@ -5673,13 +5673,6 @@ redux-connect@../../redux-connect/:
     babel-runtime "^6.26.0"
     redux-actions "^2.2.1"
 
-redux-connect@7:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/redux-connect/-/redux-connect-7.0.0.tgz#0555cebfa637ebe65499a67e46964d647b6ecd93"
-  dependencies:
-    babel-runtime "^6.26.0"
-    redux-actions "^2.2.1"
-
 redux@^3.6.0:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
@@ -6719,9 +6712,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.3.4:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
+typescript@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
 
 ua-parser-js@^0.7.9:
   version "0.7.17"
