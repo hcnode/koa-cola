@@ -60,6 +60,7 @@ export default function createRouter(routers, pages?) {
       return {
         path: router.path,
         component,
+        exact: true,
         ...(component.childrenComponents
           ? {
               components: component.childrenComponents

@@ -37,10 +37,13 @@ export default async (ctx: Koa.Context, next) => {
     Object.keys(app.config.reduxMiddlewares || {}).map(item => app.config.reduxMiddlewares[item])
   );
   const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer }, ...reducers)), middleware);
-  const url = ctx.originalUrl || ctx.request.url;
+  const url = ctx.path;
   const location = parseUrl(url);
   const branch = matchRoutes(routes, url)
   var component = branch && branch[0] && branch[0].route.component;
+  if(!component){
+    return await next();
+  }
   await loadOnServer({ store, location, routes, helpers: { ctx } });
   // try {
   //   var reactRouter = app.reactRouters.find(

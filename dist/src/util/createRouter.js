@@ -9,7 +9,7 @@ const React = require("react");
 const BrowserRouter_1 = require("react-router-dom/BrowserRouter");
 const redux_1 = require("redux");
 const react_redux_1 = require("react-redux");
-const redux_connect_1 = require("redux-connect-new");
+const redux_connect_new_1 = require("redux-connect-new");
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -58,9 +58,9 @@ function createRouter(routers, pages) {
             return null;
         }
         if (component.name != "Connect") {
-            component = redux_connect_1.asyncConnect([])(component);
+            component = redux_connect_new_1.asyncConnect([])(component);
         }
-        return Object.assign({ path: router.path, component }, (component.childrenComponents
+        return Object.assign({ path: router.path, component, exact: true }, (component.childrenComponents
             ? {
                 components: component.childrenComponents
             }

@@ -4,7 +4,7 @@ const React = require("react");
 const redux_1 = require("redux");
 const server_1 = require("react-dom/server");
 const require_1 = require("../util/require");
-const redux_connect_1 = require("redux-connect-new");
+const redux_connect_new_1 = require("redux-connect-new");
 const layoutWrapper_1 = require("../middlewares/layoutWrapper");
 async function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
     // some errors will have .status
@@ -14,7 +14,7 @@ async function createErrorPage({ env, ctx, error, stack, status = 500, code = 50
     // 如果定义了错误对应的page，则使用page来渲染
     var ErrorPage = app.pages[status];
     if (ErrorPage) {
-        const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_1.reducer })));
+        const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_new_1.reducer })));
         // var childrenComponents = ErrorPage.childrenComponents || {};
         // var components = [
         //     '',

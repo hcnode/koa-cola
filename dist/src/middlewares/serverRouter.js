@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 以下进行server端react router中间件
 const React = require("react");
 const server_1 = require("react-dom/server");
-const redux_connect_1 = require("redux-connect-new");
-var loadSuccess = require("redux-connect/lib/store").loadSuccess;
+const redux_connect_new_1 = require("redux-connect-new");
+var loadSuccess = require("redux-connect-new/lib/store").loadSuccess;
 var createHistory = require("history").createMemoryHistory;
 const react_redux_1 = require("react-redux");
 const redux_1 = require("redux");
@@ -33,12 +33,15 @@ exports.default = async (ctx, next) => {
         return (component && component._reducer) || {};
     });
     var middleware = redux_1.applyMiddleware.apply(null, Object.keys(app.config.reduxMiddlewares || {}).map(item => app.config.reduxMiddlewares[item]));
-    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_1.reducer }, ...reducers)), middleware);
-    const url = ctx.originalUrl || ctx.request.url;
+    const store = redux_1.createStore(redux_1.combineReducers(Object.assign({ reduxAsyncConnect: redux_connect_new_1.reducer }, ...reducers)), middleware);
+    const url = ctx.path;
     const location = url_1.parse(url);
     const branch = react_router_config_1.matchRoutes(routes, url);
     var component = branch && branch[0] && branch[0].route.component;
-    await redux_connect_1.loadOnServer({ store, location, routes, helpers: { ctx } });
+    if (!component) {
+        return await next();
+    }
+    await redux_connect_new_1.loadOnServer({ store, location, routes, helpers: { ctx } });
     // try {
     //   var reactRouter = app.reactRouters.find(
     //     item => item.path == ctx.path
@@ -67,7 +70,7 @@ exports.default = async (ctx, next) => {
         // 2. use `ReduxAsyncConnect` to render component tree
         appHTML = server_1.renderToString(React.createElement(react_redux_1.Provider, { store: store, key: "provider" },
             React.createElement(StaticRouter_1.default, { location: location, context: context },
-                React.createElement(redux_connect_1.ReduxAsyncConnect, { routes: routes, helpers: { ctx } }))));
+                React.createElement(redux_connect_new_1.ReduxAsyncConnect, { routes: routes, helpers: { ctx } }))));
         // handle redirects
         if (context.url) {
             ctx.set("Location", context.url);

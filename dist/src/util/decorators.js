@@ -15,7 +15,7 @@ exports.default = {
     controller: controllerDecorators,
     model: mongooseDecorators,
     view: Object.assign(reduxConnect, {
-        store: require('redux-connect/lib/store'),
+        store: require('redux-connect-new/lib/store'),
         include: views_1.ChildrenComponents
     })
 };

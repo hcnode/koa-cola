@@ -105,14 +105,14 @@ describe('#koa-cola', function() {
 			should(res.text).containEql(coca);
 		});
 
-		it('#view with inject props from controller', async function(){
-			var res = await request(server)
-                .get('/autoLoadFromPages1?foo=bar')
-                .expect(200)
-                .toPromise();
-			should(res.text).containEql('bar');
-			should(res.text).containEql('"ctrl":{"foo":"bar"}');
-		});
+		// it('#view with inject props from controller', async function(){
+		// 	var res = await request(server)
+        //         .get('/autoLoadFromPages1?foo=bar')
+        //         .expect(200)
+        //         .toPromise();
+		// 	should(res.text).containEql('bar');
+		// 	should(res.text).containEql('"ctrl":{"foo":"bar"}');
+		// });
 
 
 		it('#header and bundle decorator', async function(){
