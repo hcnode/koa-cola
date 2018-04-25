@@ -1,6 +1,6 @@
 import * as serialize from 'serialize-javascript';
-export default function(html, store, renderProps, {title}){
-    var name = renderProps.components[1].name;
+export default function(html, store, component, {title}){
+    var name = component.name;
     return `
 <!doctype html>
 <html>

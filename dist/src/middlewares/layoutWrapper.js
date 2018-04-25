@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const serialize = require("serialize-javascript");
 const server_1 = require("react-dom/server");
-exports.default = async (html, component, layout, store, renderProps, ctx) => {
+exports.default = async (html, component, layout, store, ctx) => {
     var __data = '{}';
     try {
         __data = serialize(store.getState());
@@ -33,7 +33,7 @@ exports.default = async (html, component, layout, store, renderProps, ctx) => {
              * 浏览器端的react-redux所需要的文件由下面的injectHtml自动插入
              */
         if (layout) {
-            html = layout(html, store, renderProps, typeof _pagePros == "function" ? await _pagePros(ctx) : _pagePros);
+            html = layout(html, store, component, typeof _pagePros == "function" ? await _pagePros(ctx) : _pagePros);
         }
         else {
             console.log(`${process.cwd()}/views/pages/layout not found`);

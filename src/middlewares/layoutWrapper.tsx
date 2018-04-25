@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server'
-export default async (html, component, layout, store, renderProps, ctx) => {
+export default async (html, component, layout, store, ctx) => {
   var __data = '{}';
   try {
     __data = serialize(store.getState())
@@ -37,7 +37,7 @@ export default async (html, component, layout, store, renderProps, ctx) => {
       html = layout(
         html,
         store,
-        renderProps,
+        component,
         typeof _pagePros == "function" ? await _pagePros(ctx) : _pagePros
       );
     } else {

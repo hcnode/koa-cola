@@ -51,7 +51,7 @@ class MultiChildren extends React.Component<Props, States> {
           <h3>parent</h3>
           {this.props.prop1} - {this.props.prop2} - {this.props.propClick}
         </div>
-        {this.props.Child1}
+        <Child1 {...this.props} />
         <Child2 {...this.props} />
         <Child2 {...this.props} />
       </div>

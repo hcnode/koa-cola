@@ -142,21 +142,21 @@ describe('#koa-cola', function() {
 		});*/
 	});
 
-	describe('#router&provider', function() {
-		it('#router', async function(){
-			var router = app.routers.router;
-			router.should.be.ok;
-			// router.props.children.length.should.be.equal(5);
-			router.props.children[0].type.displayName.should.be.equal('Route');
-			// router.props.children[0].type.should.be.equal(Route);
-			router.props.children[0].props.path.should.be.ok;
-			router.props.children[0].props.component.should.be.ok;
-		});
+	// describe('#router&provider', function() {
+	// 	it('#router', async function(){
+	// 		var router = app.routers.router;
+	// 		router.should.be.ok;
+	// 		// router.props.children.length.should.be.equal(5);
+	// 		router.props.children[0].type.displayName.should.be.equal('Route');
+	// 		// router.props.children[0].type.should.be.equal(Route);
+	// 		router.props.children[0].props.path.should.be.ok;
+	// 		router.props.children[0].props.component.should.be.ok;
+	// 	});
 
-		it('#provider', async function(){
-			// TODO
-		});
-	});
+	// 	it('#provider', async function(){
+	// 		// TODO
+	// 	});
+	// });
 
 	describe('#models', function() {
 		

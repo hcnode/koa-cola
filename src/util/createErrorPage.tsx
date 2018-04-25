@@ -22,18 +22,18 @@ export default async function createErrorPage({
     var ErrorPage = app.pages[status];
     if(ErrorPage){
         const store = createStore(combineReducers(Object.assign({ reduxAsyncConnect: reducer })));
-        var childrenComponents = ErrorPage.childrenComponents || {};
-        var components = [
-            '',
-            ErrorPage,
-            ...Object.keys(childrenComponents).map(key => childrenComponents[key])
-        ];
-        await loadOnServer({components , store, helpers: { ctx } });
+        // var childrenComponents = ErrorPage.childrenComponents || {};
+        // var components = [
+        //     '',
+        //     ErrorPage,
+        //     ...Object.keys(childrenComponents).map(key => childrenComponents[key])
+        // ];
+        // await loadOnServer({components , store, helpers: { ctx } });
         var layout = req(`${process.cwd()}/views/pages/layout`);
-        var appHTML = renderToString(<Provider store={store} key="provider">
+        var appHTML = renderToString(
             <ErrorPage {...arguments[0]} />
-        </Provider>)
-        appHTML = await layoutWrapper(appHTML, components[1], layout, store, {components}, ctx)
+        )
+        appHTML = await layoutWrapper(appHTML, ErrorPage, layout, store, ctx)
         // var {_doNotUseLayout, Header, _bundle, _pagePros = {}} = ErrorPage;
         // if(_doNotUseLayout){
         //     appHTML = `

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Compose, ServerCallApi } from '../../api';
 import { Cola, store } from '../../../client';
+import Child1 from './child1'
 var loadSuccess = store.loadSuccess;
 export interface Props {
   prop1?: any
@@ -31,7 +32,7 @@ export default class Child2 extends React.Component<Props, States>   {
     var result = <div style={{border:"blue solid 1px", padding : '3px', margin : "5px"}}>
       <h3>child2</h3>
       {this.props.prop2} - {this.props.propClick}
-      {this.props.Child1}
+        <Child1 {...this.props} />
     </div>
     return result;
   }

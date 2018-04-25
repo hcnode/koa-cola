@@ -3,7 +3,7 @@
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
  */
-export default function createRouter(routers: any): void;
+export default function createRouter(routers: any, pages?: any): any;
 /**
  * 参考 app_test/views/app.tsx :
  *
