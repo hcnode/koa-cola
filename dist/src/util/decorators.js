@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const controllerDecorators = require("controller-decorators");
 // import * as mongooseDecorators from 'mongoose-decorators';
-const reduxConnect = require("redux-connect");
+const reduxConnect = require("redux-connect-new");
 const views_1 = require("../decorators/views");
 try {
     var mongooseDecorators = require('mongoose-decorators');

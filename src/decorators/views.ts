@@ -30,7 +30,7 @@ export function pageProps(pageProps) {
 export function doNotUseLayout(target: any) {
   target._doNotUseLayout = true;
 }
-import { asyncConnect } from "redux-connect";
+import { asyncConnect } from "redux-connect-new";
 
 export function Cola({
   initData = {},

@@ -3,7 +3,7 @@ import injectGlobal from "./src/util/injectGlobal";
 import mongooseDecorators from "mongoose-decorators";
 
 import controllerDecorators from "controller-decorators";
-import * as reduxConnect from "redux-connect";
+import * as reduxConnect from "redux-connect-new";
 import {
   Cola,
   ChildrenComponents,
@@ -13,7 +13,7 @@ import {
   pageProps,
   autoRouter
 } from "./src/decorators/views";
-import * as store from 'redux-connect/lib/store'
+import * as store from 'redux-connect-new/lib/store'
 export { Base as ApiBase, fetch as apiFetch } from "./src/util/api";
 export { createProvider } from "./src/util/createRouter";
 export { injectGlobal, run as RunApp };

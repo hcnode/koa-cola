@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 以下进行server端react router中间件
 const React = require("react");
 const server_1 = require("react-dom/server");
-const redux_connect_1 = require("redux-connect");
+const redux_connect_1 = require("redux-connect-new");
 var loadSuccess = require("redux-connect/lib/store").loadSuccess;
 var createHistory = require("history").createMemoryHistory;
 const react_redux_1 = require("react-redux");

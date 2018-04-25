@@ -16,11 +16,11 @@ exports.pageProps = views_1.pageProps;
 exports.autoRouter = views_1.autoRouter;
 const createRouter_1 = require("./dist/src/util/createRouter");
 exports.createProvider = createRouter_1.createProvider;
-const store = require("redux-connect/lib/store");
+const store = require("redux-connect-new/lib/store");
 exports.store = store;
 var api_1 = require("./dist/src/util/api");
 exports.ApiBase = api_1.Base;
 exports.apiFetch = api_1.fetch;
-__export(require("redux-connect"));
+__export(require("redux-connect-new"));
 __export(require("controller-decorators"));
 //# sourceMappingURL=client.js.map

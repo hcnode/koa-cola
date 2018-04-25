@@ -2,8 +2,8 @@
 import * as React from "react";
 import * as Koa from "koa";
 import { renderToString } from "react-dom/server";
-import { ReduxAsyncConnect, loadOnServer, reducer } from "redux-connect";
-var loadSuccess = require("redux-connect/lib/store").loadSuccess;
+import { ReduxAsyncConnect, loadOnServer, reducer } from "redux-connect-new";
+var loadSuccess = require("redux-connect-new/lib/store").loadSuccess;
 var createHistory = require("history").createMemoryHistory;
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";

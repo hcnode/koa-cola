@@ -73,6 +73,7 @@
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.2.2",
     "redux": "^3.6.0",
+    "redux-connect-new": "^7.0.1",
     "reflect-metadata": "^0.1.10",
     "require-dir": "github:hcnode/requireDir",
     "serialize-javascript": "^1.3.0",

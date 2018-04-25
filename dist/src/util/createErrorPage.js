@@ -4,7 +4,7 @@ const React = require("react");
 const redux_1 = require("redux");
 const server_1 = require("react-dom/server");
 const require_1 = require("../util/require");
-const redux_connect_1 = require("redux-connect");
+const redux_connect_1 = require("redux-connect-new");
 const layoutWrapper_1 = require("../middlewares/layoutWrapper");
 async function createErrorPage({ env, ctx, error, stack, status = 500, code = 500 }) {
     // some errors will have .status

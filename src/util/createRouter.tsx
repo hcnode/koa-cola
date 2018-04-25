@@ -10,7 +10,7 @@ import renderRoutes from "react-router-config/renderRoutes";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { asyncConnect } from "redux-connect";
+import { asyncConnect } from "redux-connect-new";
 
 /**
  * 创建node端react路由并保存在全局app.routers.router
