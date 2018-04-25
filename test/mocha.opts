@@ -4,5 +4,5 @@
 
 test/index.test.tsx
 test/injectGlobal.test.tsx
-test/middlewares.test.tsx
+test/middlewares.test.ts
 test/pepsi.mode.test.tsx
