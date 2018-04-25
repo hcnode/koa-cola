@@ -31,11 +31,7 @@ class FooController {
 
   @Get("/simpleView")
   @View("simpleView")
-  simpleView(@Ctx() ctx) {
-    return {
-      foo_from_ctrl: "bar from ctrl"
-    };
-  }
+  simpleView(@Ctx() ctx) {}
 }
 interface Props {
   foo: string;
@@ -84,8 +80,8 @@ describe("#koa-cola pepsi mode", function() {
       },
       pages: {
         pepsiView: PepsiView,
-        simpleView: function({ ctrl: { foo_from_ctrl } }) {
-          return <div>{foo_from_ctrl}</div>;
+        simpleView: function() {
+          return <div>foo</div>;
         }
       }
       /*models : {
@@ -132,12 +128,12 @@ describe("#koa-cola pepsi mode", function() {
       res.text.should.be.containEql("fooooo");
     });
 
-    it("# view router && inject views && use props return from controller", async function() {
-      var res = await request(server)
-        .get("/simpleView")
-        .expect(200)
-        .toPromise();
-      res.text.should.be.containEql("bar from ctrl");
-    });
+    // it("# view router && inject views && use props return from controller", async function() {
+    //   var res = await request(server)
+    //     .get("/simpleView")
+    //     .expect(200)
+    //     .toPromise();
+    //   res.text.should.be.containEql("bar from ctrl");
+    // });
   });
 });
