@@ -10,25 +10,114 @@ koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开�
 
 ## 特点
 * SSR+SPA的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
-* 使用koa作为web服务（使用node8可以使用最新的v8高性能原生使用async/await）
+* 前后端同构，包括组件/路由/redux/ajax的同构
 * 使用typescript开发
-* 使用完整的react技术栈(包括react-router和react-redux)
-* react相关代码前后端复用(包括component渲染、react-router和react-redux)
+* 使用es7的decorator和async/await编码风格
 
 
 ## 如何使用
 
 koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的最新的v8版本，而且8.0会在[今年10月正式激活LTS](https://github.com/nodejs/LTS)，因为koa-cola的async/await是原生方式使用没有经过transform，所以不支持node7.6以下的node版本。
 
-* `npm i koa-cola ts-node -g` 安装全局koa-cola和ts-node
+* `npm i koa-cola -g` 安装全局koa-cola
 * `koa-cola new koa-cola-app` 在当前文件夹创建名字为app的新koa-cola项目，创建完整的目录结构，并自动安装依赖
 * `cd koa-cola-app`
-* `koa-cola dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
+* `npm run dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
 
-视频演示：
+koa-cola-app/views/pages/index.tsx源码:
+```tsx
+import * as React from "react";
+import { Cola, store } from "koa-cola/client";
+import { GetFooApi } from "../../api";
+var loadSuccess = store.loadSuccess;
+// api同构调用，可能在服务器端调用，也可能在浏览器端调用，区别是是否存在koa的ctx对象
+async function callApi(ctx?) {
+  var getFooApi = new GetFooApi({});
+  await getFooApi.fetch(ctx);
+  var result: any = getFooApi.result;
+  return `api called from ${ctx ? "server" : "client"}, data:${result.data}`;
+}
 
-<a href="http://www.koa-cola.com/doc/video/koa-cola-dev.mp4" target="_blank"><img src="http://www.koa-cola.com/doc/video/poster.png" width="500" /></a>
+@Cola({
+  // redux同构，页面请求时，数据在服务器端初始化；单页面跳转时，数据在浏览器端异步请求
+  initData: {
+    hello: () => {
+      return Promise.resolve("Wow koa-cola!");
+    },
+    apiDataCallFromServer: async ({ params, helpers }) => {
+      return await callApi(helpers.ctx);
+    }
+  },
+  // react-redux "mapDispatchToProps"
+  mapDispatchToProps: dispatch => {
+    return {
+      // 修改redux同构的props
+      onClick: () => {
+        dispatch(loadSuccess("hello", "Wow koa-cola and bundle work!"));
+      },
+      // 浏览器端redux流
+      callApiFromClient: async () => {
+        var data = await callApi();
+        dispatch({
+          type: "CALL_API",
+          data
+        });
+      },
+      // 使用了redux-thunk中间件，中间件定义在/config/reduxMiddlewares.js
+      reduxThunk: () => {
+        return dispatch(async () => {
+          await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+          dispatch({
+            type: "REDUX_THUNK",
+            data: "this is from reduxMiddleware"
+          });
+        });
+      }
+    };
+  },
+  // react-redux "mapStateToProps"
+  mapStateToProps: state => {
+    return state;
+  },
+  // reducer of redux
+  reducer: {
+    apiDataCallFromClient: (state = "", action) => {
+      switch (action.type) {
+        case "CALL_API":
+          return action.data;
+        default:
+          return state;
+      }
+    },
+    dataFromReduxThunk: (state = "", action) => {
+      switch (action.type) {
+        case "REDUX_THUNK":
+          return action.data;
+        default:
+          return state;
+      }
+    }
+  }
+})
+export default class App extends React.Component<any, any> {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.hello}</h1>
+        <button onClick={this.props.onClick}>check bundle if work</button>&nbsp;
+        <button onClick={this.props.callApiFromClient}>call from client</button>&nbsp;
+        <button onClick={this.props.reduxThunk}>redux thunk</button>&nbsp;
+        <div>
+          redux date flow in server side : {this.props.apiDataCallFromServer} <br />
+          redux date flow in client side : {this.props.apiDataCallFromClient} <br />
+          redux middleware : {this.props.dataFromReduxThunk} <br />
+        </div>
+      </div>
+    );
+  }
+}
 
+```
 
 ## 对比next.js
 

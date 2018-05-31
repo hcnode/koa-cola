@@ -11,7 +11,7 @@ async function callApi(ctx?) {
 }
 
 @Cola({
-  // redux同构，页面请求时，数据在服务器端初始化，单页面跳转时，数据在浏览器端异步请求
+  // redux同构，页面请求时，数据在服务器端初始化；单页面跳转时，数据在浏览器端异步请求
   initData: {
     hello: () => {
       return Promise.resolve("Wow koa-cola!");
@@ -20,6 +20,7 @@ async function callApi(ctx?) {
       return await callApi(helpers.ctx);
     }
   },
+  // react-redux "mapDispatchToProps"
   mapDispatchToProps: dispatch => {
     return {
       // 修改redux同构的props
@@ -34,6 +35,7 @@ async function callApi(ctx?) {
           data
         });
       },
+      // 使用了redux-thunk中间件，中间件定义在/config/reduxMiddlewares.js
       reduxThunk: () => {
         return dispatch(async () => {
           await new Promise((resolve, reject) => setTimeout(resolve, 1000));
@@ -45,9 +47,11 @@ async function callApi(ctx?) {
       }
     };
   },
+  // react-redux "mapStateToProps"
   mapStateToProps: state => {
     return state;
   },
+  // reducer of redux
   reducer: {
     apiDataCallFromClient: (state = "", action) => {
       switch (action.type) {
