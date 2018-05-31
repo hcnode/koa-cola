@@ -52,6 +52,7 @@ function build({watch, production} = {}){
     var routers = app.reactRouters.map(({component, path}) => ({
       component, path
     }));
+    
     var viewsStr = routers.map(router => {
       var page = router.component;
       return `'${page}' : require('./pages/${page}').default,`;
@@ -68,23 +69,19 @@ function build({watch, production} = {}){
 }
 
 function launch(){
-  if (fs.existsSync(`${process.cwd()}/app.ts`)) {
+  if (fs.existsSync(`${process.cwd()}/app.js`)) {
     shell.exec(
-      `ts-node -F ${process.cwd()}/app.ts`
-    );
-  } else if (fs.existsSync(`${process.cwd()}/app.tsx`)) {
-    shell.exec(
-      `ts-node -F ${process.cwd()}/app.tsx`
+      `node ${process.cwd()}/app.js`
     );
   } else {
-    console.log(chalk.red(`${process.cwd()}/app.ts(x) not found`));
+    console.log(chalk.red(`${process.cwd()}/app.js not found`));
     process.exit(1);
   }
 }
 function bgLaunch(noCache){
   return new Promise((resolve, reject) => {
     const { exec } = require('child_process');
-    launchProcess = exec(`${noCache ? (os == 'win32' ? 'set KOA_COLA_CACHE=no && ' : 'KOA_COLA_CACHE=no ') : ''} ts-node ${noCache ? '--no-cache ' : ''}app.ts `, (error) => {
+    launchProcess = exec(`${noCache ? (os == 'win32' ? 'set KOA_COLA_CACHE=no&&' : 'KOA_COLA_CACHE=no ') : ''} node app.js `, (error) => {
       if (error) {
         console.error(`exec error: ${error}`);
         return;
