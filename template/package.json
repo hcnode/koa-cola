@@ -2,11 +2,11 @@
   "name": "app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "app.js",
   "scripts": {
-    "watch": "webpack --progress --profile --colors --watch",
-    "build": "webpack -p",
-    "local": "NODE_ENV=local ts-node -F ./app.ts"
+    "watch": "koa-cola build -w",
+    "local": "koa-cola",
+    "dev": "koa-cola dev"
   },
   "author": "",
   "license": "MIT",
