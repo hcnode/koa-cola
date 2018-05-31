@@ -14,6 +14,7 @@ koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开�
 * 使用typescript开发
 * 使用es7的decorator和async/await编码风格
 
+**最新的0.6.1支持react16和react-router v4**
 
 ## 如何使用
 

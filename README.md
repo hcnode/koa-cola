@@ -15,6 +15,8 @@
 * typescript
 * es7 decorator/async coding style
 
+**react16 and react-router v4 support in 0.6.1**
+
 ## Usage
 
 because koa-cola require latest koa version.
