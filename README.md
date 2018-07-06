@@ -233,8 +233,16 @@ export default class Page extends React.Component{
 
 ```
 
+[simple demo](http://23.105.199.73/demo/)
+
 [todolist demo](http://23.105.199.73)
 
-[simple demo](http://23.105.199.73/demo/)
+try demo in local:
+
+* `git clone https://github.com/koa-cola/todolist`
+* `cd todolist`
+* `npm i`
+* `npm run local`
+
 
 visit [koa-cola website](https://koa-cola.github.io/) for more detail
