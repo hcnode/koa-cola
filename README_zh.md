@@ -197,11 +197,10 @@ koa-cola不但可以支持component的数据初始化，还可以合并page和co
 [simple demo](http://23.105.199.73/demo/)
 
 使用方法：
-* `npm i koa-cola ts-node typescript -g`
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
 * `npm i`
-* `koa-cola dev`
+* `npm run local`
 
 更多详情请查看[官方文档](http://koa-cola.com/doc/index.html)
 
