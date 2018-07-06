@@ -233,6 +233,8 @@ export default class Page extends React.Component{
 
 ```
 
-[online demo](http://koa-cola.com:3000/)
+[todolist demo](http://23.105.199.73)
+
+[simple demo](http://23.105.199.73/demo/)
 
 visit [koa-cola website](https://koa-cola.github.io/) for more detail
