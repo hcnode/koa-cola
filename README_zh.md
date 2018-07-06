@@ -202,5 +202,5 @@ koa-cola不但可以支持component的数据初始化，还可以合并page和co
 * `npm i`
 * `npm run local`
 
-更多详情请查看[官方文档](http://koa-cola.com/doc/index.html)
+更多详情请查看[官方文档](http://koa-cola.github.io/)
 
