@@ -190,9 +190,11 @@ koa-cola不但可以支持component的数据初始化，还可以合并page和co
 ## Examples
 使用[官方react-redux的todolist](http://redux.js.org/docs/basics/UsageWithReact.html)作为基础，演示了官方的和基于koa-cola的例子（完整的mvc结构）
 
-**demo依赖本地的mongodb**
+**todolist demo依赖本地的mongodb**
 
-[online demo](http://koa-cola.com:3000/)
+[todolist demo](http://23.105.199.73)
+
+[simple demo](http://23.105.199.73/demo/)
 
 使用方法：
 * `npm i koa-cola ts-node typescript -g`
