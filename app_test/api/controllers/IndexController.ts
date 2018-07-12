@@ -80,8 +80,8 @@ export default class {
   }
 
   @Get('/isLogin')
-  @Use(setUser)
-  @Use(isLogin)
+  @Use(setUser, isLogin)
+  // @Use(isLogin)
   isLogin(@Ctx() ctx) {
     return 'logined.';
   }

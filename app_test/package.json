@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "ts-node ../bin/koa-cola.js build -w",
-    "local": "NODE_ENV=local ../node_modules/ts-node/dist/bin.js -F ./app.ts"
+    "local": "NODE_ENV=local node ./app.js"
   },
   "author": "",
   "license": "ISC",

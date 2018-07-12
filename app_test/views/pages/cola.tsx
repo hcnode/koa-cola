@@ -33,6 +33,7 @@ export const coca2 = "this is coca-cola again";
 export const timeout = 500;
 
 @Cola({
+  // 数据初始化, 前后端同构
   initData: {
     pepsi: ({ params, helpers }) => {
       return Promise.resolve(pepsi);
@@ -56,6 +57,7 @@ export const timeout = 500;
   },
   mapDispatchToProps: dispatch => {
     return {
+      // 同步update props数据pepsi
       onClick: () => {
         dispatch(loadSuccess("pepsi", pepsi2));
         dispatch({
@@ -63,17 +65,20 @@ export const timeout = 500;
           data: pepsi2
         });
       },
+      // 模拟异步update props数据coca
       onAsyncClick: async () => {
         var data = await new Promise((resolve, reject) => {
           setTimeout(() => resolve(coca2), timeout);
         });
         dispatch(loadSuccess("coca", data));
       },
+      // 异步请求
       ajax: async () => {
         var compose = new Compose({ foo: "bar" });
         compose = await compose.fetch();
         console.log(compose);
       },
+      // redux-thunk中间件
       reduxMiddleware : () => {
         return dispatch(() => {
           return new Promise((resolve, reject) => {
@@ -116,7 +121,6 @@ class App extends React.Component<Props, States> {
   }
   componentDidMount() {}
   render() {
-    
     var result = (
       <div>
         <div>

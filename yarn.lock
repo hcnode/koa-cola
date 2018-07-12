@@ -59,6 +59,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/formidable@^1.0.31":
+  version "1.0.31"
+  resolved "https://registry.yarnpkg.com/@types/formidable/-/formidable-1.0.31.tgz#274f9dc2d0a1a9ce1feef48c24ca0859e7ec947b"
+  dependencies:
+    "@types/events" "*"
+    "@types/node" "*"
+
 "@types/history@*":
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.2.tgz#12cfaba693ba20f114ed5765467ff25fdf67ddb0"
@@ -123,7 +130,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.3.12":
+"@types/react@*":
   version "16.3.12"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.12.tgz#68d9146f3e9797e38ffbf22f7ed1dde91a2cfd2e"
   dependencies:
@@ -4003,10 +4010,11 @@ koa-adapter@0.0.3:
     co "^4.6.0"
     is-generator-function "^1.0.3"
 
-koa-body@^2.1.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/koa-body/-/koa-body-2.5.0.tgz#84e8fcd8d5229a8cc1cb98a926e939069e716915"
+koa-body@^4.0.1:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/koa-body/-/koa-body-4.0.4.tgz#70c04ba21b37f230476c280a41858dc37ca838ee"
   dependencies:
+    "@types/formidable" "^1.0.31"
     co-body "^5.1.1"
     formidable "^1.1.1"
 
@@ -5623,6 +5631,10 @@ redux-connect-new@^7.0.1:
   dependencies:
     babel-runtime "^6.26.0"
     redux-actions "^2.2.1"
+
+redux-thunk@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
 redux@^3.6.0:
   version "3.7.2"
