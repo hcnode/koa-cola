@@ -1,3 +1,4 @@
+/// <reference types="react" />
 /**
  * 创建node端react路由并保存在全局app.routers.router
  * @param routers
@@ -18,4 +19,4 @@ export default function createRouter(routers: any, pages?: any): any;
  * @param controllers controller数组
  * @param views react page页面数组
  */
-export declare function createProvider(routers: any, views?: any, reduxMiddlewares?: any): () => any;
+export declare function createProvider(routers: any, views?: any, reduxMiddlewares?: any): () => JSX.Element;
