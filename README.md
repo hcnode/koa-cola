@@ -114,8 +114,8 @@ export default class App extends React.Component<any, any> {
         <button onClick={this.props.callApiFromClient}>call from client</button>&nbsp;
         <button onClick={this.props.reduxThunk}>redux thunk</button>&nbsp;
         <div>
-          redux date flow in server side : {this.props.apiDataCallFromServer} <br />
-          redux date flow in client side : {this.props.apiDataCallFromClient} <br />
+          redux data flow in server side : {this.props.apiDataCallFromServer} <br />
+          redux data flow in client side : {this.props.apiDataCallFromClient} <br />
           redux middleware : {this.props.dataFromReduxThunk} <br />
         </div>
       </div>
