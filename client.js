@@ -23,4 +23,6 @@ exports.ApiBase = api_1.Base;
 exports.apiFetch = api_1.fetch;
 __export(require("redux-connect-new"));
 __export(require("controller-decorators"));
-//# sourceMappingURL=client.js.map
+
+exports.validateMiddleware = require("./dist/src/middlewares/validate").default;
+exports.validateForm = require("./dist/src/util/validateForm").default

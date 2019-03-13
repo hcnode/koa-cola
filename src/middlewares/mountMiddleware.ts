@@ -5,9 +5,11 @@
 
 import * as Koa from 'koa';
 import { req } from '../util/require';
+import validatorMiddleware from './validate'
 export default function createMiddleware(koaApp : Koa){
     var defaultMiddlewares = require('./defaultMiddlewares').default;
     var middlewares : any = app.config.middlewares || {};
+    var validators : any = app.config.validators || {};
     var customMiddlewares = [];
     Object.keys(middlewares).forEach(key => {
         if(middlewares[key]){
@@ -26,8 +28,17 @@ export default function createMiddleware(koaApp : Koa){
             defaultMiddlewares = defaultMiddlewares.filter(item => item.name != key)
         }
     });
+    
+    Object.keys(validators).forEach(key => {
+        var validator = validators[key];
+        customMiddlewares.push({
+            name : `validate_${key}`,
+            func : validatorMiddleware,
+            args : validator
+        })
+    });
     // 合并中间件
-    var combineMiddlewares = defaultMiddlewares.filter(item => !customMiddlewares.find(item2 => item2.name == item.name)).concat(customMiddlewares);
+    var combineMiddlewares = [...defaultMiddlewares.filter(item => !customMiddlewares.find(item2 => item2.name == item.name)), ...customMiddlewares];
     var keys = combineMiddlewares.map(item => item.name);
     // 排序
     if(app.config.sort){
