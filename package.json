@@ -27,6 +27,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/trace-agent": "github:googleapis/cloud-trace-nodejs",
     "@types/form-data": "^2.2.1",
     "@types/koa": "^2.0.44",
     "@types/koa-router": "^7.0.27",
