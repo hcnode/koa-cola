@@ -155,4 +155,20 @@ export default class {
       koa : body.foo
     }
   }
+  
+  @Get('/createUser')
+  async createUser(){
+    var User = app.mongoose.model('User');
+    await User.create({name : 'Harry', email : 'hcnode@gmail.com'});
+    return await User.find({});
+  }
+
+  @Get('/validate')
+  @View('validate')
+  validate() {}
+
+  @Post('/validatePost')
+  validatePost(@Body() body: any) {
+    return body;
+  }
 }
