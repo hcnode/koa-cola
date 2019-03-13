@@ -20,7 +20,7 @@ export default (conf) => {
             var fields = conf.fields || [];
             for(var field of fields){
                 if(!validateFunc({...field, body})){
-                    ctx.throw({status : 400, msg : field.msg}) 
+                    throw({ status: 400, message: field.msg });
                 }
             }
         }
