@@ -4,9 +4,6 @@ import {createProvider} from 'koa-cola/client'
 
 var Provider = createProvider(
     // routers
-,{
-    // views
-} 
     // redux-middleware
 );
 

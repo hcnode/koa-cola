@@ -105,20 +105,25 @@ export default function createRouter(routers, pages?) {
 /**
  * 参考 app_test/views/app.tsx :
  * 
- * var Provider = createProvider([
-        require('../api/controllers/IndexController').default
-    ],{
-        cola : require('./pages/cola').default,
-        simple : require('./pages/simple').default,
-    });
+ * 
+  var Provider = createProvider([
+      {
+        "component": "simple",
+        "path": "/simple",
+        "page" : require('./pages/simple').default
+      },
+  ]);
 
-    render(<Provider />, document.getElementById('app'))
+  render(<Provider />, document.getElementById('app'))
 
  * @param controllers controller数组
  * @param views react page页面数组
  */
 /* istanbul ignore next */
-export function createProvider(routers, views?, reduxMiddlewares?) {
+export function createProvider(routers, reduxMiddlewares?) {
+  var views = routers.reduce((views, router) => {
+    return {...views, [router.component] : router.page}
+  }, {})
   const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   
   var { ReduxAsyncConnect, reducer } = require("../../../client");

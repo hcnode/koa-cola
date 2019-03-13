@@ -58,9 +58,11 @@ function build({watch, production} = {}){
       return `'${page}' : require('./pages/${page}').default,`;
     }); 
     var appStr = fs.readFileSync(projectAppTsxPath).toString()
-      .replace('// routers', JSON.stringify(routers, null, '\t'))
+      .replace('// routers', JSON.stringify(routers.map(router => {
+        return {...router, page : `require('./pages/${router.component}').default`}
+      }), null, '\t').replace(/\"require/gi, "require").replace(/default\"/gi, "default"))
       .replace('// redux-middleware', reduxMiddlewareStr)
-      .replace('// views', viewsStr.join('\n'));
+      // .replace('// views', viewsStr.join('\n'));
     fs.writeFileSync(projectAppTsxPath, appStr);
     console.log(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
     shell.exec(`webpack ${watch ? '-w' : ''} ${production ? '-p' : ''}`);
