@@ -22,7 +22,7 @@ export default (conf, url?) => {
             this.submit = this.submit.bind(this)
         }
         form = null
-        iterateFields (onError, onValidate?){
+        iterateFields(onError, onValidate?) {
             var form = this.form;
             var fields = Array.from(form.elements);
             for (var field of conf.fields) {
@@ -32,8 +32,7 @@ export default (conf, url?) => {
                     name: field.name, validate: field.validate, allowEmpty: field.allowEmpty
                 })) {
                     return onError(field, elField);
-                   
-                }else{
+                } else {
                     onValidate && onValidate(field, elField);
                 }
             }
@@ -49,7 +48,7 @@ export default (conf, url?) => {
             this.iterateFields((field, elField) => {
                 conf.onError(field.msg)
             }, (field, elField) => {
-                if(elField){
+                if (elField) {
                     body[field.name] = elField.value;
                 }
             })

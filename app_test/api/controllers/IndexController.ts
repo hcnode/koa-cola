@@ -160,7 +160,7 @@ export default class {
   async createUser(){
     var User = app.mongoose.model('User');
     await User.create({name : 'Harry', email : 'hcnode@gmail.com'});
-    return await User.find({});
+    return await User.find({}).then();
   }
 
   @Get('/validate')

@@ -12,6 +12,7 @@ const mountMiddleware_1 = require("./middlewares/mountMiddleware");
 const serverRouter_1 = require("./middlewares/serverRouter");
 const createErrorPage_1 = require("./util/createErrorPage");
 const injectGlobal_1 = require("./util/injectGlobal");
+const klg_tracer_1 = require("klg-tracer");
 /**
  * colaApp 参数，可以作为可选的注入方式覆盖app的文件配置，module替换
  *
@@ -40,6 +41,29 @@ const injectGlobal_1 = require("./util/injectGlobal");
 function default_1(colaApp) {
     // 注入全局变量
     var routerRoutes = injectGlobal_1.default(colaApp);
+    if (app.config.tracer) {
+        new klg_tracer_1.TraceService().registerHooks({
+            httpServer: {
+                useKoa: true,
+                Koa
+                // 过滤器，只记录特定接口, 注意 return true 的才会被过滤
+                //   requestFilter: function (req) {
+                //     const urlParsed = url.parse(req.url, true);
+                //     return urlParsed.pathname.indexOf('product/') === -1;
+                //   }
+            },
+            mongodb: {
+                enabled: true,
+                options: {
+                    useMongoose: true,
+                    mongodb: require('mongodb')
+                }
+            }
+        }).registerMongoReporter({
+            mongoUrl: app.config.tracer.mongoUrl,
+            collectionName: 'tracer'
+        });
+    }
     var koaApp = new Koa();
     // global.app.koaApp = koaApp
     // handle error, including 404

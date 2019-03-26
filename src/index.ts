@@ -18,6 +18,9 @@ import { bindRoutes } from 'controller-decorators';
 import createErrorPage from './util/createErrorPage'
 import injectGlobal from './util/injectGlobal';
 import { reqDir } from './util/require';
+
+import { TraceService, Tracer } from 'klg-tracer'
+
 /**
  * colaApp 参数，可以作为可选的注入方式覆盖app的文件配置，module替换
  * 
@@ -45,9 +48,32 @@ import { reqDir } from './util/require';
  */
 export default function (colaApp?) {
 
-    
+
     // 注入全局变量
-    var routerRoutes = injectGlobal(colaApp); 
+    var routerRoutes = injectGlobal(colaApp);
+    if (app.config.tracer) {
+        new TraceService().registerHooks({
+            httpServer: {
+                useKoa: true, // 在 koa 设置钩子，比直接在 http 层设置钩子稳定
+                Koa
+                // 过滤器，只记录特定接口, 注意 return true 的才会被过滤
+                //   requestFilter: function (req) {
+                //     const urlParsed = url.parse(req.url, true);
+                //     return urlParsed.pathname.indexOf('product/') === -1;
+                //   }
+            },
+            mongodb: {
+              enabled: true,
+              options: {
+                useMongoose: true,
+                mongodb: require('mongodb')
+              }
+            }
+        }).registerMongoReporter({
+            mongoUrl: app.config.tracer.mongoUrl,
+            collectionName: 'tracer'
+        });
+    }
 
     var koaApp = new Koa();
     // global.app.koaApp = koaApp
@@ -64,11 +90,11 @@ export default function (colaApp?) {
             var status = err.status;
             if (!status && err.message) {
                 status = /invalid status code: (\d+)/.test(err.message) && (RegExp.$1);
-                if(status){
+                if (status) {
                     status -= 0;
                 }
             }
-            if(app.config.httpCodes){
+            if (app.config.httpCodes) {
                 var statuses = require('statuses');
                 Object.assign(statuses, app.config.httpCodes);
                 // statuses['450'] = 'this is custom http status code';
@@ -82,7 +108,7 @@ export default function (colaApp?) {
             if (status && !http.STATUS_CODES[status]) {
                 message = require('statuses')[status] || 'unknow error';
             }
-            if(typeof message == 'object'){
+            if (typeof message == 'object') {
                 message = JSON.stringify(message);
             }
             // accepted types
@@ -91,8 +117,8 @@ export default function (colaApp?) {
                     ctx.body = message;
                     break;
                 case 'json':
-                    ctx.body = { error: message, code : ctx.status };
-                    if(process.env.NODE_ENV != 'production'){
+                    ctx.body = { error: message, code: ctx.status };
+                    if (process.env.NODE_ENV != 'production') {
                         ctx.body.stack = err.stack;
                     }
                     break;
@@ -115,6 +141,7 @@ export default function (colaApp?) {
             ctx.app.emit('error', err, ctx);
         }
     });
+    
     koaApp.keys = ['iTIssEcret'];
     if (app.config.session) {
         // redis session
