@@ -11,11 +11,11 @@
 
 ### Features
 * completely and seamlessly SSR/SPA solution
-* "isomorphic" component/router/redux/ajax in both client and server side
+* "isomorphic" component/router/redux/ajax/validation in both client and server side
 * typescript
 * es7 decorator/async coding style
 
-**react16 and react-router v4 supported in 0.6.1**
+**react16 and react-router v4 supported from v0.6.1**
 
 ## Usage
 
@@ -23,7 +23,7 @@ koa-cola require latest version of koa.
 
 > Koa requires node v7.6.0 or higher for ES2015 and async function support.
 
-so koa-cola requires node v7.6.0 or higher as well. Node.js v8 comes with significantly improved performance of ES2017 async functions, so node v8 or higher is recommended. 
+koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with significantly improved performance of ES2017 async functions, so node.js 8.0 or higher is recommended. 
 
 * `npm i koa-cola -g` install global koa-cola
 * `koa-cola new koa-cola-app` create new koa-cola project in current folder
