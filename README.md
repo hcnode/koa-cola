@@ -5,33 +5,30 @@
 [![Coverage Status](https://coveralls.io/repos/github/hcnode/koa-cola/badge.svg?branch=master)](https://coveralls.io/github/hcnode/koa-cola?branch=master)
 [![npm](https://img.shields.io/npm/v/koa-cola.svg)](https://www.npmjs.com/package/koa-cola)
 
-[中文版readme](https://github.com/hcnode/koa-cola/blob/master/README_zh.md)
+[koa-cola](http://www.koa-cola.com)是一个基于koa和react的服务器端SSR(server side render)和浏览器端的SPA(single page application)的web前后端全栈应用框架。
 
-[koa-cola](https://koa-cola.github.io/) is SSR(server side render)/SPA(singe page application) framework with koa/react/react-router/redux/typescript, and using react stack(react component/react-router/react-redux) and "isomorphic" codes (used in both browser and server side).
+koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、redux、router）。
 
+## 特点
+* SSR+SPA的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
+* 前后端同构，包括组件/路由/redux/ajax/validation的同构
+* 使用typescript开发
+* 使用es7的decorator和async/await编码风格
 
-### Features
-* completely and seamlessly SSR/SPA solution
-* "isomorphic" component/router/redux/ajax/validation in both client and server side
-* typescript
-* es7 decorator/async coding style
+**最新的v0.6.1支持react16和react-router v4**
 
-**react16 and react-router v4 supported from v0.6.1**
+**validation前后端同构在最新的v0.7支持**，详细可以[查看](https://koa-cola-zh-cn.github.io/universal-validation.html)
 
-## Usage
+## 如何使用
 
-koa-cola require latest version of koa.
+koa-cola支持node.js的版本包括7.6和8，建议使用8，因为8.0使用的最新的v8版本，而且8.0会在[今年10月正式激活LTS](https://github.com/nodejs/LTS)，因为koa-cola的async/await是原生方式使用没有经过transform，所以不支持node7.6以下的node版本。
 
-> Koa requires node v7.6.0 or higher for ES2015 and async function support.
-
-koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with significantly improved performance of ES2017 async functions, so node.js 8.0 or higher is recommended. 
-
-* `npm i koa-cola -g` install global koa-cola
-* `koa-cola new koa-cola-app` create new koa-cola project in current folder
+* `npm i koa-cola -g` 安装全局koa-cola
+* `koa-cola new koa-cola-app` 在当前文件夹创建名字为app的新koa-cola项目，创建完整的目录结构，并自动安装依赖
 * `cd koa-cola-app`
-* `npm run dev` start dev mode to build bundle and launch server.
+* `npm run dev` dev模式启动，build webpack bundle、launch项目、并自动打开浏览器
 
-`Cola` decorator:
+Cola 装饰器使用方法：
 
 ```tsx
 import * as React from "react";
@@ -45,7 +42,7 @@ async function callApi(ctx?) {
   var result: any = getFooApi.result;
   return `api called from ${ctx ? "server" : "client"}, data:${result.data}`;
 }
-// use Cola decorator to "isomorphic" redux data flow, includes data init, redux flow
+
 @Cola({
   // redux同构，页面请求时，数据在服务器端初始化；单页面跳转时，数据在浏览器端异步请求
   initData: {
@@ -128,12 +125,11 @@ export default class App extends React.Component<any, any> {
 ```
 
 
-try demo in local:
-
+本地运行demo：
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
 * `npm i`
 * `npm run local`
 
+更多详情请查看[官方文档](http://koa-cola.github.io/)
 
-visit [koa-cola website](https://koa-cola.github.io/) for more detail
