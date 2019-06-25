@@ -60,7 +60,7 @@ function default_1(colaApp) {
                 }
             }
         }).registerMongoReporter({
-            mongoUrl: app.config.tracer.mongoUrl,
+            mongoUrl: app.config.mongodb,
             collectionName: 'tracer'
         });
     }
