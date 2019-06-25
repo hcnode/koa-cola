@@ -51,7 +51,7 @@ export default function (colaApp?) {
 
     // 注入全局变量
     var routerRoutes = injectGlobal(colaApp);
-    if (app.config.tracer) {
+    if (app.config.tracer && process.env.NODE_ENV != 'test') {
         new TraceService().registerHooks({
             httpServer: {
                 useKoa: true, // 在 koa 设置钩子，比直接在 http 层设置钩子稳定

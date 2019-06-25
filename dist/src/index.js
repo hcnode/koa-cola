@@ -41,7 +41,7 @@ const klg_tracer_1 = require("klg-tracer");
 function default_1(colaApp) {
     // 注入全局变量
     var routerRoutes = injectGlobal_1.default(colaApp);
-    if (app.config.tracer) {
+    if (app.config.tracer && process.env.NODE_ENV != 'test') {
         new klg_tracer_1.TraceService().registerHooks({
             httpServer: {
                 useKoa: true,
