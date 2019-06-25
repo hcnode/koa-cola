@@ -8,5 +8,6 @@ before_install:
   - cd app_test
   - npm i
   - cd ../
-  # - npm i mongodb-download@2.2.3
+  - npm i mongodb-download@2.2.3
+  - yarn config set ignore-engines true
 after_success: npm run coverage

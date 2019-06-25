@@ -70,7 +70,7 @@ export default function (colaApp?) {
               }
             }
         }).registerMongoReporter({
-            mongoUrl: app.config.tracer.mongoUrl,
+            mongoUrl: app.config.mongodb,
             collectionName: 'tracer'
         });
     }
