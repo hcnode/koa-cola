@@ -2,6 +2,7 @@ import * as React from 'react';
 import {validateForm} from "../../../client"
 import {validators} from '../../config/validators'
 import axios from 'axios'
+// hoc组件，通过配置的validation生成ValidateForm
 var ValidateForm = validateForm(validators.form);
 class Page extends React.Component<any, any>   {
   constructor(props: any) {
@@ -20,6 +21,7 @@ class Page extends React.Component<any, any>   {
           var body = this.validateForm.getBody();
           this.setState({body})
         }} />&nbsp;
+        {/* 以下按钮绕过浏览器端验证直接提交到服务器，结果返回400 */}
         <input type="button" value="post data by ajax" onClick={async () => {
           try {
             var result = await axios({

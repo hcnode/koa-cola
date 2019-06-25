@@ -5,6 +5,7 @@ import * as request from 'supertest-as-promised'
 import * as React from 'react'
 import { chdir, resetdir, initBrowser, initDb } from './util';
 import { FooApi1, FooApi2 } from "../app_test/api";
+import axios from 'axios'
 
 var App = require('../dist').RunApp
 process.on('unhandledRejection', error => {
@@ -25,7 +26,7 @@ describe('#koa-cola', function() {
 	});
 	after(function(done){
 		server.close();
-		app.mongoose.disconnect(done)
+		global.app.mongoose.disconnect(done)
 		delete global.app;
 		resetdir();
 	})
@@ -263,10 +264,10 @@ describe('#koa-cola', function() {
 
 	describe('#env and config', function() {
 		it('#test config extend default', async function(){
-			app.config.env.should.be.equal('test');
+			global.app.config.env.should.be.equal('test');
 		});
 		it('#test config override default', async function(){
-			should(app.config.middlewares.disabledMiddleware).not.be.ok;
+			should(global.app.config.middlewares.disabledMiddleware).not.be.ok;
 			var res = await request(server)
                 .get('/testConfigOverride')
                 .expect(200)
@@ -275,7 +276,7 @@ describe('#koa-cola', function() {
 		});
 
 		it('#override by launch config', async function(){
-			app.config.override_config.should.be.equal('override');
+			global.app.config.override_config.should.be.equal('override');
 		});
 		// it('#test bootstrap config', async function(){
 		// 	app.koaApp.proxy.should.be.equal(true);
@@ -344,6 +345,16 @@ describe('#koa-cola', function() {
 			var fooApi2 = new FooApi2({foo : 'cola2'});
 			var data = await fooApi2.fetch({});
 			data.result.koa.should.be.equal('cola2');
+		});
+	});
+	
+	describe('#test validation', () => {
+		it('#validatePost', async () => {
+			var res = await request(server)
+                .post("/validatePost")
+				.field('account', '')
+                .expect(400)
+                .toPromise();
 		});
 	});
 });
