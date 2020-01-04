@@ -6259,8 +6259,9 @@ rc@^1.1.7:
     strip-json-comments "~2.0.1"
 
 react-dev-utils@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.1.1.tgz#09ae7209a81384248db56547e718e65bd3b20eb5"
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.1.2.tgz#9c8647abf83545e1dd269a218fda4f2a246c4593"
+  integrity sha512-pthVSEulaKT+4hL0/K0RhXnQVsGjc1dlPy5YukcHkbanSKHatPZaMidL7Zs4hlOdkI4Mb+gYfdy7cIP/BAWe8w==
   dependencies:
     address "1.0.2"
     anser "1.4.1"
