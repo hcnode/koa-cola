@@ -1,20 +1,23 @@
 
 # koa-cola
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![Build Status](https://travis-ci.org/hcnode/koa-cola.svg?branch=master)](https://travis-ci.org/hcnode/koa-cola)
 [![Coverage Status](https://coveralls.io/repos/github/hcnode/koa-cola/badge.svg?branch=master)](https://coveralls.io/github/hcnode/koa-cola?branch=master)
 [![npm](https://img.shields.io/npm/v/koa-cola.svg)](https://www.npmjs.com/package/koa-cola)
 
 [koa-cola](http://www.koa-cola.com)是一个基于koa和react的服务器端SSR(server side render)和浏览器端的SPA(single page application)的web前后端全栈应用框架。
 
-koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、react-redux、react-router）。
+koa-cola使用typescript开发，使用d-mvc（es7 decorator风格的mvc）开发模式。另外koa-cola大量使用universal ("isomorphic") 开发模式，比如react技术栈完全前后端universal（server端和client端均可以使用同一套component、redux、router）。
 
 ## 特点
 * SSR+SPA的完整方案，只需要一份react代码便可以实现：服务器端渲染＋浏览器端bundle实现的交互
-* 前后端同构，包括组件/路由/redux/ajax的同构
+* 前后端同构，包括组件/路由/redux/ajax/validation的同构
 * 使用typescript开发
 * 使用es7的decorator和async/await编码风格
 
-**最新的0.6.1支持react16和react-router v4**
+**最新的v0.6.1支持react16和react-router v4**
+
+**validation前后端同构在最新的v0.7支持**，详细可以[查看](https://koa-cola-zh-cn.github.io/universal-validation.html)
 
 ## 如何使用
 
