@@ -6,16 +6,14 @@
 
 [中文版readme](https://github.com/hcnode/koa-cola/blob/master/README_zh.md)
 
-[koa-cola](https://koa-cola.github.io/) is SSR(server side render)/SPA(singe page application) framework with koa/react/react-router/redux/typescript, and using react stack(react component/react-router/react-redux) and "isomorphic" codes (used in both browser and server side).
+[koa-cola](https://koa-cola.github.io/) is SSR(server side render)/SPA(singe page application) integrated solution framework with koa/react/react-router/redux/typescript, and using react stack(react component/react-router/react-redux) and "isomorphic" codes (used in both browser and server side).
 
 
 ### Features
-* completely and seamlessly SSR/SPA solution
+* built in SSR/SPA integrated solution
 * "isomorphic" component/router/redux/ajax/validation in both client and server side
-* typescript
-* es7 decorator/async coding style
+* typescript/es7 decorator coding style
 
-**react16 and react-router v4 supported from v0.6.1**
 
 ## Usage
 
@@ -30,14 +28,14 @@ koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with signific
 * `cd koa-cola-app`
 * `npm run dev` start dev mode to build bundle and launch server.
 
-`Cola` decorator:
+`Cola` decorator demonstrate the usage of "Universal" and how it work:
 
 ```tsx
 import * as React from "react";
 import { Cola, store } from "koa-cola/client";
 import { GetFooApi } from "../../api";
 var loadSuccess = store.loadSuccess;
-// api同构调用，可能在服务器端调用，也可能在浏览器端调用，区别是是否存在koa的ctx对象
+// universal ajax api called either in browser or node.js, in server side, ctx does exist.
 async function callApi(ctx?) {
   var getFooApi = new GetFooApi({});
   await getFooApi.fetch(ctx);
@@ -46,7 +44,7 @@ async function callApi(ctx?) {
 }
 // use Cola decorator to "isomorphic" redux data flow, includes data init, redux flow
 @Cola({
-  // redux同构，页面请求时，数据在服务器端初始化；单页面跳转时，数据在浏览器端异步请求
+  // universal redux both in in browser or node.js, when be called depend on page context, if page refresh, called in node.js, or if refresh from SPA link, called in browser
   initData: {
     hello: () => {
       return Promise.resolve("Wow koa-cola!");
@@ -58,11 +56,11 @@ async function callApi(ctx?) {
   // react-redux "mapDispatchToProps"
   mapDispatchToProps: dispatch => {
     return {
-      // 修改redux同构的props
+      // overwrite hello props 
       onClick: () => {
         dispatch(loadSuccess("hello", "Wow koa-cola and bundle work!"));
       },
-      // 浏览器端redux流
+      // only called in browser
       callApiFromClient: async () => {
         var data = await callApi();
         dispatch({
@@ -70,7 +68,7 @@ async function callApi(ctx?) {
           data
         });
       },
-      // 使用了redux-thunk中间件，中间件定义在/config/reduxMiddlewares.js
+      // use redux-thunk middlewares, which defined in /config/reduxMiddlewares.js
       reduxThunk: () => {
         return dispatch(async () => {
           await new Promise((resolve, reject) => setTimeout(resolve, 1000));
