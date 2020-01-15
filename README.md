@@ -42,9 +42,10 @@ async function callApi(ctx?) {
   var result: any = getFooApi.result;
   return `api called from ${ctx ? "server" : "client"}, data:${result.data}`;
 }
-// use Cola decorator to "isomorphic" redux data flow, includes data init, redux flow
+// use Cola decorator to "isomorphic" redux data flow
 @Cola({
-  // universal redux both in in browser or node.js, when be called depend on page context, if page refresh, called in node.js, or if refresh from SPA link, called in browser
+  // universal redux both in in browser or node.js, when be called depend on page context
+  // if page refresh, called in node.js, or if refresh from SPA link, called in browser
   initData: {
     hello: () => {
       return Promise.resolve("Wow koa-cola!");
