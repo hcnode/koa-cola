@@ -44,7 +44,7 @@ async function callApi(ctx?) {
 }
 // use Cola decorator to "isomorphic" redux data flow
 @Cola({
-  // universal redux both in in browser or node.js, when be called depend on page context
+  // universal redux both in browser and node.js, when to be called depend on page context
   // if page refresh, called in node.js, or if refresh from SPA link, called in browser
   initData: {
     hello: () => {
