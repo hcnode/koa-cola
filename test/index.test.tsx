@@ -328,7 +328,7 @@ describe('#koa-cola', function() {
 			var res = await request(server)
 				.get('/neitherStandardCodeNorCustomCode')
 				.set('Accept', 'text/html')
-				.expect(500)
+				.expect(453)
 				.toPromise();
 			should(res.text).containEql('unknow error');
 			should(res.text).containEql('invalid status code: 453');
