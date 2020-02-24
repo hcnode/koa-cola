@@ -21,7 +21,7 @@ exports.default = (conf) => {
             var body = ctx.request.body || {};
             var fields = conf.fields || [];
             for (var field of fields) {
-                if (!validateFunc(Object.assign({}, field, { body }))) {
+                if (!validateFunc(Object.assign(Object.assign({}, field), { body }))) {
                     throw ({ status: 400, message: field.msg });
                 }
             }

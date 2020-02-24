@@ -36,7 +36,7 @@ function flattenMap(map) {
         if (value.map && value.modulePathMap) {
             var subMap = flattenMap(value.map);
             var keys = Object.keys(subMap);
-            newMap = Object.assign({}, newMap, keys.reduce((newSubMap, subKey) => {
+            newMap = Object.assign(Object.assign({}, newMap), keys.reduce((newSubMap, subKey) => {
                 newSubMap[[key, subKey].join('/')] = subMap[subKey];
                 return newSubMap;
             }, {}));

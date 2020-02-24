@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "awesome-typescript-loader": "^3.1.3",
-    "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
@@ -35,7 +34,7 @@
     "controller-decorators": "github:hcnode/controller-decorators",
     "source-map-loader": "^0.2.1",
     "typescript": "^2.4.2",
-    "webpack": "^2.6.1",
+    "webpack": "^4.0.0",
     "webpack-bundle-analyzer": "^2.8.3"
   }
 }

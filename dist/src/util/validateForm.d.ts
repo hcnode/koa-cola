@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 declare const _default: (conf: any, url?: any) => {
     new (props: any): {
@@ -7,13 +6,13 @@ declare const _default: (conf: any, url?: any) => {
         submit(event: any): void;
         getBody(): {};
         render(): JSX.Element;
-        setState<K extends string>(state: any, callback?: () => void): void;
-        forceUpdate(callBack?: () => void): void;
-        props: Readonly<{
-            children?: React.ReactNode;
-        }> & Readonly<any>;
-        state: Readonly<any>;
         context: any;
+        setState<K extends string | number | symbol>(state: any, callback?: () => void): void;
+        forceUpdate(callback?: () => void): void;
+        readonly props: Readonly<any> & Readonly<{
+            children?: React.ReactNode;
+        }>;
+        state: Readonly<any>;
         refs: {
             [key: string]: React.ReactInstance;
         };
@@ -30,5 +29,21 @@ declare const _default: (conf: any, url?: any) => {
         componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<any>, nextContext: any): void;
         UNSAFE_componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<any>, nextContext: any): void;
     };
+    contextType?: React.Context<any>;
 };
+/**
+ * post表单验证中间件
+ * conf ={
+ *  path,
+ *  fields : [
+ *      {
+ *          name,
+ *          validate,
+ *          allowEmpty, // default is false
+ *          msg,
+ *      }
+ *  ],
+ *  onError,
+ * }
+ */
 export default _default;

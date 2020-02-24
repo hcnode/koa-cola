@@ -1,4 +1,4 @@
-export default function createErrorPage({env, ctx, error, stack, status, code}: {
+export default function createErrorPage({ env, ctx, error, stack, status, code }: {
     env: any;
     ctx: any;
     error: any;

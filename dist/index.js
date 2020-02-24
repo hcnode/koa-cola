@@ -26,7 +26,7 @@ exports.reqInject = reqInject;
 exports.Decorators = {
     controller: controller_decorators_1.default,
     model: mongoose_decorators_1.default,
-    view: Object.assign({}, reduxConnect, { store,
+    view: Object.assign(Object.assign({}, reduxConnect), { store,
         Cola: views_1.Cola, include: views_1.ChildrenComponents, header: views_1.header,
         bundle: views_1.bundle,
         doNotUseLayout: views_1.doNotUseLayout,

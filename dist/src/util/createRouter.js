@@ -121,19 +121,19 @@ exports.default = createRouter;
 /* istanbul ignore next */
 function createProvider(routers, reduxMiddlewares) {
     var views = routers.reduce((views, router) => {
-        return Object.assign({}, views, { [router.component]: router.page });
+        return Object.assign(Object.assign({}, views), { [router.component]: router.page });
     }, {});
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux_1.compose;
     var { ReduxAsyncConnect, reducer } = require("../../../client");
     var routes = createRouter(routers, views);
     var reducers = routes.reduce((_reducer, router) => {
         if (router.component._reducer) {
-            _reducer = Object.assign({}, _reducer, router.component._reducer);
+            _reducer = Object.assign(Object.assign({}, _reducer), router.component._reducer);
         }
         if (router.component.childrenComponents) {
             Object.keys(router.component.childrenComponents).forEach(child => {
                 if (router.component.childrenComponents[child]._reducer) {
-                    _reducer = Object.assign({}, _reducer, router.component.childrenComponents[child]._reducer);
+                    _reducer = Object.assign(Object.assign({}, _reducer), router.component.childrenComponents[child]._reducer);
                 }
             });
         }

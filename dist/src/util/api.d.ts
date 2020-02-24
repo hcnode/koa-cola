@@ -6,7 +6,7 @@ export declare class Base<B, R, E> {
     result: R;
     exception: E;
     headers: any;
-    fetch(ctx?: any): Promise<this>;
+    fetch(ctx?: any): any;
 }
 /**
  * fetch请求数据
