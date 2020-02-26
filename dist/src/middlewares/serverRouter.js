@@ -90,6 +90,7 @@ exports.default = async (ctx, next) => {
     }
     appHTML = await layoutWrapper_1.default(appHTML, component, layout, store, ctx);
     ctx.body = appHTML;
+    ctx.type = 'html';
     // try {
     //   await new Promise((resolve, reject) => {
     //     match(
