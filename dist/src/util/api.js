@@ -45,7 +45,8 @@ async function fetch(api, ctx) {
     if (ctx) {
         // 本地调用，并透穿cookie
         // 尝试使用request库并pipe完整的request，但是出现问题
-        req.url = `http://127.0.0.1:${app.config.port}${req.url}`;
+        // process.env.PORT for app host like heroku
+        req.url = `http://127.0.0.1:${process.env.PORT || app.config.port}${req.url}`;
         if (ctx.req) {
             var cookie = ctx.req.headers.cookie;
             if (cookie) {
