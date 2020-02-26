@@ -1,10 +1,11 @@
 import * as React from 'react'
 import * as serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server'
+import stringify from '../util/stringfy';
 export default async (html, component, layout, store, ctx) => {
   var __data = '{}';
   try {
-    __data = serialize(store.getState())
+    __data = stringify(store.getState())
   } catch (error) {}
   var {
     _doNotUseLayout,
