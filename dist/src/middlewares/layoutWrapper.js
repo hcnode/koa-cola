@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
-const serialize = require("serialize-javascript");
 const server_1 = require("react-dom/server");
+const stringfy_1 = require("../util/stringfy");
 exports.default = async (html, component, layout, store, ctx) => {
     var __data = '{}';
     try {
-        __data = serialize(store.getState());
+        __data = stringfy_1.default(store.getState());
     }
     catch (error) { }
     var { _doNotUseLayout, Header, _bundle, _pagePros = {} } = component;
