@@ -142,7 +142,7 @@ export default function (colaApp?) {
         }
     });
     
-    koaApp.keys = ['iTIssEcret'];
+    koaApp.keys = app.config.secret || ['iTIssEcret'];
     if (app.config.session) {
         // redis session
         if (app.config.session.host) {
