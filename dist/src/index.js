@@ -131,7 +131,7 @@ function default_1(colaApp) {
             ctx.app.emit('error', err, ctx);
         }
     });
-    koaApp.keys = ['iTIssEcret'];
+    koaApp.keys = app.config.secret || ['iTIssEcret'];
     if (app.config.session) {
         // redis session
         if (app.config.session.host) {

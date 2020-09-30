@@ -81,28 +81,82 @@ exports.default = async (ctx, next) => {
     catch (error) {
         /* istanbul ignore if */
         if (process.env.NODE_ENV != "production") {
-            // ctx.body = safeStringify(error);
-            ctx.body = require('util').inspect(error);
+            ctx.body = require("util").inspect(error);
             /* istanbul ignore else */
         }
         else {
             ctx.body = "unexpected error.";
         }
-        return;
     }
     appHTML = await layoutWrapper_1.default(appHTML, component, layout, store, ctx);
     ctx.body = appHTML;
     ctx.type = 'html';
+    // try {
+    //   await new Promise((resolve, reject) => {
+    //     match(
+    //       { routes, location: ctx.url },
+    //       async (err, redirect, renderProps) => {
+    //         if (!renderProps) return reject();
+    //         loadOnServer({
+    //           ...renderProps,
+    //           store,
+    //           helpers: { ctx }
+    //         }).then(async () => {
+    //           try {
+    //             var reactRouter = app.reactRouters.find(
+    //               item => item.path == ctx.path
+    //             );
+    //             if (reactRouter) {
+    //               var { func, args } = reactRouter;
+    //               if (renderProps.components[1]) {
+    //                 renderProps.components[1].reduxAsyncConnect =
+    //                   renderProps.components[1].reduxAsyncConnect || [];
+    //                 var ctrlItem = renderProps.components[1].reduxAsyncConnect.find(
+    //                   item => item.key == "ctrl"
+    //                 );
+    //                 if (ctrlItem) {
+    //                   var result = await func(...args(ctx, next));
+    //                   store.dispatch(loadSuccess("ctrl", result));
+    //                 }
+    //               }
+    //             }
+    //           } catch (error) {
+    //             /* istanbul ignore next */
+    //             console.error(error);
+    //           }
+    //           var { location } = renderProps;
+    //           try {
+    //             var appHTML = renderToString(
+    //               <Provider store={store} key="provider">
+    //                 <ReduxAsyncConnect {...renderProps} />
+    //               </Provider>
+    //             );
+    //           } catch (error) {
+    //             /* istanbul ignore if */
+    //             if (process.env.NODE_ENV != "production") {
+    //               ctx.body = require("util").inspect(error);
+    //               /* istanbul ignore else */
+    //             } else {
+    //               ctx.body = "unexpected error.";
+    //             }
+    //             return resolve();
+    //           }
+    //           appHTML = await layoutWrapper(
+    //             appHTML,
+    //             renderProps.components[1],
+    //             layout,
+    //             store,
+    //             renderProps,
+    //             ctx
+    //           );
+    //           ctx.body = appHTML;
+    //           resolve();
+    //         });
+    //       }
+    //     );
+    //   });
+    // } catch (error) {
+    //   await next();
+    // }
 };
-function safeStringify(obj, indent = 2) {
-    let cache = [];
-    const retVal = JSON.stringify(obj, (key, value) => typeof value === "object" && value !== null
-        ? cache.includes(value)
-            ? undefined // Duplicate reference found, discard key
-            : cache.push(value) && value // Store value in our collection
-        : value, indent);
-    cache = null;
-    return retVal;
-}
-;
 //# sourceMappingURL=serverRouter.js.map
