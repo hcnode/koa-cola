@@ -33,21 +33,22 @@ import * as React from "react";
 import { Cola, store } from "koa-cola/client";
 import { GetFooApi } from "../../api";
 var loadSuccess = store.loadSuccess;
-// universal ajax api called either in browser or node.js, in server side, ctx does exist.
+// Api can be called either in browser or node.js, in server side, ctx parameter exists.
 async function callApi(ctx?) {
   var getFooApi = new GetFooApi({});
   await getFooApi.fetch(ctx);
   var result: any = getFooApi.result;
   return `api called from ${ctx ? "server" : "client"}, data:${result.data}`;
 }
-// use Cola decorator to "isomorphic" redux data flow
+// Use Cola decorator to "isomorphic" redux data flow
 @Cola({
-  // universal redux both in browser and node.js, when to be called depend on page context
-  // if page refresh, called in node.js, or if refresh from SPA link, called in browser
+  // return some props in initData in server side and as the init state in client side redux
+  // in client side, ssr component html "rendered" with the init state, so this looks like redux state flows from server side to client side
   initData: {
     hello: () => {
       return Promise.resolve("Wow koa-cola!");
     },
+    // this callApi called is in server side
     apiDataCallFromServer: async ({ params, helpers }) => {
       return await callApi(helpers.ctx);
     }
@@ -55,11 +56,11 @@ async function callApi(ctx?) {
   // react-redux "mapDispatchToProps"
   mapDispatchToProps: dispatch => {
     return {
-      // overwrite hello props 
+      // update hello props 
       onClick: () => {
         dispatch(loadSuccess("hello", "Wow koa-cola and bundle work!"));
       },
-      // only called in browser
+      // this callApi called is in browser side
       callApiFromClient: async () => {
         var data = await callApi();
         dispatch({
@@ -67,7 +68,7 @@ async function callApi(ctx?) {
           data
         });
       },
-      // use redux-thunk middlewares, which defined in /config/reduxMiddlewares.js
+      // use redux-thunk middlewares, defined in /config/reduxMiddlewares.js
       reduxThunk: () => {
         return dispatch(async () => {
           await new Promise((resolve, reject) => setTimeout(resolve, 1000));
@@ -79,7 +80,7 @@ async function callApi(ctx?) {
       }
     };
   },
-  // react-redux "mapStateToProps"
+  // react-redux "mapStateToProps" can be used as the props selector
   mapStateToProps: state => {
     return state;
   },
