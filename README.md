@@ -10,25 +10,23 @@
 
 
 ### Features
-* built in SSR/SPA integrated solution
-* "isomorphic" component/router/redux/ajax/validation in both client and server side
-* typescript/es7 decorator coding style
+* Built in SSR and SPA integrated solution
+* "Isomorphic" component/router/redux/ajax/validation in both client and server side
+* Typescript and ES7 decorator coding style
 
 
 ## Usage
 
-koa-cola requires latest version of koa.
-
 > Koa requires node v7.6.0 or higher for ES2015 and async function support.
 
-koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with significantly improved performance of ES2017 async functions, so node.js 8.0 or higher is recommended. 
+koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with significantly improved performance of async/await, so node.js 8.0 or higher is recommended. 
 
-* `npm i koa-cola -g` install global koa-cola
-* `koa-cola new koa-cola-app` create new koa-cola project in current folder
+* `npm i koa-cola -g` install global koa-cola cli.
+* `koa-cola new koa-cola-app` create new koa-cola project in current folder.
 * `cd koa-cola-app`
 * `npm run dev` start dev mode to build bundle and launch server.
 
-`Cola` decorator demonstrate the usage of "Universal" and how it work:
+Here is `Cola` decorator example to demonstrate what does it look like writing "Isomorphic" codes in Koa-cola:
 
 ```tsx
 import * as React from "react";
@@ -126,7 +124,7 @@ export default class App extends React.Component<any, any> {
 ```
 
 
-try demo in local:
+Try TODO-LIST demo in local:
 
 * `git clone https://github.com/koa-cola/todolist`
 * `cd todolist`
@@ -134,4 +132,4 @@ try demo in local:
 * `npm run local`
 
 
-visit [koa-cola website](https://koa-cola.github.io/) for more detail
+Visit [koa-cola website](https://koa-cola.github.io/) for detail document.
