@@ -42,13 +42,19 @@ async function callApi(ctx?) {
 }
 // Use Cola decorator to "isomorphic" redux data flow
 @Cola({
+  // In SSR mode:
   // return some props in initData in server side and as the init state in client side redux
   // in client side, ssr component html "rendered" with the init state, so this looks like redux state flows from server side to client side
+  
+  // In SPA mode:
+  // when visit the component without refreshing page like click react-router <link>, props in initData is run only in client side
+  // So redux state only flows in client side
   initData: {
     hello: () => {
       return Promise.resolve("Wow koa-cola!");
     },
-    // this callApi called is in server side
+    // this callApi called is in server side in SSR mode
+    // or in client side in SPA mode
     apiDataCallFromServer: async ({ params, helpers }) => {
       return await callApi(helpers.ctx);
     }
