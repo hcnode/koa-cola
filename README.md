@@ -11,7 +11,7 @@
 
 ### Features
 * Built in SSR and SPA integrated solution
-* "Isomorphic" component/router/redux/ajax/validation in both client and server side
+* Writing "Isomorphic" component/router/redux/ajax/validation codes run in both client and server side
 * Typescript and ES7 decorator coding style
 
 
@@ -137,6 +137,3 @@ Try TODO-LIST demo in local:
 * `cd todolist`
 * `npm i`
 * `npm run local`
-
-
-Visit [koa-cola website](https://koa-cola.github.io/) for detail document.
