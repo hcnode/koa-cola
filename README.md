@@ -17,9 +17,7 @@
 
 ## Usage
 
-> Koa requires node v7.6.0 or higher for ES2015 and async function support.
-
-koa-cola requires node v7.6.0 or higher as well. Node.js 8.0 comes with significantly improved performance of async/await, so node.js 8.0 or higher is recommended. 
+koa-cola requires node v12. 
 
 * `npm i koa-cola -g` install global koa-cola cli.
 * `koa-cola new koa-cola-app` create new koa-cola project in current folder.
