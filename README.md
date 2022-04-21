@@ -6,7 +6,7 @@
 
 [中文版readme](https://github.com/hcnode/koa-cola/blob/master/README_zh.md)
 
-[koa-cola](https://koa-cola.github.io/) is SSR(server side render) and SPA(single page application) integrated solution framework using koa/react/react-router/redux/typescript, and using and "isomorphic" codes in many modules(component/router/redux/validation used in both browser and server side).
+[koa-cola](https://koa-cola.github.io/) is SSR(server side render) and SPA(single page application) integrated solution framework using koa/react/react-router/redux/typescript, and "isomorphic" codes in many modules(component/router/redux/validation used in both browser and server side).
 
 
 ### Features
