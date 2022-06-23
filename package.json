@@ -101,7 +101,7 @@
     "coveralls": "^3.0.0",
     "enzyme": "^3.3.0",
     "eslint-plugin-react": "^7.0.1",
-    "jsdom": "^11.1.0",
+    "jsdom": "^16.5.0",
     "mocha": "^2.5.3",
     "mockgoose": "^7.3.3",
     "nyc": "^11.7.1",
